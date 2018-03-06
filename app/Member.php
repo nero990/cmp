@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableInterface;
 
-class Member extends Model
+class Member extends Model implements AuditableInterface
 {
+    use Auditable;
+
     protected $fillable = [
         'first_name', 'middle_name', 'last_name', 'email', 'phones', 'gender', 'age_group', 'member_role_id',
         'marital_status', 'occupation',

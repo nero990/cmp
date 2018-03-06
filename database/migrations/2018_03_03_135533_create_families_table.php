@@ -17,8 +17,6 @@ class CreateFamiliesTable extends Migration
             $table->increments('id');
             $table->string('name', 100);
             $table->string('registration_number', 50)->unique();
-            $table->string('password', 255);
-            $table->rememberToken();
             $table->enum('type', ['1', '2'])->comment('1 => Family, 2 => Individual');
             $table->integer('number_of_children')->default(0);
             $table->unsignedInteger('state_id')->nullable()->comment('Family state of origin');

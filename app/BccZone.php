@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableInterface;
 
-class BccZone extends Model
+class BccZone extends Model implements AuditableInterface
 {
+    use Auditable;
+
     protected $fillable = [
         'name', 'address'
     ];

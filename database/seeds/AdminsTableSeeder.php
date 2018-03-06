@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class UsersTableSeeder extends Seeder
+class AdminsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,10 +12,9 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        App\User::create([
+        App\Admin::create([
             'name' => 'System',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password')
         ]);
 
         echo "...done\n";

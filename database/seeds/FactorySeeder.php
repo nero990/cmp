@@ -33,6 +33,7 @@ class FactorySeeder extends Seeder
                 'marital_status' => $faker->randomElement(['1', '2', '3', '4', '5', '6']),
                 'occupation' => $faker->randomElement($occupations),
             ]);
+
         });
 
         factory(App\Member::class, 30)->create();
