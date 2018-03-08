@@ -5,9 +5,9 @@ namespace App;
 use App\Events\UserCreated;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
-use OwenIt\Auditing\Contracts\Auditable as AuditableInterface;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Family extends Model implements AuditableInterface
+class Family extends Model implements AuditableContract
 {
     use Auditable;
 

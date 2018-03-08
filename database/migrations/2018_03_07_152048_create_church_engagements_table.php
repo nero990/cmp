@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBccZonesTable extends Migration
+class CreateChurchEngagementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateBccZonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bcc_zones', function (Blueprint $table) {
+        Schema::create('church_engagements', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 70)->unique();
-            $table->text('address');
-            $table->text('streets');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateBccZonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bcc_zones');
+        Schema::dropIfExists('church_engagements');
     }
 }

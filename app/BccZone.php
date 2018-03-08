@@ -4,14 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
-use OwenIt\Auditing\Contracts\Auditable as AuditableInterface;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class BccZone extends Model implements AuditableInterface
+class BccZone extends Model implements AuditableContract
 {
     use Auditable;
 
     protected $fillable = [
         'name', 'address'
+    ];
+
+    protected $casts = [
+        'streets' => 'array'
     ];
 
     public function families() {
