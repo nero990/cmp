@@ -15,20 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::view('/home', 'admin.index');
 
-Route::view('login', 'login');
-
-Route::post('login', function () {
-
-
-    $user = \App\User::where('email', request()->get('email'))->first();
-
-
-    if($user)
-    {
-        if(Hash::check(request()->get('password'), $user->password)) {
-            Auth::login($user);
-        }
-    }
-    dd(auth()->user());
-});
+Route::resource('bcc-zones', 'BccZoneController');
