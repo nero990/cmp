@@ -18,6 +18,7 @@ class CreateBccZonesTable extends Migration
             $table->string('name', 70)->unique();
             $table->text('address');
             $table->text('streets');
+            $table->enum('status', ['0', '1'])->default('1')->comment('0 => Inactive, 1 => Active');
             $table->timestamps();
         });
     }

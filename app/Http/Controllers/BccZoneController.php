@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BccZone;
 use Illuminate\Http\Request;
 
 class BccZoneController extends Controller
@@ -13,7 +14,8 @@ class BccZoneController extends Controller
      */
     public function index()
     {
-        return view('admin.bcc_zones.index');
+        $bcc_zones = BccZone::all();
+        return view('admin.bcc_zones.index', compact('bcc_zones'));
     }
 
     /**
@@ -23,7 +25,7 @@ class BccZoneController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.bcc_zones.create');
     }
 
     /**
@@ -34,7 +36,13 @@ class BccZoneController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:2',
+            'address' => 'required|min:5',
+            'streets' => 'sometimes|array',
+        ]);
+
+        return BccZone::create($request->all());
     }
 
     /**
