@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
-use OwenIt\Auditing\Contracts\Auditable as AuditableInterface;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContracts;
 
-class SickMember extends Model implements AuditableInterface
+class SickMember extends Model implements AuditableContracts
 {
     use Auditable;
 
