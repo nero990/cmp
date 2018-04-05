@@ -11,7 +11,7 @@ class BccZone extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = [
-        'name', 'address', 'streets'
+        'name', 'address', 'status', 'streets'
     ];
 
     protected $casts = [

@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::view('/home', 'admin.index');
 
 Route::resource('bcc-zones', 'BccZoneController');
+
+Route::resource('church-engagements', 'ChurchEngagementController');
+
+Route::resource('sacrament-details', 'SacramentDetailController');

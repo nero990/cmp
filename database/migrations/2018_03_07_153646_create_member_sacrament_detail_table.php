@@ -17,11 +17,13 @@ class CreateMemberSacramentDetailTable extends Migration
             $table->unsignedInteger('member_id');
             $table->unsignedInteger('sacrament_detail_id');
             $table->string('response', 255);
+            $table->date('year')->nullable();
 
-            $table->foreign('member_id')->references('id')->on('members');
-            $table->foreign('sacrament_detail_id')->references('id')->on('sacrament_details');
+            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
+            $table->foreign('sacrament_detail_id')->references('id')->on('sacrament_details')->onDelete('cascade');
 
             $table->unique(['member_id', 'sacrament_detail_id']);
+
         });
     }
 

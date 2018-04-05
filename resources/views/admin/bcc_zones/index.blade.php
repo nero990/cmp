@@ -1,6 +1,7 @@
 @extends('admin.layout.main')
 
 @section('title') BCC Zones @endsection
+@section('current_bcc_zones_index') class="current" @endsection
 
 @section('content')
 <div class="container-fluid main-content">
@@ -15,7 +16,8 @@
                     <i class="fa fa-table"></i>BCC Zones List
                 </div>
                 <div class="widget-content padded clearfix">
-                    <a href="{{route('bcc-zones.create')}}" class="btn btn-warning"><i class="fa fa-plus"></i> New BCC Zone</a>
+                    <a href="{{route('bcc-zones.create')}}" class="btn btn-warning"><span class="fa fa-plus"></span> New BCC Zone</a>
+
                     <table class="table table-bordered table-striped" id="dataTable1">
                         <thead>
                             <th class="check-header hidden-xs">
@@ -53,8 +55,8 @@
                                 </td>
                                 <td class="actions">
                                     <div class="action-buttons">
-                                        <a class="table-actions" href=""><i class="fa fa-eye"></i></a>
-                                        <a class="table-actions" href=""><i class="fa fa-pencil"></i></a>
+                                        <a class="table-actions" title="View Audit trail" href="{{route('bcc-zones.edit', ['id' => $bcc_zone->id])}}"><i class="fa fa-eye"></i></a>
+                                        <a class="table-actions" title="Edit" href="{{route('bcc-zones.edit', ['id' => $bcc_zone->id])}}"><i class="fa fa-pencil"></i></a>
                                         <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                     </div>
                                 </td>

@@ -14,5 +14,9 @@ class ChurchEngagement extends Model implements AuditableContract
         'name'
     ];
 
+    public function members() {
+        return $this->belongsToMany(Member::class);
+    }
+
 
 }

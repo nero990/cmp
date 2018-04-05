@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@yield('title') | {{config('app.name')}}</title>
+    <title>@yield('title')| {{config('app.name')}}</title>
     <link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700" media="all" rel="stylesheet" type="text/css"/>
     <link href="{{asset('admin/stylesheets/bootstrap.min.css')}}" media="all" rel="stylesheet" type="text/css"/>
     <link href="{{asset('admin/stylesheets/font-awesome.min.css')}}" media="all" rel="stylesheet" type="text/css"/>
@@ -51,7 +51,7 @@
     <script src="{{asset('admin/javascripts/excanvas.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/jquery.isotope.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/isotope_extras.js')}}" type="text/javascript"></script>
-    <script src="{{asset('javascripts/modernizr.custom.js')}}" type="text/javascript"></script>
+    <script src="{{asset('admin/javascripts/modernizr.custom.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/jquery.fancybox.pack.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/select2.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/styleswitcher.js')}}" type="text/javascript"></script>
@@ -83,79 +83,16 @@
     <script src="{{asset('admin/javascripts/dropzone.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/main.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/respond.js')}}" type="text/javascript"></script>
-
-    <!-- Custom JS -->
     <script src="{{asset('admin/javascripts/custom/final.js')}}" type="text/javascript"></script>
 
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="base-url" content="{{ url('') }}">
 </head>
 <body class="page-header-fixed bg-1">
 <div class="modal-shiftfix">
     <!-- Navigation -->
-    <div class="navbar navbar-fixed-top scroll-hide">
-        <div class="container-fluid top-bar">
-            <div class="pull-right">
-                <ul class="nav navbar-nav pull-right">
-                    <li class="dropdown notifications hidden-xs">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span aria-hidden="true"
-                                                                                         class="se7en-flag"></span>
-                            <div class="sr-only">Notifications</div>
-                            <p class="counter">4</p>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">
-                                    <div class="notifications label label-info">New</div>
-                                    <p>New user added: Jane Smith</p></a>
-                            </li>
-                            <li><a href="#">
-                                    <div class="notifications label label-info">New</div>
-                                    <p>Sales targets available</p></a>
-                            </li>
-                            <li><a href="#">
-                                    <div class="notifications label label-info">New</div>
-                                    <p>New performance metric added</p></a>
-                            </li>
-                            <li><a href="#">
-                                    <div class="notifications label label-info">New</div>
-                                    <p>New growth data available</p></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown messages hidden-xs">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span aria-hidden="true" class="se7en-envelope"></span>
-                            <div class="sr-only">Messages</div>
-                            <p class="counter">3</p>
-                        </a>
-                        <ul class="dropdown-menu messages">
-                            <li><a href="#">
-                                    <img width="34" height="34" src="{{asset('admin/images/avatar-male2.png')}}"/>Could we meet today? I wanted...</a>
-                            </li>
-                            <li><a href="#">
-                                    <img width="34" height="34" src="{{asset('admin/images/avatar-female.png')}}"/>Important data needs your analysis...</a>
-                            </li>
-                            <li><a href="#">
-                                    <img width="34" height="34" src="{{asset('admin/images/avatar-male2.png')}}"/>Buy Se7en today, it's a great theme...</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img width="34" height="34" src="{{asset('admin/images/avatar-male.jpg')}}"/>John Smith<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#"><i class="fa fa-user"></i>My Account</a></li>
-                            <li><a href="#"><i class="fa fa-gear"></i>Account Settings</a></li>
-                            <li><a href="login1.html"><i class="fa fa-sign-out"></i>Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <button class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-            <a class="logo" href="index.html">se7en</a>
-            <form class="navbar-form form-inline col-lg-2 hidden-xs">
-                <input class="form-control" placeholder="Search" type="text">
-            </form>
-        </div>
-        @include('admin.layout.partials.navigation')
-    </div>
+    @include('admin.layout.partials.navigation')
     <!-- End Navigation -->
 
    @yield('content')
@@ -222,6 +159,13 @@
     </div>
 </div>
 
+<div id="confirm-dialog" title="Confirm action">
+    <p><em>Are you sure you want to perform this operation?</em></p>
+</div>
+
+<!-- Custom JS -->
+
+<script src="{{asset('admin/javascripts/custom/api-handler.js')}}" type="text/javascript"></script>
 @yield('scripts')
 </body>
 </html>

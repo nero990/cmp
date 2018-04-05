@@ -1,19 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace app\Custom\Traits;
 
-use App\BccZone;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class BccZoneController extends Controller
-{
-    private $rules = [
-        'name' => 'required|min:2|unique:bcc_zones,name',
-        'address' => 'required|min:5',
-        'streets' => 'required|array',
-    ];
-    private $messages = ['name.unique' => 'A Bcc zone with this name already exist.'];
-
+trait Bread {
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +13,7 @@ class BccZoneController extends Controller
      */
     public function index()
     {
-        $bcc_zones = BccZone::all();
+        $bcc_zones = Model::all();
         return view('admin.bcc_zones.index', compact('bcc_zones'));
     }
 
@@ -45,7 +37,7 @@ class BccZoneController extends Controller
     {
         $request->validate($this->rules, $this->messages);
 
-        BccZone::create($request->all());
+        Model::create($request->all());
         if($request->wantsJson()) return response()->json(['message' => 'Bcc zone created successfully']);
 
         return redirect()->route('bcc-zones.index')->with(['message' => 'Bcc zone created successfully']);

@@ -1,25 +1,26 @@
 @extends('admin.layout.main')
 
-@section('title') New BCC Zones @endsection
-@section('current_bcc_zones_create') class="current" @endsection
+@section('title') New Sacrament Detail @endsection
+@section('current_sacrament_details') class="current" @endsection
+@section('current_sacrament_details_create') class="current" @endsection
 
 @section('content')
     <div class="container-fluid main-content">
         <div class="page-title">
-            <h1>New BCC Zone</h1>
+            <h1>New Sacrament Detail</h1>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="widget-container">
                     <div class="heading">
-                        <i class="fa fa-shield"></i>New BCC Zone
+                        <i class="fa fa-shield"></i>New Sacrament Detail
                     </div>
                     <div class="widget-content padded">
 
                         <div id="message"></div>
 
-                        {!! Form::open(['route' => 'bcc-zones.store', 'id' => 'bccZoneForm']) !!}
-                            @include('admin.bcc_zones.partials.form')
+                        {!! Form::open(['route' => 'sacrament-details.store', 'id' => 'bccZoneForm']) !!}
+                            @include('admin.sacrament_details.partials.form')
                         {!! Form::close() !!}
                     </div>
                 </div>

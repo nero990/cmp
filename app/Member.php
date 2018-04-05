@@ -19,6 +19,10 @@ class Member extends Model implements AuditableContract
         'phones' => 'array',
     ];
 
+    public function church_engagements() {
+        return $this->belongsToMany(ChurchEngagement::class);
+    }
+
     public function family() {
         return $this->belongsTo(Family::class);
     }
