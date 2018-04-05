@@ -31,6 +31,10 @@ class Member extends Model implements AuditableContract
         return $this->belongsTo(MemberRole::class, 'member_role_id');
     }
 
+    public function sacrament_details() {
+        return $this->belongsToMany(SacramentDetail::class);
+    }
+
     public function sick_member() {
         return $this->hasOne(SickMember::class);
     }
