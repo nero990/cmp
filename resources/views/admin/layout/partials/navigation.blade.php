@@ -87,13 +87,9 @@
                         <li><a href="{{route('bcc-zones.create')}}" @yield('current_bcc_zones_create')>New</a></li>
                     </ul>
                 </li>
-
-                <li class="dropdown"><a data-toggle="dropdown" @yield('current_church_engagements') href="#">
-                        <span aria-hidden="true" class="se7en-tables"></span>Church Engagements<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{route('church-engagements.index')}}" @yield('current_church_engagements_index')>All</a></li>
-                        <li><a href="{{route('church-engagements.create')}}" @yield('current_church_engagements_create')>New</a></li>
-                    </ul>
+                <li>
+                <li>
+                    <a href="{{route('church-engagements.index')}}" @yield('current_church_engagements')><span aria-hidden="true" class="se7en-home"></span>Church Engagements</a></li>
                 </li>
                 <li class="dropdown"><a data-toggle="dropdown" @yield('current_sacrament_details') href="#">
                         <span aria-hidden="true" class="se7en-tables"></span>Sacrament Details<b class="caret"></b></a>

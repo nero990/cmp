@@ -19,7 +19,7 @@
 
                         <div id="message"></div>
 
-                        {!! Form::open(['route' => 'church-engagements.store', 'id' => 'bccZoneForm']) !!}
+                        {!! Form::open(['route' => 'church-engagements.store', 'id' => 'churchEngagement']) !!}
                             @include('admin.church_engagements.partials.form')
                         {!! Form::close() !!}
                     </div>
@@ -31,5 +31,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('admin/javascripts/custom/bcc-zone.js')}}" type="text/javascript"></script>
+    <script src="{{asset('admin/javascripts/custom/church-engagement.js')}}" type="text/javascript"></script>
 @endsection

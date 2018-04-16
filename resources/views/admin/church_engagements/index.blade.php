@@ -17,7 +17,47 @@
                     <i class="fa fa-table"></i>Church Engagements List
                 </div>
                 <div class="widget-content padded clearfix">
-                    <a href="{{route('church-engagements.create')}}" class="btn btn-warning"><span class="fa fa-plus"></span> New Church Engagement</a>
+                    @include('errors.list')
+
+                    <button class="btn btn-warning" id="newEngagement" data-toggle="modal" data-target="#myModal">
+                        <i class="fa fa-plus"></i> New Church Engagement
+                    </button>
+
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                {!! Form::open(['route' => 'church-engagements.store', 'id' => 'churchEngagement', 'class' => 'form-horizontal']) !!}
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" id="modalTitle">New Church Engagement</h4>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <div class="form-group">
+                                        {!! Form::label('name', 'Name', ['class' => 'col-sm-2 control-label']) !!}
+
+                                        <div class="col-sm-10">
+                                            {!! Form::text('name', null, ['placeholder' => 'Name of Church Engagement', 'class' => "form-control", "id" => 'name' ]) !!}
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    {!! Form::submit('Save', ['class' => 'btn btn-info']) !!}
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
 
                     <table class="table table-bordered table-striped" id="dataTable1">
                         <thead>
@@ -40,8 +80,9 @@
                                 <td>{{$church_engagement->created_at->toFormattedDateString()}}</td>
                                 <td class="actions">
                                     <div class="action-buttons">
-                                        <a class="table-actions" title="View Audit trail" href="{{route('church-engagements.edit', ['id' => $church_engagement->id])}}"><i class="fa fa-eye"></i></a>
-                                        <a class="table-actions" title="Edit" href="{{route('church-engagements.edit', ['id' => $church_engagement->id])}}"><i class="fa fa-pencil"></i></a>
+                                        <a class="table-actions" title="View Audit Members" href="{{route('church-engagements.members', ['id' => $church_engagement->id])}}"><i class="fa fa-users"></i></a>
+                                        <a class="table-actions" title="View Audit trail" href="{{route('church-engagements.members', ['id' => $church_engagement->id])}}"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="table-actions edit-engagement" data-target="#myModal" data-toggle="modal" data-value='{!! $church_engagement !!}' title="Edit"><i class="fa fa-pencil"></i></a>
                                         <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                     </div>
                                 </td>
@@ -57,4 +98,8 @@
 
 </div>
 
+@endsection
+
+@section('scripts')
+    <script src="{{asset('admin/javascripts/custom/church-engagement.js')}}" type="text/javascript"></script>
 @endsection

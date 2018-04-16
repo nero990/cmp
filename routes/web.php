@@ -19,6 +19,7 @@ Route::view('/home', 'admin.index');
 
 Route::resource('bcc-zones', 'BccZoneController');
 
-Route::resource('church-engagements', 'ChurchEngagementController');
+Route::get('church-engagements/{church_engagement}/members', 'ChurchEngagementController@members')->name('church-engagements.members');
+Route::resource('church-engagements', 'ChurchEngagementController')->except(['edit', 'create']);
 
 Route::resource('sacrament-details', 'SacramentDetailController');

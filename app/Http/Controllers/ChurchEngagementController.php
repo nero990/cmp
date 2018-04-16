@@ -45,9 +45,12 @@ class ChurchEngagementController extends Controller
         $request->validate($this->rules, $this->messages);
 
         ChurchEngagement::create($request->all());
-        if($request->wantsJson()) return response()->json(['message' => 'Church engagement created successfully']);
+        $message = 'Church engagement created successfully';
+        flash()->success($message);
 
-        return redirect()->route('church-engagements.index')->with(['message' => 'Church engagement created successfully']);
+        if($request->wantsJson()) { return response()->json(['message' => $message]); }
+
+        return redirect()->route('church-engagements.index');
     }
 
     /**
@@ -99,5 +102,11 @@ class ChurchEngagementController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function members(ChurchEngagement $church_engagement)
+    {
+        $members = $church_engagement->members;
+        return view('admin.church_engagements.members', compact('members', 'church_engagement'));
     }
 }
