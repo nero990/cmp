@@ -1,7 +1,7 @@
 @extends('admin.layout.main')
 
 @section('title') BCC Zones @endsection
-@section('current_bcc_zones_index') class="current" @endsection
+@section('current_bcc_zones') class="current" @endsection
 
 @section('content')
 <div class="container-fluid main-content">

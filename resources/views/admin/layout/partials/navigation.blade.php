@@ -66,45 +66,26 @@
                 <li>
                     <a href="index.html"><span aria-hidden="true" class="se7en-home"></span>Dashboard</a>
                 </li>
-                <li class="dropdown"><a data-toggle="dropdown" href="#">
-                        <span aria-hidden="true" class="se7en-tables"></span>Families<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="tables.html">All</a></li>
-                        <li><a href="datatables.html">New</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a data-toggle="dropdown" href="#">
-                        <span aria-hidden="true" class="se7en-tables"></span>Sick Members<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">All</a></li>
-                        <li><a href="#">New</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown current"><a data-toggle="dropdown" @yield('current_bcc_zones') href="#">
-                        <span aria-hidden="true" class="se7en-tables"></span>Bcc Zones<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{route('bcc-zones.index')}}" @yield('current_bcc_zones_index')>All</a></li>
-                        <li><a href="{{route('bcc-zones.create')}}" @yield('current_bcc_zones_create')>New</a></li>
-                    </ul>
+                <li>
+                    <a href="{{route('families.index')}}" @yield('current_families')><span aria-hidden="true" class="se7en-tables"></span>Families</a>
                 </li>
                 <li>
+                    <a href="{{route('bcc-zones.index')}}" @yield('current_sick_members')><span aria-hidden="true" class="se7en-tables"></span>Sick Members</a>
+                </li>
                 <li>
-                    <a href="{{route('church-engagements.index')}}" @yield('current_church_engagements')><span aria-hidden="true" class="se7en-home"></span>Church Engagements</a></li>
+                    <a href="{{route('bcc-zones.index')}}" @yield('current_bcc_zones')><span aria-hidden="true" class="se7en-home"></span>Bcc Zones</a>
                 </li>
-                <li class="dropdown"><a data-toggle="dropdown" @yield('current_sacrament_details') href="#">
-                        <span aria-hidden="true" class="se7en-tables"></span>Sacrament Details<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{route('sacrament-details.index')}}" @yield('current_sacrament_details_index')>All</a></li>
-                        <li><a href="{{route('sacrament-details.create')}}" @yield('current_sacrament_details_index')>New</a></li>
-                    </ul>
+                <li>
+                    <a href="{{route('church-engagements.index')}}" @yield('current_church_engagements')><span aria-hidden="true" class="se7en-tables"></span>Church Engagements</a></li>
                 </li>
-                <li class="dropdown"><a data-toggle="dropdown" @yield('current_users') href="#">
-                        <span aria-hidden="true" class="se7en-tables"></span>User<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" @yield('current_users_index')>All</a></li>
-                        <li><a href="#" @yield('current_users_index')>New</a></li>
-                    </ul>
+                <li>
+                    <a href="{{route('sacrament-details.index')}}" @yield('current_sacrament_details')><span aria-hidden="true" class="se7en-tables"></span>Sacrament Details</a></li>
                 </li>
+
+                <li>
+                    <a href="{{route('bcc-zones.index')}}" @yield('current_users')><span aria-hidden="true" class="se7en-gallery"></span>Users</a>
+                </li>
+
                 <li class="dropdown"><a data-toggle="dropdown" href="#">
                         <span aria-hidden="true" class="se7en-pages"></span>Reports<b class="caret"></b></a>
                     <ul class="dropdown-menu">

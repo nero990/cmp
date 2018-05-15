@@ -17,8 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('username', 70);
             $table->string('password', 255);
-            $table->string('person_type', 30);
-            $table->unsignedInteger('person_id');
+            $table->morphs('person');
             $table->dateTime('last_logged_in')->nullable();
             $table->rememberToken();
             $table->timestamps();

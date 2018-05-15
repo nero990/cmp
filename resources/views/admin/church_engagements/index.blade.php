@@ -56,9 +56,6 @@
                         </div>
                     </div>
 
-
-
-
                     <table class="table table-bordered table-striped" id="dataTable1">
                         <thead>
                             <th class="check-header hidden-xs">
@@ -67,7 +64,7 @@
                             <th>Name</th>
                             <th>Members Count</th>
                             <th>Date Added</th>
-                            <th></th>
+                            <th width="12%"></th>
                         </thead>
                         <tbody>
                         @foreach($church_engagements AS $church_engagement)
@@ -79,8 +76,8 @@
                                 <td>{{$church_engagement->members_count}}</td>
                                 <td>{{$church_engagement->created_at->toFormattedDateString()}}</td>
                                 <td class="actions">
-                                    <div class="action-buttons">
-                                        <a class="table-actions" title="View Audit Members" href="{{route('church-engagements.members', ['id' => $church_engagement->id])}}"><i class="fa fa-users"></i></a>
+                                    <div class="action-buttons" style="width: 100%">
+                                        <a class="table-actions" title="View Members" href="{{route('church-engagements.members', ['id' => $church_engagement->id])}}"><i class="fa fa-users"></i></a>
                                         <a class="table-actions" title="View Audit trail" href="{{route('church-engagements.members', ['id' => $church_engagement->id])}}"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="table-actions edit-engagement" data-target="#myModal" data-toggle="modal" data-value='{!! $church_engagement !!}' title="Edit"><i class="fa fa-pencil"></i></a>
                                         <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>

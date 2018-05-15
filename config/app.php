@@ -216,4 +216,6 @@ return [
 
     ],
 
+    'paginate_size' => 50,
+
 ];

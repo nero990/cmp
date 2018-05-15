@@ -18,11 +18,11 @@ class CreateMembersTable extends Migration
             $table->string('first_name', 100);
             $table->string('middle_name', 100)->nullable();
             $table->string('last_name', 100);
-            $table->string('email')->nullable();
-            $table->text('phones')->nullable();
+            $table->string('email', 150)->nullable();
+            $table->json('phones')->nullable();
             $table->unsignedInteger('family_id');
             $table->enum('gender', ['M', 'F']);
-            $table->enum('age_group', ['1', '2', '3', '4']);
+            $table->enum('age_group', ['1', '2', '3', '4'])->comment('1 => ');
             $table->unsignedInteger('member_role_id');
             $table->enum('marital_status', ['1', '2', '3', '4', '5', '6'])->comment('1 => Single, 2 => Married, 3 => Not Wedded, 4 => Divorced, 5 => Church Annulment 6 => Widowed');
             $table->string('occupation', 200)->nullable();

@@ -1,7 +1,7 @@
 @extends('admin.layout.main')
 
 @section('title') Sacrament Details @endsection
-@section('current_bcc_zones_index') class="current" @endsection
+@section('current_sacrament_details') class="current" @endsection
 
 @section('content')
 <div class="container-fluid main-content">

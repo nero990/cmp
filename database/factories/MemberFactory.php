@@ -11,7 +11,7 @@ $factory->define(App\Member::class, function (Faker $faker) {
         'middle_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->safeEmail,
-        'phones' => $faker->phoneNumber,
+        'phones' => [$faker->phoneNumber],
         'family_id' => App\Family::all()->random()->id,
         'gender' => $faker->randomElement(['M', 'F']),
         'age_group' => $faker->randomElement(['1', '2', '3', '4']),

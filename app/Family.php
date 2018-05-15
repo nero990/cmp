@@ -40,4 +40,28 @@ class Family extends Model implements AuditableContract
     public function getUsernameAttribute() {
         return $this->attributes['registration_number'];
     }
+
+    public function getTypeTextAttribute() {
+        switch ($this->attributes['type']) {
+            case "1" :
+                return "Family";
+            case "2" :
+                return "Individual";
+            default:
+                return "";
+        }
+    }
+
+    public function getCardStatusTextAttribute() {
+        switch ($this->attributes['card_status']) {
+            case "0" :
+                return "Not Paid";
+            case "1" :
+                return "Paid";
+            case "2" :
+                return "Collected";
+            default:
+                return "";
+        }
+    }
 }
