@@ -21,4 +21,13 @@ class BccZone extends Model implements AuditableContract
     public function families() {
         return $this->hasMany(Family::class);
     }
+
+    public function getStatusTextAttribute() {
+        switch($this->attributes['status']) {
+            case "1" :
+                return "Active";
+            default :
+                return "Inactive";
+        }
+    }
 }

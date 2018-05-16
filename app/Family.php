@@ -32,6 +32,12 @@ class Family extends Model implements AuditableContract
     public function members() {
         return $this->hasMany(Member::class);
     }
+    
+    public function head() {
+        return $this->hasOne(Member::class)->whereHas('role', function ($query) {
+            $query->where('name', 'Head');
+        });
+    }
 
     public function user() {
         return $this->morphOne(User::class, 'person');

@@ -39,10 +39,8 @@ class Member extends Model implements AuditableContract
         return $this->hasOne(SickMember::class);
     }
 
-    public function scopeHead($query) {
-        return $query->whereHas('role', function ($q) {
-            $q->where('name', 'Head');
-        })->first();
+    public function getHead() {
+        return $this->family->head;
     }
 
     public function getFullNameAttribute() {

@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid main-content">
         <div class="page-title">
-            <h1>{{$bcc_zone->name}} Zone</h1>
+            <h1>BCC Zone Management</h1>
         </div>
         <div class="row">
             <div class="col-md-12">

@@ -54,12 +54,14 @@ class BccZoneController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param BccZone $bcc_zone
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function show($id)
+    public function show(BccZone $bcc_zone)
     {
-        //
+        $bcc_zone->load('families');
+        return view('admin.bcc_zones.show', compact('bcc_zone'));
     }
 
     /**

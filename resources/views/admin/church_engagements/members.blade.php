@@ -20,14 +20,17 @@
                     <a href="{{route('church-engagements.index')}}" class="btn btn-info">&laquo; Back</a>
                     <table class="table table-bordered table-striped" id="dataTable1">
                         <thead>
-                            <th width="5%">#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th width="20%">Phone Number</th>
-                            <th>Gender</th>
-                            <th>Marital Status</th>
-                            <th>Occupation</th>
-                            <th>Date Added</th>
+                            <tr>
+                                <th width="5%">#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th width="20%">Phone Number</th>
+                                <th>Gender</th>
+                                <th>Marital Status</th>
+                                <th>Occupation</th>
+                                <th>Date Added</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach($members AS $k => $member)
@@ -36,12 +39,19 @@
                                 <td>{{$member->full_name}}</td>
                                 <td>{{$member->email}}</td>
                                 <td>
-                                    {{implode("; ", $member->phones)}}
+                                    {!! implode("<br>", $member->phones) !!}
                                 </td>
                                 <td>{{$member->gender}}</td>
                                 <td>{{$member->marital_status}}</td>
                                 <td>{{$member->occupation}}</td>
                                 <td>{{$member->created_at->toFormattedDateString()}}</td>
+                                <td class="actions">
+                                    <div class="action-buttons" style="width: 100%">
+                                        <a class="table-actions" title="View Audit trail" href="{{route('members', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="table-actions edit-engagement" data-target="#myModal" data-toggle="modal" data-value='{!! $church_engagement !!}' title="Edit"><i class="fa fa-pencil"></i></a>
+                                        <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

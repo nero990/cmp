@@ -76,10 +76,10 @@
                     <a href="{{route('bcc-zones.index')}}" @yield('current_bcc_zones')><span aria-hidden="true" class="se7en-home"></span>Bcc Zones</a>
                 </li>
                 <li>
-                    <a href="{{route('church-engagements.index')}}" @yield('current_church_engagements')><span aria-hidden="true" class="se7en-tables"></span>Church Engagements</a></li>
+                    <a href="{{route('church-engagements.index')}}" @yield('current_church_engagements')><span aria-hidden="true" class="se7en-tables"></span>Church Engagements</a>
                 </li>
                 <li>
-                    <a href="{{route('sacrament-details.index')}}" @yield('current_sacrament_details')><span aria-hidden="true" class="se7en-tables"></span>Sacrament Details</a></li>
+                    <a href="{{route('sacrament-details.index')}}" @yield('current_sacrament_details')><span aria-hidden="true" class="se7en-tables"></span>Sacrament Details</a>
                 </li>
 
                 <li>

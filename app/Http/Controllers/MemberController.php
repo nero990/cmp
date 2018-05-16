@@ -3,37 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Family;
+use App\Member;
 use Illuminate\Http\Request;
 
-class FamilyController extends Controller
+class MemberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('admin.families.index', ['families' => Family::with('head')->orderBy('name')->paginate(getPaginateSize())]);
-    }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param Family $family
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Family $family)
     {
-        //
+        return view('admin.members.create', compact('family'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     * @param Family $family
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Family $family)
     {
         //
     }
@@ -41,22 +35,21 @@ class FamilyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Family  $family
+     * @param  \App\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function show(Family $family)
+    public function show(Member $member)
     {
-        $family->load('members', 'head');
-        return view('admin.families.show', compact('family'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Family  $family
+     * @param  \App\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function edit(Family $family)
+    public function edit(Member $member)
     {
         //
     }
@@ -65,10 +58,10 @@ class FamilyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Family  $family
+     * @param  \App\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Family $family)
+    public function update(Request $request, Member $member)
     {
         //
     }
@@ -76,10 +69,10 @@ class FamilyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Family  $family
+     * @param  \App\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Family $family)
+    public function destroy(Member $member)
     {
         //
     }
