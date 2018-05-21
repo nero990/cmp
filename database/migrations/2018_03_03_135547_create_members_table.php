@@ -22,7 +22,7 @@ class CreateMembersTable extends Migration
             $table->json('phones')->nullable();
             $table->unsignedInteger('family_id');
             $table->enum('gender', ['M', 'F']);
-            $table->enum('age_group', ['1', '2', '3', '4'])->comment('1 => ');
+            $table->enum('age_group', ['1', '2', '3', '4', '5', '6', '7', '8'])->comment('1 => 16-20, 2=>21-25, 3=>26-30, 4=>31-35, 5=>36-40, 6=>41-45, 7=>46-50, 8=>50 and above');
             $table->unsignedInteger('member_role_id');
             $table->enum('marital_status', ['1', '2', '3', '4', '5', '6'])->comment('1 => Single, 2 => Married, 3 => Not Wedded, 4 => Divorced, 5 => Church Annulment 6 => Widowed');
             $table->string('occupation', 200)->nullable();

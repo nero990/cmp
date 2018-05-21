@@ -1,14 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Family;
 
 use App\Family;
+use App\Http\Controllers\Controller;
 use App\Member;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
 
+    public function autoComplete(Request $request) {
+        $term = $request->get('term');
+
+        $members = Member::where('first_name', 'LIKE', "%{$term}%")
+            ->orWhere('middle_name', 'LIKE', "%{$term}%")
+            ->orWhere('last_name', 'LIKE', "%{$term}%")
+            ->selectRaw("id AS value, CONCAT(first_name,' ', middle_name, ' ', last_name, ' (', occupation, ')') AS label ")
+            ->take(10)->get();
+
+        return response()->json($members);
+    }
     /**
      * Show the form for creating a new resource.
      *

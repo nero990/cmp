@@ -16,6 +16,8 @@
 
                     <div class="widget-content padded">
 
+                        @include('errors.list')
+
                         <div class="col-sm-6">
                             <table class="table table-striped">
                                 <tr>
@@ -30,12 +32,16 @@
                                     <th>Reg. Number</th>
                                     <td>{{$family->registration_number}}</td>
                                 </tr>
-                                <tq>
+                                <tr>
                                     <th>BCC Zone</th>
                                     <td>
                                         <a href="{{route('bcc-zones.show', ['id' => $family->bcc_zone->id])}}">{{$family->bcc_zone->name}}</a>
                                     </td>
-                                </tq>
+                                </tr>
+                                <tr>
+                                    <th>Card Status</th>
+                                    <td><span class="label @if($family->card_status == "0") {{"label-danger"}} @elseif($family->card_status == "1") {{"label-success"}} @else {{"label-info"}}  @endif"> {{$family->card_status_text}}</span></td>
+                                </tr>
                             </table>
 
                         </div>
@@ -50,21 +56,16 @@
                                     <th>Phones</th>
                                     <td>{{implode("; ", $family->head->phones)}}</td>
                                 </tr>
-                                @if($family->type == "1")
-                                    <tr>
-                                        <th>Children</th>
-                                        <td>{{ $family->number_of_children }}</td>
-                                    </tr>
-                                @endif
                                 <tr>
                                     <th>Address</th>
                                     <td>{{$family->address}}</td>
                                 </tr>
-
-                                <tr>
-                                    <th>Card Status</th>
-                                    <td>{{$family->card_status_text}}</td>
-                                </tr>
+                                @if($family->type == "1")
+                                    <tr>
+                                        <th>Children below 16 years</th>
+                                        <td>{!! implode(", ", $family->names_of_children) !!}</td>
+                                    </tr>
+                                @endif
                             </table>
                         </div>
 
@@ -96,10 +97,10 @@
                                         <td>{{$member->gender}}</td>
                                         <td>{{$member->marital_status}}</td>
                                         <td>{{$member->role->name}}</td>
-                                        <td>{{$member->age_group}}</td>
+                                        <td>{{$member->age_group_text}}</td>
                                         <td>{{$member->occupation}}</td>
                                         <td>{{$member->email}}</td>
-                                        <td>{!! implode("<br>", $member->phones)  !!}}</td>
+                                        <td>{!! implode("<br>", $member->phones)  !!}</td>
 
                                         <td class="actions">
                                             <div class="action-buttons">

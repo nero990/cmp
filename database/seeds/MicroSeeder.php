@@ -11,15 +11,18 @@ class MicroSeeder extends Seeder
      */
     public function run()
     {
-        $faker = \Faker\Factory::create();
-        \App\Member::all()->each(function($member) use($faker) {
 
-            $phones = [];
-            for($i = 0; $i <= $faker->numberBetween(1, 2); $i++) {
-                $phones[] = $faker->phoneNumber;
+        $faker = \Faker\Factory::create();
+        \App\Family::all()->each(function($family) use($faker) {
+            if($family->type == "1") {
+                $names = [];
+                for($i = 0; $i <= $faker->numberBetween(1, 4); $i++) {
+                    $names[] = $faker->firstName;
+                }
+
+                $family->names_of_children = $names;
+                $family->save();
             }
-            $member->phones = $phones;
-            $member->save();
         });
     }
 }

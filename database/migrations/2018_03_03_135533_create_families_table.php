@@ -18,7 +18,7 @@ class CreateFamiliesTable extends Migration
             $table->string('name', 100);
             $table->string('registration_number', 50)->unique();
             $table->enum('type', ['1', '2'])->comment('1 => Family, 2 => Individual');
-            $table->integer('number_of_children')->default(0);
+            $table->json('names_of_children')->nullable()->comment("Only children below 16yrs");
             $table->unsignedInteger('state_id')->nullable()->comment('Family state of origin');
             $table->text('address')->nullable();
             $table->enum('card_status', ['0', '1', '2'])->default('0')->comment('0 => Not Paid, 1 => Paid, 2 => Collected');

@@ -19,15 +19,36 @@ Route::view('/home', 'admin.index');
 
 Route::resource('bcc-zones', 'BccZoneController');
 
-Route::get('church-engagements/{church_engagement}/members', 'ChurchEngagementController@members')->name('church-engagements.members');
+
+// Church Engagement Module
+Route::prefix('church-engagements')->namespace('ChurchEngagement')->name('church-engagements.')->group(function () {
+    // Member submodule
+    Route::prefix('{church_engagement}/members')->name('members.')->group(function () {
+        Route::get('', 'MemberController@index')->name('index');
+        Route::post('', 'MemberController@store')->name('store');
+    });
+});
 Route::resource('church-engagements', 'ChurchEngagementController')->except(['edit', 'create']);
 
-Route::prefix('families')->name('families.members.')->group(function () {
-    Route::get('{family}/members', 'MemberController@create')->name('create');
-    Route::post('{family}/members', 'MemberController@store')->name('store');
-    Route::get('members/{member}', 'MemberController@edit')->name('edit');
-    Route::put('members/{member}', 'MemberController@update')->name('update');
-    Route::delete('members/{member}', 'MemberController@destroy')->name('destroy');
+
+// Family Module
+Route::prefix('families')->namespace('Family')->name('families.members.')->group(function () {
+    Route::prefix('{family}')->group(function () {
+        Route::get('members', 'MemberController@create')->name('create');
+        Route::post('members', 'MemberController@store')->name('store');
+    });
+
+    Route::prefix('members')->group(function () {
+
+        Route::get('auto-complete', 'MemberController@autoComplete')->name('autoComplete');
+
+        Route::prefix('{member}')->group(function () {
+            Route::get('', 'MemberController@edit')->name('show');
+            Route::get('edit', 'MemberController@edit')->name('edit');
+            Route::put('', 'MemberController@update')->name('update');
+            Route::delete('', 'MemberController@destroy')->name('destroy');
+        });
+    });
 });
 Route::resource('families', 'FamilyController');
 

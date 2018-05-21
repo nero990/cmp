@@ -55,7 +55,7 @@
                                 </td>
                                 <td class="actions">
                                     <div class="action-buttons">
-                                        <a class="table-actions" title="View Audit trail" href="{{route('bcc-zones.edit', ['id' => $bcc_zone->id])}}"><i class="fa fa-eye"></i></a>
+                                        <a class="table-actions" title="View Audit trail" href="{{route('bcc-zones.show', ['id' => $bcc_zone->id])}}"><i class="fa fa-eye"></i></a>
                                         <a class="table-actions" title="Edit" href="{{route('bcc-zones.edit', ['id' => $bcc_zone->id])}}"><i class="fa fa-pencil"></i></a>
                                         <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                     </div>

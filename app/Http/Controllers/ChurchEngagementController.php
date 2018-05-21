@@ -103,10 +103,4 @@ class ChurchEngagementController extends Controller
     {
         //
     }
-
-    public function members(ChurchEngagement $church_engagement)
-    {
-        $members = $church_engagement->members;
-        return view('admin.church_engagements.members', compact('members', 'church_engagement'));
-    }
 }

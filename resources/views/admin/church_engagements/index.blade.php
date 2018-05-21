@@ -77,8 +77,8 @@
                                 <td>{{$church_engagement->created_at->toFormattedDateString()}}</td>
                                 <td class="actions">
                                     <div class="action-buttons" style="width: 100%">
-                                        <a class="table-actions" title="View Members" href="{{route('church-engagements.members', ['id' => $church_engagement->id])}}"><i class="fa fa-users"></i></a>
-                                        <a class="table-actions" title="View Audit trail" href="{{route('church-engagements.members', ['id' => $church_engagement->id])}}"><i class="fa fa-eye"></i></a>
+                                        <a class="table-actions" title="View Members" href="{{route('church-engagements.members.index', ['id' => $church_engagement->id])}}"><i class="fa fa-users"></i></a>
+                                        <a class="table-actions" title="View Audit trail" href="#"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="table-actions edit-engagement" data-target="#myModal" data-toggle="modal" data-value='{!! $church_engagement !!}' title="Edit"><i class="fa fa-pencil"></i></a>
                                         <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                     </div>

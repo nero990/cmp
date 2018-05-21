@@ -31,7 +31,16 @@ $(document).ready(function () {
     $('#newEngagement').click(function () {
         $('#modalTitle').html('New Church Engagement');
         $('#name').val("");
+    });
 
+    var baseUrl = $('meta[name="base-url"]').attr('content');
+    $('#q').autocomplete({
+        // source: ["java", "php"],
+        source: baseUrl + '/families/members/auto-complete',
+        minLength: 3,
+        select: function (event, ui) {
+            $(this).val(ui.item.value);
+        }
     });
 });
 

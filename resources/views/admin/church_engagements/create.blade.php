@@ -2,7 +2,6 @@
 
 @section('title') Church Engagement @endsection
 @section('current_church_engagements') class="current" @endsection
-@section('current_church_engagements_create') class="current" @endsection
 
 @section('content')
     <div class="container-fluid main-content">

@@ -1,7 +1,7 @@
 @extends('admin.layout.main')
 
-@section('title') New BCC Zones @endsection
-@section('current_bcc_zones_create') class="current" @endsection
+@section('title') New Family @endsection
+@section('current_families') class="current" @endsection
 
 @section('content')
     <div class="container-fluid main-content">
@@ -12,14 +12,15 @@
             <div class="col-md-12">
                 <div class="widget-container">
                     <div class="heading">
-                        <i class="fa fa-shield"></i>New BCC Zone
+                        <i class="fa fa-shield"></i>New Family
                     </div>
                     <div class="widget-content padded">
 
                         <div id="message"></div>
+                        @include('errors.list')
 
-                        {!! Form::open(['route' => 'bcc-zones.store', 'id' => 'bccZoneForm']) !!}
-                            @include('admin.bcc_zones.partials.form')
+                        {!! Form::open(['route' => 'families.store', 'id' => 'familyForm']) !!}
+                            @include('admin.families.partials.form')
                         {!! Form::close() !!}
                     </div>
                 </div>
@@ -30,5 +31,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('admin/javascripts/custom/bcc-zone.js')}}" type="text/javascript"></script>
+    <script src="{{asset('admin/javascripts/custom/family.js')}}" type="text/javascript"></script>
 @endsection
