@@ -83,11 +83,4 @@ class Member extends Model implements AuditableContract
     public function getAgeGroupTextAttribute() {
         return static::AGE_GROUP_LIST[$this->attributes['age_group']];
     }
-
-    public function getPhonesAttribute() {
-        if(is_null($this->attributes['phones'])){
-            return [];
-        }
-        return json_decode($this->attributes['phones']);
-    }
 }
