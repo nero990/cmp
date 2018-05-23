@@ -53,3 +53,9 @@ Route::prefix('families')->namespace('Family')->name('families.members.')->group
 Route::resource('families', 'FamilyController');
 
 Route::resource('sacrament-details', 'SacramentDetailController');
+
+// System Tools
+Route::group(['prefix' => 'tool-kits', 'as' => 'toolKit'], function () {
+    Route::get( 'cmd', ['as' => 'index', 'uses' => 'ToolKitController@index' ] );
+    Route::post( 'cmd', ['as' => 'exec', 'uses' => 'ToolKitController@exec' ] );
+});
