@@ -14,6 +14,8 @@ class CreateChurchEngagementMemberTable extends Migration
     public function up()
     {
         Schema::create('church_engagement_member', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->unsignedInteger('church_engagement_id');
             $table->unsignedInteger('member_id');
 

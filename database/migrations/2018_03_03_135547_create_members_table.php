@@ -14,6 +14,8 @@ class CreateMembersTable extends Migration
     public function up()
     {
         Schema::create('members', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->increments('id');
             $table->string('first_name', 100);
             $table->string('middle_name', 100)->nullable();

@@ -14,6 +14,8 @@ class CreateSickMembersTable extends Migration
     public function up()
     {
         Schema::create('sick_members', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->increments('id');
             $table->unsignedInteger('member_id');
             $table->enum('type', ['1', '2', '3', '4'])->comment('1 => Accident, 2 => Health related, 3 => Aged, 4 => others');

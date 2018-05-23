@@ -59,8 +59,9 @@ class FamilyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function store(Request $request)
     {
@@ -71,6 +72,7 @@ class FamilyController extends Controller
         $data['bcc_zone_id'] = $data['bcc_zone'];
         $data['member_role_id'] = \App\MemberRole::whereName('Head')->first()->id;
         $data['phones'] = explode(',', $data['phones']);
+        $data['names_of_children'] = $data['children'];
 
         try{
             DB::beginTransaction();

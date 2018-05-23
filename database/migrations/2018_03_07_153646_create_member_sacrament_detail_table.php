@@ -14,6 +14,8 @@ class CreateMemberSacramentDetailTable extends Migration
     public function up()
     {
         Schema::create('member_sacrament_detail', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->unsignedInteger('member_id');
             $table->unsignedInteger('sacrament_detail_id');
             $table->string('response', 255);

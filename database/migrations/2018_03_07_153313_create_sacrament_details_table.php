@@ -14,6 +14,8 @@ class CreateSacramentDetailsTable extends Migration
     public function up()
     {
         Schema::create('sacrament_details', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->increments('id');
             $table->string('question');
             $table->enum('response_type', ['1', '2'])->default('1')->comment('1 => Yes/No, 2 => String');

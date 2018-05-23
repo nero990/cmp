@@ -26,6 +26,8 @@ class CreateAuditsTable extends Migration
     public function up()
     {
         Schema::create('audits', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->increments('id');
             $table->unsignedInteger('user_id')->nullable();
             $table->string('event');
