@@ -73,6 +73,8 @@
 
                         <div class="col-sm-12">
 
+                            <a href="{{route('families.members.create', $family->id)}}" class="btn btn-warning" style="margin-top: 10px"><span class="fa fa-plus"></span> New Member</a>
+
                             <table class="table table-striped" id="dataTable1">
                                 <thead>
                                     <tr>

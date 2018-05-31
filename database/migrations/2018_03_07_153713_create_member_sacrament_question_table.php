@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMemberSacramentDetailTable extends Migration
+class CreateMemberSacramentQuestionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CreateMemberSacramentDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('member_sacrament_detail', function (Blueprint $table) {
+        Schema::create('member_sacrament_question', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->unsignedInteger('member_id');
-            $table->unsignedInteger('sacrament_detail_id');
-            $table->string('response', 255);
+            $table->unsignedInteger('sacrament_question_id');
+            $table->boolean('response');
             $table->date('year')->nullable();
 
             $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
-            $table->foreign('sacrament_detail_id')->references('id')->on('sacrament_details')->onDelete('cascade');
+            $table->foreign('sacrament_question_id')->references('id')->on('sacrament_questions')->onDelete('cascade');
 
-            $table->unique(['member_id', 'sacrament_detail_id']);
-
+            $table->unique(['member_id', 'sacrament_question_id']);
         });
     }
 
@@ -36,6 +35,6 @@ class CreateMemberSacramentDetailTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('member_sacrament_detail');
+        Schema::dropIfExists('member_sacrament_question');
     }
 }

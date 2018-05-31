@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\BccZone;
+use App\ChurchEngagement;
 use App\Family;
 use App\Member;
+use App\SacramentQuestion;
 use App\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -48,12 +50,14 @@ class FamilyController extends Controller
     {
         $state_list = State::pluck('name', 'id');
         $bcc_zone_list = BccZone::pluck('name', 'id');
+        $church_engagement_list = ChurchEngagement::pluck('name', 'id');
+        $sacrament_question_list = SacramentQuestion::pluck('question', 'id');
         $age_group_list = Member::AGE_GROUP_LIST;
         $marital_status_list = Member::MARITAL_STATUS_LIST;
         $card_status_list = Family::CARD_STATUS;
 
         return view('admin.families.create',
-            compact('state_list', 'bcc_zone_list', 'age_group_list', 'marital_status_list', 'card_status_list'));
+            compact('state_list', 'bcc_zone_list', 'church_engagement_list', 'sacrament_question_list', 'age_group_list', 'marital_status_list', 'card_status_list'));
     }
 
     /**
@@ -70,6 +74,7 @@ class FamilyController extends Controller
         $data = $request->all();
         $data['state_id'] = $data['state'];
         $data['bcc_zone_id'] = $data['bcc_zone'];
+        $data['church_engagement_id'] = $data['church_engagement'];
         $data['member_role_id'] = \App\MemberRole::whereName('Head')->first()->id;
         $data['phones'] = explode(',', $data['phones']);
         $data['names_of_children'] = $data['children'];

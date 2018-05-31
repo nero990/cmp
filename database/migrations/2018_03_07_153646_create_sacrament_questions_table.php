@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSacramentDetailsTable extends Migration
+class CreateSacramentQuestionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateSacramentDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sacrament_details', function (Blueprint $table) {
+        Schema::create('sacrament_questions', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->increments('id');
             $table->string('question');
-            $table->enum('response_type', ['1', '2'])->default('1')->comment('1 => Yes/No, 2 => String');
+            $table->boolean('is_enabled')->default(1);
             $table->timestamps();
+
         });
     }
 
@@ -30,6 +31,6 @@ class CreateSacramentDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sacrament_details');
+        Schema::dropIfExists('sacrament_questions');
     }
 }

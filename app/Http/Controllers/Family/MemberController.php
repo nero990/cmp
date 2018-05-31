@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Family;
 use App\Family;
 use App\Http\Controllers\Controller;
 use App\Member;
+use App\SacramentDetail;
+use App\SacramentQuestion;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -29,7 +31,11 @@ class MemberController extends Controller
      */
     public function create(Family $family)
     {
-        return view('admin.members.create', compact('family'));
+        $age_group_list = Member::AGE_GROUP_LIST;
+        $marital_status_list = Member::MARITAL_STATUS_LIST;
+        $sacrament_question_list = SacramentQuestion::pluck('question', 'id');
+
+        return view('admin.members.create', compact('family', 'age_group_list', 'marital_status_list', 'sacrament_question_list'));
     }
 
     /**

@@ -40,13 +40,35 @@
                     {!! Form::label('card_status', 'Card Status') !!}
                     {!! Form::select('card_status', $card_status_list, null, ['placeholder' => 'Select', 'class' => 'form-control']) !!}
                 </div>
+
+            </fieldset>
+
+            <fieldset id="childrenBlock" style="display: none;">
+                <legend>Children</legend>
+
+                <div class="form-group">
+                    <label for="children">Names of Children below 16 years</label>
+                    <button type="button" class="btn btn-default btn-xs" onclick="duplicate()"><i class="fa fa-plus-circle"></i> Add More</button>
+                    <button type="button" class="btn btn-outline-danger btn-xs" onclick="remove()"><i class="fa fa-minus-circle"></i> Remove</button>
+                    <div>
+                        @if(isset($family))
+                            @foreach($family->streets AS $street)
+                                {!! Form::text('children[]', $street, ['class' => 'form-control', 'id' => 'origin', 'style' => 'margin-bottom: 5px']) !!}
+                            @endforeach
+                        @else
+                            {!! Form::text('children[]', null, ['class' => 'form-control', 'id' => 'origin', 'style' => 'margin-bottom: 5px']) !!}
+                        @endif
+
+                    </div>
+                </div>
+
             </fieldset>
 
         </div>
 
         <div class="col-md-4">
             <fieldset>
-                <legend>Family Head Details</legend>
+                <legend>Family Head Bio Data</legend>
                 <div class="form-group">
                     {!! Form::label('first_name', 'First Name') !!}
                     {!! Form::text('first_name', null, ['class' => 'form-control']) !!}
@@ -84,16 +106,8 @@
                     {!! Form::label('age_group', 'Age Group') !!}
                     {!! Form::select('age_group', $age_group_list, null, ['placeholder' => 'Select', 'class' => 'form-control']) !!}
                 </div>
-
-                <div class="form-group">
-                    {!! Form::label('occupation', 'Occupation') !!}
-                    {!! Form::text('occupation', null, ['class' => 'form-control']) !!}
-                </div>
             </fieldset>
 
-        </div>
-
-        <div class="col-md-4">
             <fieldset>
                 <legend>Contact Details</legend>
                 <div class="form-group">
@@ -105,25 +119,23 @@
                     {!! Form::text('phones', null, ['class' => 'form-control']) !!}
                 </div>
 
+            </fieldset>
+        </div>
 
+        <div class="col-md-4">
+            <fieldset>
                 <legend>Other Details</legend>
-
-                <div class="form-group" id="childrenBlock" style="display: none;">
-                    <label for="children">Names Children below 16 years</label>
-                    <button type="button" class="btn btn-default btn-xs" onclick="duplicate()"><i class="fa fa-plus-circle"></i> Add More</button>
-                    <button type="button" class="btn btn-outline-danger btn-xs" onclick="remove()"><i class="fa fa-minus-circle"></i> Remove</button>
-                    <div>
-                        @if(isset($family))
-                            @foreach($family->streets AS $street)
-                                {!! Form::text('children[]', $street, ['class' => 'form-control', 'id' => 'origin', 'style' => 'margin-bottom: 5px']) !!}
-                            @endforeach
-                        @else
-                            {!! Form::text('children[]', null, ['class' => 'form-control', 'id' => 'origin', 'style' => 'margin-bottom: 5px']) !!}
-                        @endif
-
-                    </div>
+                <div class="form-group">
+                    {!! Form::label('occupation', 'Occupation') !!}
+                    {!! Form::text('occupation', null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    {!! Form::label('church_engagement', 'Church Engagement') !!}
+                    {!! Form::select('church_engagement', $church_engagement_list, null, ['placeholder' => 'Select', 'class' => 'form-control']) !!}
                 </div>
             </fieldset>
+
+            @include('admin.members.partials.sacrament_details')
 
         </div>
 
