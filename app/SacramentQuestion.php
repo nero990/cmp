@@ -18,4 +18,8 @@ class SacramentQuestion extends Model implements AuditableContract
         return $this->belongsToMany(Member::class);
     }
 
+    public function scopeEnabled($query) {
+        return $query->whereIsEnabled(1);
+    }
+
 }

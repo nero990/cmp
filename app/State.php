@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
-    //
+    public function families () {
+        return $this->hasMany(Family::class);
+    }
 }

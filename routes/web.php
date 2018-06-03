@@ -34,7 +34,7 @@ Route::resource('church-engagements', 'ChurchEngagementController')->except(['ed
 // Family Module
 Route::prefix('families')->namespace('Family')->name('families.members.')->group(function () {
     Route::prefix('{family}')->group(function () {
-        Route::get('members', 'MemberController@create')->name('create');
+        Route::get('members/create', 'MemberController@create')->name('create');
         Route::post('members', 'MemberController@store')->name('store');
     });
 

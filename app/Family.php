@@ -57,6 +57,10 @@ class Family extends Model implements AuditableContract
         });
     }
 
+    public function state() {
+        return $this->belongsTo(State::class);
+    }
+
     public function user() {
         return $this->morphOne(User::class, 'person');
     }

@@ -6,6 +6,7 @@ use App\BccZone;
 use App\ChurchEngagement;
 use App\Family;
 use App\Member;
+use App\MemberRole;
 use App\SacramentQuestion;
 use App\State;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class FamilyController extends Controller
         'gender' => 'required|in:M,F',
         'marital_status' => 'required|in:1,2,3,4,5,6',
         'age_group' => 'required|in:1,2,3,4,5,6,7,8',
+        'church_engagements' => 'nullable|array|exists:church_engagements,id'
     ];
 
 
@@ -51,13 +53,14 @@ class FamilyController extends Controller
         $state_list = State::pluck('name', 'id');
         $bcc_zone_list = BccZone::pluck('name', 'id');
         $church_engagement_list = ChurchEngagement::pluck('name', 'id');
-        $sacrament_question_list = SacramentQuestion::pluck('question', 'id');
+        $sacrament_question_list = SacramentQuestion::enabled()->pluck('question', 'id');
         $age_group_list = Member::AGE_GROUP_LIST;
         $marital_status_list = Member::MARITAL_STATUS_LIST;
         $card_status_list = Family::CARD_STATUS;
 
         return view('admin.families.create',
-            compact('state_list', 'bcc_zone_list', 'church_engagement_list', 'sacrament_question_list', 'age_group_list', 'marital_status_list', 'card_status_list'));
+            compact('state_list', 'bcc_zone_list', 'church_engagement_list', 'sacrament_question_list',
+                'age_group_list', 'marital_status_list', 'card_status_list'));
     }
 
     /**
@@ -74,15 +77,28 @@ class FamilyController extends Controller
         $data = $request->all();
         $data['state_id'] = $data['state'];
         $data['bcc_zone_id'] = $data['bcc_zone'];
-        $data['church_engagement_id'] = $data['church_engagement'];
-        $data['member_role_id'] = \App\MemberRole::whereName('Head')->first()->id;
+        $data['member_role_id'] = MemberRole::whereName('Head')->first()->id;
         $data['phones'] = explode(',', $data['phones']);
         $data['names_of_children'] = $data['children'];
+
+        $sacrament_questions = [];
+        SacramentQuestion::enabled()->pluck('id')->each(function ($id) use($data, &$sacrament_questions) {
+            if(isset($data["sacrament_question_{$id}"])) {
+                $sacrament_questions[$id] = ['response' => $data["sacrament_question_{$id}"]] ;
+            }
+        });
 
         try{
             DB::beginTransaction();
             $family = Family::create($data);
-            $family->members()->create($data);
+            $member = $family->members()->create($data);
+
+            if(isset($data['church_engagements']) && is_array($data['church_engagements']))
+                $member->church_engagements()->sync($data['church_engagements']);
+
+            if(!empty($sacrament_questions))
+                $member->sacrament_questions()->sync($sacrament_questions);
+
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollback();
@@ -114,7 +130,20 @@ class FamilyController extends Controller
      */
     public function edit(Family $family)
     {
-        //
+        $state_list = State::pluck('name', 'id');
+        $bcc_zone_list = BccZone::pluck('name', 'id');
+        $card_status_list = Family::CARD_STATUS;
+
+
+        $family->load('members', 'state', 'bcc_zone');
+
+        $family_head = $family->head()->selectRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) AS name, id")->pluck('name', 'id');
+
+        $members = $family->members()->selectRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) AS name, id")
+            ->pluck('name', 'id')->toArray();
+
+        dd($members);
+        return view('admin.families.edit', compact('family', 'state_list', 'bcc_zone_list', 'card_status_list'));
     }
 
     /**

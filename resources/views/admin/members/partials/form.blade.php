@@ -71,6 +71,11 @@
                     {!! Form::label('occupation', 'Occupation') !!}
                     {!! Form::text('occupation', null, ['class' => 'form-control']) !!}
                 </div>
+
+                <div class="form-group">
+                    {!! Form::label('church_engagements', 'Church Engagement') !!}
+                    {!! Form::select('church_engagements[]', $church_engagement_list, null, ['class' => 'select2able', 'multiple' => '']) !!}
+                </div>
             </fieldset>
 
         </div>
