@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\SacramentDetail;
+use App\SacramentQuestion;
 use Illuminate\Http\Request;
 
-class SacramentDetailController extends Controller
+class SacramentQuestionController extends Controller
 {
     private $rules = [
-        'question' => 'required|min:2|unique:sacrament_details,question',
+        'question' => 'required|min:2|unique:sacrament_questions,question',
     ];
     private $messages = ['name.unique' => 'A Sacrament detail with this question already exist.'];
 
@@ -19,8 +19,8 @@ class SacramentDetailController extends Controller
      */
     public function index()
     {
-        $sacrament_details = SacramentDetail::all();
-        return view('admin.sacrament_details.index', compact('sacrament_details'));
+        $sacrament_questions = SacramentQuestion::all();
+        return view('admin.sacrament_questions.index', compact('sacrament_questions'));
     }
 
     /**
@@ -30,9 +30,7 @@ class SacramentDetailController extends Controller
      */
     public function create()
     {
-        $response_type_list = SacramentDetail::$response_type_list;
-
-        return view('admin.sacrament_details.create', compact('response_type_list'));
+        return view('admin.sacrament_questions.create');
     }
 
     /**
@@ -44,10 +42,11 @@ class SacramentDetailController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->rules, $this->messages);
-        SacramentDetail::create($request->all());
-        if($request->wantsJson()) return response()->json(['message' => 'Sacrament detail created successfully']);
+        SacramentQuestion::create($request->all());
+        if($request->wantsJson()) return response()->json(['message' => 'Sacrament question created successfully']);
 
-        return redirect()->route('sacrament-details.index')->with(['message' => 'Sacrament detail created successfully']);
+        flash()->success("Success! Sacrament question created");
+        return redirect()->route('sacrament-questions.index');
     }
 
     /**
@@ -64,32 +63,31 @@ class SacramentDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param SacramentDetail $sacrament_detail
+     * @param SacramentQuestion $sacrament_question
      * @return \Illuminate\Http\Response
+     * @internal param SacramentQuestion $sacrament_detail
      */
-    public function edit(SacramentDetail $sacrament_detail)
+    public function edit(SacramentQuestion $sacrament_question)
     {
-        $response_type_list = SacramentDetail::$response_type_list;
-
-        return view('admin.sacrament_details.edit', compact('sacrament_detail', 'response_type_list'));
+        return view('admin.sacrament_questions.edit', compact('sacrament_question'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param SacramentDetail $sacrament_detail
+     * @param SacramentQuestion $sacrament_question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SacramentDetail $sacrament_detail)
+    public function update(Request $request, SacramentQuestion $sacrament_question)
     {
-        $this->rules['question'] .= ",{$sacrament_detail->id}";
+        $this->rules['question'] .= ",{$sacrament_question->id}";
         $request->validate($this->rules, $this->messages);
 
-        $sacrament_detail->update($request->all());
-        if($request->wantsJson()) return response()->json(['message' => 'Sacrament detail updated successfully']);
+        $sacrament_question->update($request->all());
+        if($request->wantsJson()) return response()->json(['message' => 'Sacrament question updated successfully']);
 
-        return redirect()->route('sacrament-details.index')->with(['message' => 'Sacrament detail updated successfully']);
+        return redirect()->route('sacrament-questions.index')->with(['message' => 'Sacrament question updated successfully']);
     }
 
     /**

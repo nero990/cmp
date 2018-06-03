@@ -52,7 +52,7 @@ Route::prefix('families')->namespace('Family')->name('families.members.')->group
 });
 Route::resource('families', 'FamilyController');
 
-Route::resource('sacrament-details', 'SacramentDetailController');
+Route::resource('sacrament-questions', 'SacramentQuestionController');
 
 // System Tools
 Route::group(['prefix' => 'tool-kits', 'as' => 'toolKit'], function () {

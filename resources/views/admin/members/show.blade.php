@@ -94,7 +94,7 @@
                                         <td>{{$key+1}}</td>
                                         <td>{{$member->full_name}}</td>
                                         <td>{{$member->gender}}</td>
-                                        <td>{{$member->marital_status}}</td>
+                                        <td>{{$member->marital_status_text}}</td>
                                         <td>{{$member->role->name}}</td>
                                         <td>{{$member->age_group}}</td>
                                         <td>{{$member->occupation}}</td>

@@ -59,7 +59,7 @@ class FamilyController extends Controller
         $data['state_id'] = $data['state'];
         $data['bcc_zone_id'] = $data['bcc_zone'];
         $data['member_role_id'] = MemberRole::getHead();
-        $data['phones'] = explode(',', $data['phones']);
+        $data['phones'] = array_map('trim', explode(',', $data['phones']));
         $data['names_of_children'] = $data['children'];
 
         $sacrament_questions = [];

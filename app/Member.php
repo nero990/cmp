@@ -80,7 +80,7 @@ class Member extends Model implements AuditableContract
         return $this->attributes['first_name'] . " {$middle_name}" . $this->attributes['last_name'];
     }
 
-    public function getMaritalStatusListAttribute() {
+    public function getMaritalStatusTextAttribute() {
         return static::MARITAL_STATUS_LIST[$this->attributes['marital_status']];
     }
 

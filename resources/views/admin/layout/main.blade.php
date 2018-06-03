@@ -31,6 +31,7 @@
     <link href="{{asset('admin/stylesheets/color/gray.css')}}" media="all" rel="alternate stylesheet" title="gray-theme" type="text/css"/>
     <link href="{{asset('admin/stylesheets/jquery.fileupload-ui.css')}}" media="screen" rel="stylesheet" type="text/css"/>
     <link href="{{asset('admin/stylesheets/dropzone.css')}}" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('admin/stylesheets/custom/final.css')}}" media="screen" rel="stylesheet" type="text/css"/>
 
 
     <script src="{{asset('admin/javascripts/jquery-1.10.2.min.js')}}" type="text/javascript"></script>

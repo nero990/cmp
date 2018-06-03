@@ -73,7 +73,7 @@
                 </div>
                 <div class="form-group">
                     <label for="phones">Phones <small><em>(If more than one, separate with a comer)</em></small></label>
-                    {!! Form::text('phones', isset($family) ? null : implode(',', $member->phones), ['class' => 'form-control']) !!}
+                    {!! Form::text('phones', isset($family) ? null : implode(', ', $member->phones), ['class' => 'form-control']) !!}
                 </div>
             </fieldset>
 
@@ -98,5 +98,10 @@
         </div>
 
     </div>
-    <input class="btn btn-warning" type="submit" value="Save">
+
+    @if($disabled)
+        <a href="{{route('families.members.edit', ['member' => $member->id])}}" class="btn btn-warning"><span class="fa fa-pencil"></span> Edit</a>
+    @else
+        <input class="btn btn-success" type="submit" value="Save">
+    @endif
 </fieldset>

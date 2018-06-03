@@ -54,7 +54,7 @@
                                 </tr>
                                 <tr>
                                     <th>Phones</th>
-                                    <td>{{implode("; ", $family->head->phones)}}</td>
+                                    <td>{{implode(", ", $family->head->phones)}}</td>
                                 </tr>
                                 <tr>
                                     <th>Address</th>
@@ -98,7 +98,7 @@
                                         <td>{{$key+1}}</td>
                                         <td>{{$member->full_name}}</td>
                                         <td>{{$member->gender}}</td>
-                                        <td>{{$member->marital_status_list}}</td>
+                                        <td>{{$member->marital_status_text}}</td>
                                         <td>{{$member->role->name}}</td>
                                         <td>{{$member->age_group_text}}</td>
                                         <td>{{$member->occupation}}</td>

@@ -84,7 +84,7 @@ class MemberController extends Controller
         $member_role_list = MemberRole::notHead()->pluck('name', 'id');
 
         $member->load('role', 'sacrament_questions');
-        return view('admin.members.edit', compact('member', 'age_group_list', 'marital_status_list', 'sacrament_question_list', 'church_engagement_list', 'member_role_list'));
+        return view('admin.members.edit', compact('member', 'age_group_list', 'marital_status_list', 'sacrament_question_list', 'church_engagement_list', 'member_role_list', 'disabled'));
     }
 
     /**
@@ -125,8 +125,7 @@ class MemberController extends Controller
         if(isset($family) || (isset($member) && !$member->role->is_head)) $data['member_role_id'] = $data['family_role'];
         elseif(isset($data['member_role_id'])) unset($data['member_role_id']);
 
-
-        $data['phones'] = explode(',', $data['phones']);
+        $data['phones'] = array_map('trim', explode(',', $data['phones']));
 
         $sacrament_questions = [];
         SacramentQuestion::enabled()->pluck('id')->each(function ($id) use ($data, &$sacrament_questions) {

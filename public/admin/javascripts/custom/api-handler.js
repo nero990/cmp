@@ -26,7 +26,7 @@ function settings(url, method, data) {
         },
         url: getUrl(url),
         type: method,
-        data: JSON.stringify(data),
+        data: data,
         beforeSend: function () {
             spinner('on');
         }

@@ -22,4 +22,13 @@ class SacramentQuestion extends Model implements AuditableContract
         return $query->whereIsEnabled(1);
     }
 
+    public function getStatusAttribute() {
+        switch($this->attributes['is_enabled']) {
+            case 1 :
+                return "Enabled";
+            default:
+                return "Disabled";
+        }
+    }
+
 }

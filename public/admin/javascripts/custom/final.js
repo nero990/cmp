@@ -19,6 +19,8 @@ $(document).ready(function () {
     };
     // console.log($().serializeObject());
 
+    $('.disabledForm :input').prop('disabled', true);
+
 });
 
 
