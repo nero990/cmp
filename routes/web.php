@@ -43,7 +43,7 @@ Route::prefix('families')->namespace('Family')->name('families.members.')->group
         Route::get('auto-complete', 'MemberController@autoComplete')->name('autoComplete');
 
         Route::prefix('{member}')->group(function () {
-            Route::get('', 'MemberController@edit')->name('show');
+            Route::get('', 'MemberController@show')->name('show');
             Route::get('edit', 'MemberController@edit')->name('edit');
             Route::put('', 'MemberController@update')->name('update');
             Route::delete('', 'MemberController@destroy')->name('destroy');

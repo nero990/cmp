@@ -50,7 +50,7 @@
                             <table class="table table-striped">
                                 <tr>
                                     <th>Family Head</th>
-                                    <td>{{$family->head->full_name}}</td>
+                                    <td><a href="{{route('families.members.show', ['family' => $family->head->id])}}">{{$family->head->full_name}}</a></td>
                                 </tr>
                                 <tr>
                                     <th>Phones</th>
@@ -73,7 +73,8 @@
 
                         <div class="col-sm-12">
 
-                            <a href="{{route('families.members.create', $family->id)}}" class="btn btn-warning" style="margin-top: 10px"><span class="fa fa-plus"></span> New Member</a>
+                            <a href="{{route('families.edit', $family->id)}}" class="btn btn-warning" style="margin-top: 10px"><span class="fa fa-pencil"></span> Edit this Family</a>
+                            <a href="{{route('families.members.create', $family->id)}}" class="btn btn-success" style="margin-top: 10px"><span class="fa fa-plus"></span> New Member</a>
 
                             <table class="table table-striped" id="dataTable1">
                                 <thead>
@@ -97,7 +98,7 @@
                                         <td>{{$key+1}}</td>
                                         <td>{{$member->full_name}}</td>
                                         <td>{{$member->gender}}</td>
-                                        <td>{{$member->marital_status}}</td>
+                                        <td>{{$member->marital_status_list}}</td>
                                         <td>{{$member->role->name}}</td>
                                         <td>{{$member->age_group_text}}</td>
                                         <td>{{$member->occupation}}</td>
@@ -106,8 +107,8 @@
 
                                         <td class="actions">
                                             <div class="action-buttons">
-                                                <a class="table-actions" title="View" href="{{route('families.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
-                                                <a class="table-actions" title="Edit" href="{{route('families.edit', ['id' => $member->id])}}"><i class="fa fa-pencil"></i></a>
+                                                <a class="table-actions" title="View" href="{{route('families.members.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
+                                                <a class="table-actions" title="Edit" href="{{route('families.members.edit', ['id' => $member->id])}}"><i class="fa fa-pencil"></i></a>
                                                 <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                             </div>
                                         </td>

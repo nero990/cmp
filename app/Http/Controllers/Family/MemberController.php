@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Family;
 use App\ChurchEngagement;
 use App\Family;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Family\MemberRequest;
 use App\Member;
+use App\MemberRole;
 use App\SacramentDetail;
 use App\SacramentQuestion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MemberController extends Controller
 {
@@ -36,20 +39,22 @@ class MemberController extends Controller
         $marital_status_list = Member::MARITAL_STATUS_LIST;
         $sacrament_question_list = SacramentQuestion::pluck('question', 'id');
         $church_engagement_list = ChurchEngagement::pluck('name', 'id');
+        $member_role_list = MemberRole::notHead()->pluck('name', 'id');
 
-        return view('admin.members.create', compact('family', 'age_group_list', 'marital_status_list', 'sacrament_question_list', 'church_engagement_list'));
+        return view('admin.members.create', compact('family', 'age_group_list', 'marital_status_list', 'sacrament_question_list', 'church_engagement_list', 'member_role_list'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param MemberRequest $request
      * @param Family $family
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function store(Request $request, Family $family)
+    public function store(MemberRequest $request, Family $family)
     {
-
+        return $this->save($request, $family);
     }
 
     /**
@@ -60,30 +65,39 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        //
+        return $this->edit($member, true);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Member  $member
+     * @param  \App\Member $member
+     * @param bool $disabled
      * @return \Illuminate\Http\Response
      */
-    public function edit(Member $member)
+    public function edit(Member $member, $disabled = false)
     {
-        //
+        $age_group_list = Member::AGE_GROUP_LIST;
+        $marital_status_list = Member::MARITAL_STATUS_LIST;
+        $sacrament_question_list = SacramentQuestion::pluck('question', 'id');
+        $church_engagement_list = ChurchEngagement::pluck('name', 'id');
+        $member_role_list = MemberRole::notHead()->pluck('name', 'id');
+
+        $member->load('role', 'sacrament_questions');
+        return view('admin.members.edit', compact('member', 'age_group_list', 'marital_status_list', 'sacrament_question_list', 'church_engagement_list', 'member_role_list'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Member  $member
-     * @return \Illuminate\Http\Response
+     * @param MemberRequest $request
+     * @param  \App\Member $member
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function update(Request $request, Member $member)
+    public function update(MemberRequest $request, Member $member)
     {
-        //
+        return $this->save($request, null, $member);
     }
 
     /**
@@ -95,5 +109,58 @@ class MemberController extends Controller
     public function destroy(Member $member)
     {
         //
+    }
+
+    /**
+     * @param MemberRequest $request
+     * @param Family $family
+     * @param null $member
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    private function save(MemberRequest $request, $family = null, $member = null)
+    {
+        $data = $request->all();
+
+        if(isset($family) || (isset($member) && !$member->role->is_head)) $data['member_role_id'] = $data['family_role'];
+        elseif(isset($data['member_role_id'])) unset($data['member_role_id']);
+
+
+        $data['phones'] = explode(',', $data['phones']);
+
+        $sacrament_questions = [];
+        SacramentQuestion::enabled()->pluck('id')->each(function ($id) use ($data, &$sacrament_questions) {
+            if (isset($data["sacrament_question_{$id}"])) {
+                $sacrament_questions[$id] = ['response' => $data["sacrament_question_{$id}"]];
+            }
+        });
+
+        try {
+            DB::beginTransaction();
+            if(isset($member)) {
+                $member->update($data);
+                $family = $member->family;
+                $message = "Member record updated.";
+            }
+            else {
+                $member = $family->members()->create($data);
+                $message = "New Member Created.";
+            }
+
+            if (isset($data['church_engagements']))
+                $member->church_engagements()->sync($data['church_engagements']);
+
+            if (!empty($sacrament_questions))
+                $member->sacrament_questions()->sync($sacrament_questions);
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollback();
+
+            throw new \Exception($exception->getMessage());
+        }
+
+        flash()->success("Success! {$message}");
+        return redirect()->route('families.show', ['family' => $family->id]);
     }
 }

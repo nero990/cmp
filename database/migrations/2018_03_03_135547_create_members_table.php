@@ -21,7 +21,7 @@ class CreateMembersTable extends Migration
             $table->string('middle_name', 100)->nullable();
             $table->string('last_name', 100);
             $table->string('email', 150)->nullable();
-            $table->json('phones')->nullable();
+            $table->text('phones')->nullable();
             $table->unsignedInteger('family_id');
             $table->enum('gender', ['M', 'F']);
             $table->enum('age_group', ['1', '2', '3', '4', '5', '6', '7', '8'])->comment('1 => 16-20, 2=>21-25, 3=>26-30, 4=>31-35, 5=>36-40, 6=>41-45, 7=>46-50, 8=>50 and above');

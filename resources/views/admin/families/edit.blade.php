@@ -19,8 +19,7 @@
                         <div id="message"></div>
                         @include('errors.list')
 
-                        {!! Form::model($family, ['route' => 'families.store', 'id' => 'familyForm']) !!}
-
+                        {!! Form::model($family, ['route' => ['families.update', $family->id], 'method' => 'PUT', 'id' => 'familyFormUpdate']) !!}
 
                         <div class="row">
                             <div class="col-md-4">
@@ -43,12 +42,11 @@
                                                 <span>Individual</span>
                                             </label>
                                         </div>
-
                                     </div>
                                     <div class="form-group">
                                         {!! Form::label('name', 'Family Head') !!}
-                                        <?php  dd($family->head()->pluck('first_name', 'id')); ?>
-                                        {!! Form::select('family_head', $family->members->head, ['class' => 'form-control']) !!}
+
+                                        {!! Form::select('family_head', $family_members, $family_head_id, ['class' => 'form-control']) !!}
                                     </div>
                                     <div class="form-group">
                                         {!! Form::label('address', 'Address') !!}
@@ -118,8 +116,8 @@
 
                                             <td class="actions">
                                                 <div class="action-buttons">
-                                                    <a class="table-actions" title="View" href="{{route('families.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
-                                                    <a class="table-actions" title="Edit" href="{{route('families.edit', ['id' => $member->id])}}"><i class="fa fa-pencil"></i></a>
+                                                    <a class="table-actions" title="View" href="{{route('families.members.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
+                                                    <a class="table-actions" title="Edit" href="{{route('families.members.edit', ['id' => $member->id])}}"><i class="fa fa-pencil"></i></a>
                                                     <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                                 </div>
                                             </td>

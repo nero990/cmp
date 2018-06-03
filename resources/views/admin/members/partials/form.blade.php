@@ -6,7 +6,11 @@
                 <legend>Bio Data</legend>
                 <div class="form-group">
                     {!! Form::label('family_name', 'Family Name') !!}
+                    @if(isset($family))
                     {!! Form::text('family_name', $family->name . " (" . $family->registration_number . ") ", ['class' => 'form-control', 'disabled' => true]) !!}
+                    @else
+                        {!! Form::text('family_name', $member->family->name . " (" . $member->family->registration_number . ") ", ['class' => 'form-control', 'disabled' => true]) !!}
+                    @endif
                 </div>
                 <div class="form-group">
                     {!! Form::label('first_name', 'First Name') !!}
@@ -46,6 +50,15 @@
                     {!! Form::select('age_group', $age_group_list, null, ['placeholder' => 'Select', 'class' => 'form-control']) !!}
                 </div>
 
+                <div class="form-group">
+                    {!! Form::label('family_role', 'Family Role Group') !!}
+                    @if(isset($member) && $member->role->name == "Head")
+                        {!! Form::text('family_role', 'Head', ['class' => 'form-control', 'disabled' => 'true']) !!}
+                    @else
+                    {!! Form::select('family_role', $member_role_list, isset($member) ? $member->role->id : null, ['placeholder' => 'Select', 'class' => 'form-control']) !!}
+                    @endif
+                </div>
+
             </fieldset>
 
         </div>
@@ -60,7 +73,7 @@
                 </div>
                 <div class="form-group">
                     <label for="phones">Phones <small><em>(If more than one, separate with a comer)</em></small></label>
-                    {!! Form::text('phones', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('phones', isset($family) ? null : implode(',', $member->phones), ['class' => 'form-control']) !!}
                 </div>
             </fieldset>
 

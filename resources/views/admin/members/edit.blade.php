@@ -1,24 +1,26 @@
 @extends('admin.layout.main')
 
-@section('title') {{$bcc_zone->name}} Zone @endsection
+@section('title') New Member @endsection
+@section('current_families') class="current" @endsection
 
 @section('content')
     <div class="container-fluid main-content">
         <div class="page-title">
-            <h1>Family Management</h1>
+            <h1>New Member</h1>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="widget-container">
                     <div class="heading">
-                        <i class="fa fa-shield"></i>{{$bcc_zone->name}} Zone
+                        <i class="fa fa-shield"></i>New Member
                     </div>
                     <div class="widget-content padded">
 
                         <div id="message"></div>
+                        @include('errors.list')
 
-                        {!! Form::model($bcc_zone, ['route' => ['bcc-zones.update', $bcc_zone->id],'method' => 'PUT', 'id' => 'bccZoneForm']) !!}
-                            @include('admin.bcc_zones.partials.form')
+                        {!! Form::model($member, ['route' => ['families.members.update', 'member' => $member->id], 'method' => 'PUT', 'id' => '']) !!}
+                        @include('admin.members.partials.form')
                         {!! Form::close() !!}
                     </div>
                 </div>
@@ -29,5 +31,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('admin/javascripts/custom/bcc-zone.js')}}" type="text/javascript"></script>
+    <script src="{{asset('admin/javascripts/custom/members.js')}}" type="text/javascript"></script>
 @endsection

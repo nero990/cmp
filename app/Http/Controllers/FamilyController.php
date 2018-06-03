@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\BccZone;
 use App\ChurchEngagement;
 use App\Family;
+use App\Http\Requests\Family\CreateFamilyRequest;
+use App\Http\Requests\Family\UpdateFamilyRequest;
 use App\Member;
 use App\MemberRole;
 use App\SacramentQuestion;
@@ -14,25 +16,6 @@ use Illuminate\Support\Facades\DB;
 
 class FamilyController extends Controller
 {
-    private $rules = [
-        'name' => 'required',
-        'type' => 'required|in:1,2',
-        'state' => 'nullable|exists:states,id',
-        'card_status' => 'required|in:0,1,2',
-        'bcc_zone' => 'required|exists:bcc_zones,id',
-
-        // Member files (Family head)
-        'first_name' => 'required',
-        'last_name' => 'required',
-        'email' => 'nullable|email',
-        'phones' => 'required',
-        'gender' => 'required|in:M,F',
-        'marital_status' => 'required|in:1,2,3,4,5,6',
-        'age_group' => 'required|in:1,2,3,4,5,6,7,8',
-        'church_engagements' => 'nullable|array|exists:church_engagements,id'
-    ];
-
-
     /**
      * Display a listing of the resource.
      *
@@ -66,18 +49,16 @@ class FamilyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param CreateFamilyRequest $request
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function store(Request $request)
+    public function store(CreateFamilyRequest $request)
     {
-        $this->validate($request, $this->rules);
-
         $data = $request->all();
         $data['state_id'] = $data['state'];
         $data['bcc_zone_id'] = $data['bcc_zone'];
-        $data['member_role_id'] = MemberRole::whereName('Head')->first()->id;
+        $data['member_role_id'] = MemberRole::getHead();
         $data['phones'] = explode(',', $data['phones']);
         $data['names_of_children'] = $data['children'];
 
@@ -93,7 +74,7 @@ class FamilyController extends Controller
             $family = Family::create($data);
             $member = $family->members()->create($data);
 
-            if(isset($data['church_engagements']) && is_array($data['church_engagements']))
+            if(isset($data['church_engagements']))
                 $member->church_engagements()->sync($data['church_engagements']);
 
             if(!empty($sacrament_questions))
@@ -134,28 +115,36 @@ class FamilyController extends Controller
         $bcc_zone_list = BccZone::pluck('name', 'id');
         $card_status_list = Family::CARD_STATUS;
 
+        $family->load('members', 'members.role', 'state', 'bcc_zone');
 
-        $family->load('members', 'state', 'bcc_zone');
-
-        $family_head = $family->head()->selectRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) AS name, id")->pluck('name', 'id');
-
-        $members = $family->members()->selectRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) AS name, id")
+        $family_head_id = $family->head->id;
+        $family_members = $family->members()
+            ->selectRaw("CONCAT(first_name, ' ', last_name) AS name, id")
             ->pluck('name', 'id')->toArray();
 
-        dd($members);
-        return view('admin.families.edit', compact('family', 'state_list', 'bcc_zone_list', 'card_status_list'));
+        return view('admin.families.edit', compact('family', 'family_members', 'family_head_id', 'state_list', 'bcc_zone_list', 'card_status_list'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Family  $family
+     * @param UpdateFamilyRequest $request
+     * @param  \App\Family $family
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Family $family)
+    public function update(UpdateFamilyRequest $request, Family $family)
     {
-        //
+        $data = $request->all();
+        $data['state_id'] = $data['state'];
+        $data['bcc_zone_id'] = $data['bcc_zone'];
+        $data['names_of_children'] = $data['children'];
+        $data['family_head_id'] = $data['family_head'];
+
+        $family->update($data);
+        $family->setHead($data['family_head']);
+
+        flash()->success("Success! Family record updated.");
+        return redirect()->route('families.show', $family->id);
     }
 
     /**

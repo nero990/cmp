@@ -62,6 +62,10 @@ class Member extends Model implements AuditableContract
     public function sacrament_questions() {
         return $this->belongsToMany(SacramentQuestion::class);
     }
+    
+    public function member_sacrament_questions() {
+        return $this->hasMany(MemberSacramentQuestion::class);
+    }
 
     public function sick_member() {
         return $this->hasOne(SickMember::class);
@@ -72,11 +76,11 @@ class Member extends Model implements AuditableContract
     }
 
     public function getFullNameAttribute() {
-        $middle_name = empty($this->attributes['middle_name']) ? $this->attributes['middle_name'] . " " : "";
+        $middle_name = !empty($this->attributes['middle_name']) ? $this->attributes['middle_name'] . " " : "";
         return $this->attributes['first_name'] . " {$middle_name}" . $this->attributes['last_name'];
     }
 
-    public function getMaritalStatusAttribute() {
+    public function getMaritalStatusListAttribute() {
         return static::MARITAL_STATUS_LIST[$this->attributes['marital_status']];
     }
 

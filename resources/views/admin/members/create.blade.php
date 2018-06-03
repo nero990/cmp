@@ -19,7 +19,7 @@
                         <div id="message"></div>
                         @include('errors.list')
 
-                        {!! Form::open(['route' => 'families.store', 'id' => 'familyForm']) !!}
+                        {!! Form::open(['route' => ['families.members.store', 'family' => $family->id], 'id' => '']) !!}
                         @include('admin.members.partials.form')
                         {!! Form::close() !!}
                     </div>
