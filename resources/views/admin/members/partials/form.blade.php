@@ -99,7 +99,7 @@
 
     </div>
 
-    @if($disabled)
+    @if(isset($disabled) && $disabled)
         <a href="{{route('families.members.edit', ['member' => $member->id])}}" class="btn btn-warning"><span class="fa fa-pencil"></span> Edit</a>
     @else
         <input class="btn btn-success" type="submit" value="Save">
