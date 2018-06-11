@@ -263,8 +263,8 @@
         }, 250);
       }
     });
-    $(".style-selector select[name='layout']").change(function() {
-      if ($(".style-selector select[name='layout'] option:selected").val() === "boxed") {
+    $(".style-selector select[name='layouts']").change(function() {
+      if ($(".style-selector select[name='layouts'] option:selected").val() === "boxed") {
         $("body").addClass("layout-boxed");
         return $(window).resize();
       } else {

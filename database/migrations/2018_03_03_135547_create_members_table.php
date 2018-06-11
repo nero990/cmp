@@ -28,6 +28,7 @@ class CreateMembersTable extends Migration
             $table->unsignedInteger('member_role_id');
             $table->enum('marital_status', ['1', '2', '3', '4', '5', '6'])->comment('1 => Single, 2 => Married, 3 => Not Wedded, 4 => Divorced, 5 => Church Annulment 6 => Widowed');
             $table->string('occupation', 200)->nullable();
+            $table->timestamp('deceased_at')->nullable();
             $table->timestamps();
 
             $table->foreign('member_role_id')->references('id')->on('member_roles');

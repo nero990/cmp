@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 @section('current_families') class="current" @endsection
 @section('title') Family of {{$family->name}} @endsection
 

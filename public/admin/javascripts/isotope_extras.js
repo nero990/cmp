@@ -20,7 +20,7 @@ $.Isotope.prototype._getCenteredMasonryColumns = function() {
 };
 
 $.Isotope.prototype._masonryReset = function() {
-  // layout-specific props
+  // layouts-specific props
   this.masonry = {};
   // FIXME shouldn't have to call this again
   this._getCenteredMasonryColumns();
@@ -120,7 +120,7 @@ $(function(){
       value = value === 'false' ? false : value;
       options[ key ] = value;
       if ( key === 'layoutMode' && typeof changeLayoutMode === 'function' ) {
-        // changes in layout modes need extra logic
+        // changes in layouts modes need extra logic
         changeLayoutMode( $this, options )
       } else {
         // otherwise, apply new options

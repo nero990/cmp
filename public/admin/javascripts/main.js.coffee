@@ -245,8 +245,8 @@ $(document).ready ->
       $(this).removeClass("closed").addClass "open"
       $(".style-selector").show().animate({"right": 0}, 250)
 
-  $(".style-selector select[name='layout']").change ->
-    if $(".style-selector select[name='layout'] option:selected").val() is "boxed"
+  $(".style-selector select[name='layouts']").change ->
+    if $(".style-selector select[name='layouts'] option:selected").val() is "boxed"
       $("body").addClass "layout-boxed"
       $(window).resize()
     else

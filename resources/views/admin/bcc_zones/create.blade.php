@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 
 @section('title') New BCC Zones @endsection
 @section('current_bcc_zones_create') class="current" @endsection

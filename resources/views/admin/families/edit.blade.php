@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 
 @section('title') Edit Family @endsection
 @section('current_families') class="current" @endsection

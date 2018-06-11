@@ -10,6 +10,8 @@ class BccZone extends Model implements AuditableContract
 {
     use Auditable;
 
+    private static $size = 20;
+
     protected $fillable = [
         'name', 'address', 'status', 'streets'
     ];
@@ -22,6 +24,10 @@ class BccZone extends Model implements AuditableContract
         return $this->hasMany(Family::class);
     }
 
+    public function scopeActive($query) {
+        return $query->whereStatus('1');
+    }
+
     public function getStatusTextAttribute() {
         switch($this->attributes['status']) {
             case "1" :
@@ -29,5 +35,20 @@ class BccZone extends Model implements AuditableContract
             default :
                 return "Inactive";
         }
+    }
+
+    public function getPercentageSizeAttribute() {
+        return ($this->families()->count() / static::$size) * 100 ."%";
+    }
+
+    public function getRandomPropertyAttribute() {
+        $colors = ['fa-coffee' => 'green', 'fa-gamepad' => 'orange', 'fa-gift' => 'red', 'fa-trophy' => 'magenta'];
+        $font_awesome = array_random(array_keys($colors));
+        $colour = $colors[$font_awesome];
+
+        return [
+            'colour' => $colour,
+            'font-awesome' => $font_awesome
+        ];
     }
 }

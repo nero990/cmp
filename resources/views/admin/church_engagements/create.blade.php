@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 
 @section('title') Church Engagement @endsection
 @section('current_church_engagements') class="current" @endsection

@@ -64,7 +64,7 @@
         <div class="nav-collapse">
             <ul class="nav">
                 <li>
-                    <a href="index.html"><span aria-hidden="true" class="se7en-home"></span>Dashboard</a>
+                    <a href="{{route('home')}}" @yield('dashboard')><span aria-hidden="true" class="se7en-home"></span>Dashboard</a>
                 </li>
                 <li>
                     <a href="{{route('families.index')}}" @yield('current_families')><span aria-hidden="true" class="se7en-tables"></span>Families</a>

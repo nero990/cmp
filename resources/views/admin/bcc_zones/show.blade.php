@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 
 @section('current_bcc_zones') class="current" @endsection
 
@@ -25,7 +25,7 @@
                                     <td>{{$bcc_zone->name}}</td>
                                 </tr>
                                 <tr>
-                                    <th>Type</th>
+                                    <th>Address</th>
                                     <td>{{$bcc_zone->address}}</td>
                                 </tr>
                                 <tr>

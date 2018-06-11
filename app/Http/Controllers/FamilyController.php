@@ -13,6 +13,8 @@ use App\SacramentQuestion;
 use App\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FamilyController extends Controller
 {
@@ -156,5 +158,23 @@ class FamilyController extends Controller
     public function destroy(Family $family)
     {
         //
+    }
+
+    public function batchUpload(Request $request) {
+        $this->validate($request, [
+            'excel_file' => 'required|file|mimes:csv,txt,xls,xlsx'
+        ], [
+            'required' => 'No file selected'
+        ]);
+
+        $path = $request->file('excel_file')->getPath();
+
+        $results = Excel::load($path, function ($reader) {
+            $reader->all();
+        })->get();
+
+        Storage::delete($path);
+        dd($results);
+
     }
 }

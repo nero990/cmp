@@ -93,7 +93,7 @@
 <body class="page-header-fixed bg-1">
 <div class="modal-shiftfix">
     <!-- Navigation -->
-    @include('admin.layout.partials.navigation')
+    @include('admin.layouts.partials.navigation')
     <!-- End Navigation -->
 
    @yield('content')

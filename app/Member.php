@@ -71,6 +71,10 @@ class Member extends Model implements AuditableContract
         return $this->hasOne(SickMember::class);
     }
 
+    public function scopeLiving($query) {
+        return $query->whereNull('deceased_at');
+    }
+
     public function getHead() {
         return $this->family->head;
     }

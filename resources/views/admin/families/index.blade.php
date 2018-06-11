@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 @section('current_families') class="current" @endsection
 @section('title') Families @endsection
 
@@ -15,7 +15,42 @@
                     <i class="fa fa-table"></i>Families
                 </div>
                 <div class="widget-content padded clearfix">
-                    <a href="{{route('families.create')}}" class="btn btn-warning"><span class="fa fa-plus"></span> New Family</a>
+
+                    @include('errors.list')
+
+                    <a href="{{route('families.create')}}" class="btn btn-success"><span class="fa fa-plus"></span> New Family</a>
+
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal">
+                        <i class="fa fa-plus"></i> Batch Upload
+                    </button>
+
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                {!! Form::open(['route' => 'families.batch-upload', 'files' => true, 'class' => 'form-horizontal']) !!}
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" id="modalTitle">Batch Upload</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        {{Form::file('excel_file')}}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    {!! Form::submit('Upload', ['class' => 'btn btn-info']) !!}
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+
+                        </div>
+                    </div>
+
+
 
                     <table class="table table-striped">
                         <thead>

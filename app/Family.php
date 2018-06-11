@@ -66,6 +66,14 @@ class Family extends Model implements AuditableContract
         return $this->morphOne(User::class, 'person');
     }
 
+    public function scopeFamily($query) {
+        return $query->whereType('1');
+    }
+
+    public function scopeIndividual($query) {
+        return $query->whereType('2');
+    }
+
     public function getNumberOfChildrenAttribute() {
         return count($this->names_of_children) + $this->members()->whereHas('role', function($query) {
             $query->where('name', '<>', 'Head')

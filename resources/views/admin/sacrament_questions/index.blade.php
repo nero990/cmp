@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 
 @section('title') Sacrament Questions @endsection
 @section('current_sacrament_questions') class="current" @endsection
