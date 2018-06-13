@@ -21,8 +21,13 @@ class MemberRole extends Model implements AuditableContract
     public function scopeNotHead($query) {
         return $query->where('name', '<>', 'Head');
     }
+
     public static function getHead () {
         return optional(static::whereName('Head')->first())->id;
+    }
+
+    public static function getDependency () {
+        return optional(static::whereName('Dependency')->first())->id;
     }
 
     public function getIsHeadAttribute() {

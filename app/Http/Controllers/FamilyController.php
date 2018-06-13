@@ -161,20 +161,79 @@ class FamilyController extends Controller
     }
 
     public function batchUpload(Request $request) {
+
         $this->validate($request, [
             'excel_file' => 'required|file|mimes:csv,txt,xls,xlsx'
         ], [
             'required' => 'No file selected'
         ]);
 
-        $path = $request->file('excel_file')->getPath();
+        $path = $request->file('excel_file')->store('files');
 
-        $results = Excel::load($path, function ($reader) {
+        $families = Excel::load(Storage::path($path), function ($reader) {
             $reader->all();
         })->get();
-
         Storage::delete($path);
-        dd($results);
 
+        $states = State::pluck('id', 'name')->toArray();
+
+        $families->each(function ($fam) use ($states) {
+
+            $state = ucfirst(strtolower(trim($fam->state)));
+            $type = (strtoupper($fam->family) == "Y") ? "1" : 2;
+
+
+            try{
+
+
+                $first_name = trim(ucfirst(strtolower($fam->first_name)));
+                $last_name = trim(ucfirst(strtolower($fam->surname)));
+
+                if($fam->surname){
+                    DB::beginTransaction();
+
+                    $names_of_children = ucwords(strtolower(trim($fam->names_of_children)));
+
+                    $family = Family::firstOrcreate([
+                        'registration_number' => $fam->family_reg_number
+                    ], [
+                        'name' => "{$first_name} {$last_name}",
+                        'type' => $type,
+                        'names_of_children' => empty($names_of_children) ?  null : explode(',', $names_of_children),
+                        'state_id' => isset($states[$state]) ? $states[$state] : null,
+                        'address' => trim(ucwords(strtolower($fam->address))),
+                    ]);
+
+                    $phones = trim($fam->contact);
+                    if(!empty(trim($fam->alt))) {
+                        if($phones) $phones .= "," . trim($fam->alt);
+                        else $phones = trim($fam->alt);
+                    }
+                    if(empty($phones)) $phones = null;
+
+                    $member_role_id = ($family->wasRecentlyCreated) ? MemberRole::getHead() : MemberRole::getDependency();
+
+                    $family->members()->create([
+                        'first_name' => $first_name,
+                        'last_name' => $last_name,
+                        'phones' => empty($phones) ? null : explode(',', $phones),
+                        'gender' => 'M',
+                        'age_group' => '3',
+                        'member_role_id' => $member_role_id,
+                        'marital_status' => '2',
+                    ]);
+
+                    DB::commit();
+                }
+
+            } catch (\Exception $exception) {
+                DB::rollback();
+
+                throw new \Exception($exception->getMessage());
+            }
+        });
+
+        flash()->success("Success! Family batch updated");
+        return redirect()->route('families.index');
     }
 }
