@@ -12,7 +12,7 @@ class Family extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = [
-        'name', 'type', 'names_of_children', 'state_id', 'address', 'card_status', 'bcc_zone_id'
+        'registration_number', 'name', 'type', 'names_of_children', 'state_id', 'address', 'card_status', 'bcc_zone_id'
     ];
 
     protected $casts = [
@@ -25,10 +25,15 @@ class Family extends Model implements AuditableContract
         "2" => "Collected"
     ];
 
+    public static $batched = false;
+
     protected static function boot()
     {
         static::creating(function ($family) {
-            $family->registration_number = rand();
+            if(!static::$batched) {
+                $family->registration_number = rand();
+            }
+
         });
 
         static::saving(function ($family) {

@@ -35,7 +35,9 @@
                                 <tr>
                                     <th>BCC Zone</th>
                                     <td>
+                                        @if($family->bcc_zone)
                                         <a href="{{route('bcc-zones.show', ['id' => $family->bcc_zone->id])}}">{{$family->bcc_zone->name}}</a>
+                                        @endif
                                     </td>
                                 </tr>
                                 <tr>

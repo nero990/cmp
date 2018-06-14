@@ -7,6 +7,7 @@ use App\ChurchEngagement;
 use App\Family;
 use App\Http\Requests\Family\CreateFamilyRequest;
 use App\Http\Requests\Family\UpdateFamilyRequest;
+use App\Jobs\FamilyUpload;
 use App\Member;
 use App\MemberRole;
 use App\SacramentQuestion;
@@ -175,63 +176,11 @@ class FamilyController extends Controller
         })->get();
         Storage::delete($path);
 
-        $states = State::pluck('id', 'name')->toArray();
+        /*if($error = UploadedFile::validateHeadings($results->getheading())) {
+            return back()->withErrors($error);
+        }*/
 
-        $families->each(function ($fam) use ($states) {
-
-            $state = ucfirst(strtolower(trim($fam->state)));
-            $type = (strtoupper($fam->family) == "Y") ? "1" : 2;
-
-
-            try{
-
-
-                $first_name = trim(ucfirst(strtolower($fam->first_name)));
-                $last_name = trim(ucfirst(strtolower($fam->surname)));
-
-                if($fam->surname){
-                    DB::beginTransaction();
-
-                    $names_of_children = ucwords(strtolower(trim($fam->names_of_children)));
-
-                    $family = Family::firstOrcreate([
-                        'registration_number' => $fam->family_reg_number
-                    ], [
-                        'name' => "{$first_name} {$last_name}",
-                        'type' => $type,
-                        'names_of_children' => empty($names_of_children) ?  null : explode(',', $names_of_children),
-                        'state_id' => isset($states[$state]) ? $states[$state] : null,
-                        'address' => trim(ucwords(strtolower($fam->address))),
-                    ]);
-
-                    $phones = trim($fam->contact);
-                    if(!empty(trim($fam->alt))) {
-                        if($phones) $phones .= "," . trim($fam->alt);
-                        else $phones = trim($fam->alt);
-                    }
-                    if(empty($phones)) $phones = null;
-
-                    $member_role_id = ($family->wasRecentlyCreated) ? MemberRole::getHead() : MemberRole::getDependency();
-
-                    $family->members()->create([
-                        'first_name' => $first_name,
-                        'last_name' => $last_name,
-                        'phones' => empty($phones) ? null : explode(',', $phones),
-                        'gender' => 'M',
-                        'age_group' => '3',
-                        'member_role_id' => $member_role_id,
-                        'marital_status' => '2',
-                    ]);
-
-                    DB::commit();
-                }
-
-            } catch (\Exception $exception) {
-                DB::rollback();
-
-                throw new \Exception($exception->getMessage());
-            }
-        });
+        FamilyUpload::dispatch($families)->delay(now()->addSecond(3))->onQueue('process');
 
         flash()->success("Success! Family batch updated");
         return redirect()->route('families.index');
