@@ -51,7 +51,6 @@
                     </div>
 
 
-
                     <table class="table table-striped">
                         <thead>
                             <th>#</th>
@@ -73,7 +72,7 @@
                                 <td>{{$family->type_text}}</td>
                                 <td>{{$family->registration_number}}</td>
                                 <td>{{$family->head->full_name}}</td>
-                                <td>{!! implode("<br>", $family->head->phones)  !!}}</td>
+                                <td>{!! implode("<br>", $family->head->phones)  !!}</td>
                                 <td class="hidden-xs text-center">{{($family->type == "1") ? $family->number_of_children : "-"}}</td>
                                 <td class="hidden-xs">{{$family->address}}</td>
                                 <td class="hidden-xs"><span class="label @if($family->card_status == "0") {{"label-danger"}} @elseif($family->card_status == "1") {{ "label-info" }} @else {{ "label-success" }} @endif">{{$family->card_status_text}}</span></td>
