@@ -31,5 +31,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('admin/javascripts/custom/members.js')}}" type="text/javascript"></script>
+    <script src="{{asset('admin/javascripts/custom/member.js')}}" type="text/javascript"></script>
 @endsection

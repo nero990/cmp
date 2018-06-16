@@ -34,7 +34,6 @@ $(document).ready(function () {
 
 
     $('.family-type').click(function () {
-        console.log($(this).val());
 
         if($(this).val() === '1') {
             $('#childrenBlock').show();

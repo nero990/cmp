@@ -14,7 +14,7 @@ class AddDeceasedAtColumnToMembersTable extends Migration
     public function up()
     {
         Schema::table('members', function (Blueprint $table) {
-            $table->timestamp('deceased_at')->nullable()->after('occupation');
+            $table->date('deceased_at')->nullable()->after('occupation');
         });
     }
 

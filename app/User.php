@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Exceptions\CMPResponseException;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class User extends Authenticatable
 {
     use Notifiable;
+    public static $password;
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +34,24 @@ class User extends Authenticatable
         return $this->morphTo();
     }
 
+    public function scopeAdmin($query) {
+        return $query->wherePersonType("App\Admin");
+    }
+
+    public static function authenticate($username, $password){
+        $user = static::whereUsername($username)->first();
+
+        if($user && Hash::check($password, $user->password)) {
+            return $user;
+        }
+        throw new CMPResponseException("validation_failure", ["username" => ["Username and password combination not valid."]]);
+    }
+
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function getFullNameAttribute() {
+        return $this->person->full_name;
     }
 }

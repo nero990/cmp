@@ -11,6 +11,8 @@ class Family extends Model implements AuditableContract
 {
     use Auditable;
 
+    private static $required_headings;
+
     protected $fillable = [
         'registration_number', 'name', 'type', 'names_of_children', 'state_id', 'address', 'card_status', 'bcc_zone_id'
     ];
@@ -77,6 +79,39 @@ class Family extends Model implements AuditableContract
 
     public function scopeIndividual($query) {
         return $query->whereType('2');
+    }
+
+    public static function requiredHeadings()
+    {
+        return ['surname', 'first_name', 'no_of_children', 'names_of_children', 'address', 'contact', 'alt', 'state', 'family', 'single', 'family_reg_number'];
+    }
+
+    private static function setRequiredHeadings()
+    {
+        static::$required_headings = static::requiredHeadings();
+    }
+
+    /**
+     * @param $headings
+     * @return string
+     */
+    public static function validateHeadings($headings)
+    {
+        $missing_headings = [];
+        static::setRequiredHeadings();
+        foreach (static::$required_headings AS $heading) {
+            if(!in_array($heading, $headings)) {
+                $missing_headings[] = normal_case($heading);
+            }
+        }
+        if(!empty($missing_headings)){
+
+            $fields = join(', ', $missing_headings);
+            $message = "File upload failed, because ";
+            $message .= (count($missing_headings) > 1) ? "the following headers are missing: <b>{$fields}</b>" : "the <b>{$fields}</b> header is missing.";
+
+            return $message;
+        }
     }
 
     public function getNumberOfChildrenAttribute() {

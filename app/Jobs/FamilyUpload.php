@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\FileUploaded;
 use App\Family;
 use App\MemberRole;
 use App\State;
@@ -11,6 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class FamilyUpload implements ShouldQueue
 {
@@ -35,16 +37,26 @@ class FamilyUpload implements ShouldQueue
      */
     public function handle()
     {
+        $result = [];
         $states = State::pluck('id', 'name')->toArray();
 
-        $this->families->each(function ($fam) use ($states) {
+        $this->families->each(function ($fam) use ($states, &$result) {
 
             $state = ucfirst(strtolower(trim($fam->state)));
-            $type = (strtoupper($fam->family) == "Y") ? "1" : 2;
+            $type = (strtoupper(trim($fam->family)) == "Y") ? "1" : "2";
 
             try{
                 $first_name = trim(ucfirst(strtolower($fam->first_name)));
                 $last_name = trim(ucfirst(strtolower($fam->surname)));
+                $gender = null;
+
+                if(isset($fam->gender)) {
+                    if(strtoupper(trim($fam->gender)) == "M" || strtoupper(trim($fam->gender)) == "MALE") {
+                        $gender = "M";
+                    } else {
+                        $gender = "F";
+                    }
+                }
 
                 if($fam->surname){
                     DB::beginTransaction();
@@ -75,20 +87,29 @@ class FamilyUpload implements ShouldQueue
                         'first_name' => $first_name,
                         'last_name' => $last_name,
                         'phones' => empty($phones) ? null : explode(',', $phones),
-                        'gender' => 'M',
+                        'gender' => $gender,
                         'age_group' => '3',
                         'member_role_id' => $member_role_id,
                         'marital_status' => '2',
                     ]);
 
                     DB::commit();
+
+                    $result['success'][] = [
+                        'message' => ($family->wasRecentlyCreated) ? "Family created ({$fam->family_reg_number})" : "Member created"
+                    ];
                 }
 
             } catch (\Exception $exception) {
                 DB::rollback();
 
-//                throw new \Exception($exception->getMessage());
+                $result['errors'][] = [
+                    'family_registration_number' => $fam->family_reg_number,
+                    'error_message' => $exception->getMessage()
+                ];
             }
         });
+
+        event(new FileUploaded($result));
     }
 }

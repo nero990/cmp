@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\UserCreated;
+use App\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -30,7 +31,7 @@ class NotifyUser
 
         $person->user()->create([
             'username'=> $person->username,
-            'password' => request()->get('password', 'password')
+            'password' => !empty(User::$password) ? User::$password : 'password'
         ]);
     }
 }

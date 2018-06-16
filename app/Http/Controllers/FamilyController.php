@@ -176,13 +176,13 @@ class FamilyController extends Controller
         })->get();
         Storage::delete($path);
 
-        /*if($error = UploadedFile::validateHeadings($results->getheading())) {
+        if($error = Family::validateHeadings($families->getheading())) {
             return back()->withErrors($error);
-        }*/
+        }
 
         FamilyUpload::dispatch($families)->delay(now()->addSecond(3))->onQueue('process');
 
-        flash()->success("Success! Family batch updated");
+        flash()->success("Success! File Uploaded. Processing records in background.");
         return redirect()->route('families.index');
     }
 }

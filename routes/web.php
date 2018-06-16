@@ -15,9 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/home', 'HomeController@index')->name('home');
-
+Route::group([], function () {
+    Route::get('login', 'LoginController@showLoginForm')->name('login')->middleware('guest');
+    Route::post('login', 'LoginController@login');
+    Route::get('logout', 'LoginController@logout')->name('logout');
+});
 
 //Route::namespace('Auth')->group(function() {
 //    // Authentication Routes...
@@ -33,52 +35,61 @@ Route::get('/home', 'HomeController@index')->name('home');
 //});
 
 
-//Route::view('/home', 'admin.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('bcc-zones', 'BccZoneController');
+    // BCC Zone Module
+    Route::resource('bcc-zones', 'BccZoneController');
 
-
-// Church Engagement Module
-Route::prefix('church-engagements')->namespace('ChurchEngagement')->name('church-engagements.')->group(function () {
-    // Member submodule
-    Route::prefix('{church_engagement}/members')->name('members.')->group(function () {
-        Route::get('', 'MemberController@index')->name('index');
-        Route::post('', 'MemberController@store')->name('store');
-    });
-});
-Route::resource('church-engagements', 'ChurchEngagementController')->except(['edit', 'create']);
-
-
-// Family Module
-Route::prefix('families')->namespace('Family')->name('families.')->group(function () {
-
-    // Family members
-    Route::name('members.')->group(function () {
-        Route::prefix('{family}')->group(function () {
-            Route::get('members/create', 'MemberController@create')->name('create');
-            Route::post('members', 'MemberController@store')->name('store');
+    // Church Engagement Module
+    Route::prefix('church-engagements')->namespace('ChurchEngagement')->name('church-engagements.')->group(function () {
+        // Member submodule
+        Route::prefix('{church_engagement}/members')->name('members.')->group(function () {
+            Route::get('', 'MemberController@index')->name('index');
+            Route::post('', 'MemberController@store')->name('store');
         });
+    });
+    Route::resource('church-engagements', 'ChurchEngagementController')->except(['edit', 'create']);
 
-        Route::prefix('members')->group(function () {
-            Route::get('auto-complete', 'MemberController@autoComplete')->name('autoComplete');
 
-            Route::prefix('{member}')->group(function () {
-                Route::get('', 'MemberController@show')->name('show');
-                Route::get('edit', 'MemberController@edit')->name('edit');
-                Route::put('', 'MemberController@update')->name('update');
-                Route::delete('', 'MemberController@destroy')->name('destroy');
+    // Family Module
+    Route::prefix('families')->namespace('Family')->name('families.')->group(function () {
+
+        // Family members
+        Route::name('members.')->group(function () {
+            Route::prefix('{family}')->group(function () {
+                Route::get('members/create', 'MemberController@create')->name('create');
+                Route::post('members', 'MemberController@store')->name('store');
+            });
+
+            Route::prefix('members')->group(function () {
+                Route::get('auto-complete', 'MemberController@autoComplete')->name('autoComplete');
+
+                Route::prefix('{member}')->group(function () {
+                    Route::get('', 'MemberController@show')->name('show');
+                    Route::get('edit', 'MemberController@edit')->name('edit');
+                    Route::put('', 'MemberController@update')->name('update');
+                    Route::delete('', 'MemberController@destroy')->name('destroy');
+                });
             });
         });
+
+    });
+    Route::post('families/batch-upload', 'FamilyController@batchUpload')->name('families.batch-upload');
+    Route::resource('families', 'FamilyController');
+
+    // Sacrament Question Module
+    Route::resource('sacrament-questions', 'SacramentQuestionController');
+
+    // User Module
+    Route::resource('users', 'UserController')->except(['create', 'show']);
+
+
+    // System Tools
+    Route::group(['prefix' => 'tool-kits', 'as' => 'toolKit'], function () {
+        Route::get( 'cmd', ['as' => 'index', 'uses' => 'ToolKitController@index' ] );
+        Route::post( 'cmd', ['as' => 'exec', 'uses' => 'ToolKitController@exec' ] );
     });
 
 });
-Route::post('families/batch-upload', 'FamilyController@batchUpload')->name('families.batch-upload');
-Route::resource('families', 'FamilyController');
 
-Route::resource('sacrament-questions', 'SacramentQuestionController');
-
-// System Tools
-Route::group(['prefix' => 'tool-kits', 'as' => 'toolKit'], function () {
-    Route::get( 'cmd', ['as' => 'index', 'uses' => 'ToolKitController@index' ] );
-    Route::post( 'cmd', ['as' => 'exec', 'uses' => 'ToolKitController@exec' ] );
-});

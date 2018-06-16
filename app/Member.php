@@ -12,7 +12,7 @@ class Member extends Model implements AuditableContract
 
     protected $fillable = [
         'first_name', 'middle_name', 'last_name', 'email', 'phones', 'gender', 'age_group', 'member_role_id',
-        'marital_status', 'occupation',
+        'marital_status', 'occupation', 'deceased_at'
     ];
 
     protected $casts = [

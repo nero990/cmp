@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Africa/Lagos',
 
     /*
     |--------------------------------------------------------------------------
@@ -217,5 +217,7 @@ return [
     ],
 
     'paginate_size' => 50,
+
+    'email' => env("APP_EMAIL", "oghenero.okiewhru@gmail.com"),
 
 ];

@@ -88,8 +88,8 @@
                                         <th>Role</th>
                                         <th>Age Group</th>
                                         <th>Occupation</th>
-                                        <th>Email</th>
                                         <th>Phones</th>
+                                        <th>Status</th>
                                         <th></th>
                                     </tr>
 
@@ -104,14 +104,19 @@
                                         <td>{{$member->role->name}}</td>
                                         <td>{{$member->age_group_text}}</td>
                                         <td>{{$member->occupation}}</td>
-                                        <td>{{$member->email}}</td>
                                         <td>{!! implode("<br>", $member->phones)  !!}</td>
+                                        <td>
+                                            @if($member->deceased_at)
+                                                <span class="label label-danger">Deceased</span>
+                                            @else
+                                                <span class="label label-success">Active</span>
+                                            @endif
+                                        </td>
 
                                         <td class="actions">
                                             <div class="action-buttons">
                                                 <a class="table-actions" title="View" href="{{route('families.members.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
                                                 <a class="table-actions" title="Edit" href="{{route('families.members.edit', ['id' => $member->id])}}"><i class="fa fa-pencil"></i></a>
-                                                <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                             </div>
                                         </td>
                                     </tr>

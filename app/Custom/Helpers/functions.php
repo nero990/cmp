@@ -22,3 +22,7 @@ function is_json($string,$assoc=false){
     }
     catch(\Exception $e){return false;}
 }
+
+function json_failure () {
+
+}

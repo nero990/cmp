@@ -91,6 +91,36 @@
                 </div>
             </fieldset>
 
+            <fieldset>
+                <legend>Deceased Details</legend>
+
+                @php $deceased_at = isset($member) ? $member->deceased_at : null; @endphp
+
+                <div class="form-group">
+                    {!! Form::label('deceased', 'Deceased?') !!}
+
+                    <div>
+                        <label class="radio-inline">
+                            {!! Form::radio('deceased', '1', $deceased_at, ['class'=>'deceased']) !!}
+                            <span>Yes</span>
+                        </label>
+                        <label class="radio-inline">
+                            {!! Form::radio('deceased', '0', false, ['class'=>'deceased']) !!}
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="deceasedDate" @if(is_null($deceased_at)) style="display: none;" @endif>
+                    {!! Form::label('deceased_at', 'Deceased Date') !!}
+
+                    <div class="input-group date datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
+                        {!! Form::text('deceased_at', null, ['class' => 'form-control']) !!}<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+
+                </div>
+            </fieldset>
+
         </div>
 
         <div class="col-md-4">

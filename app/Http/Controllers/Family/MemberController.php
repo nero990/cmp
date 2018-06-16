@@ -10,6 +10,7 @@ use App\Member;
 use App\MemberRole;
 use App\SacramentDetail;
 use App\SacramentQuestion;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -121,6 +122,10 @@ class MemberController extends Controller
     private function save(MemberRequest $request, $family = null, $member = null)
     {
         $data = $request->all();
+        if(isset($data['deceased']) && $data['deceased'] == '0'){
+            $data['deceased_at'] = null;
+        }
+
 
         if(isset($family) || (isset($member) && !$member->role->is_head)) $data['member_role_id'] = $data['family_role'];
         elseif(isset($data['member_role_id'])) unset($data['member_role_id']);

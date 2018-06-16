@@ -45,17 +45,17 @@
                     </ul>
                 </li>
                 <li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <img width="34" height="34" src="{{asset('admin/images/avatar-male.jpg')}}"/>John Smith<b class="caret"></b></a>
+                        <img width="34" height="34" src="{{asset('admin/images/avatar-male.jpg')}}"/>{{auth()->user()->full_name}}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="#"><i class="fa fa-user"></i>My Account</a></li>
                         <li><a href="#"><i class="fa fa-gear"></i>Account Settings</a></li>
-                        <li><a href="login1.html"><i class="fa fa-sign-out"></i>Logout</a></li>
+                        <li><a href="{{route('logout')}}"><i class="fa fa-sign-out"></i>Logout</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
         <button class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-        <a class="logo" href="index.html">se7en</a>
+        <a class="logo" href="{{route('home')}}">{{config('app.name')}}</a>
         <form class="navbar-form form-inline col-lg-2 hidden-xs">
             <input class="form-control" placeholder="Search" type="text">
         </form>
@@ -83,7 +83,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('bcc-zones.index')}}" @yield('current_users')><span aria-hidden="true" class="se7en-gallery"></span>Users</a>
+                    <a href="{{route('users.index')}}" @yield('current_users')><span aria-hidden="true" class="se7en-gallery"></span>Users</a>
                 </li>
 
                 <li class="dropdown"><a data-toggle="dropdown" href="#">

@@ -37,6 +37,10 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
+                                    <small><strong>File Header:</strong> Surname, First Name, Names of Children, Address, Contact, Alt, State, Family, Single, Family Reg Number</small>
+
+                                    </div>
+                                    <div class="form-group">
                                         {{Form::file('excel_file')}}
                                     </div>
                                 </div>

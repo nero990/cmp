@@ -29,6 +29,7 @@ function settings(url, method, data) {
         data: data,
         beforeSend: function () {
             spinner('on');
+            loader('on');
         }
     };
 }
@@ -56,6 +57,7 @@ function apiCall(params) {
 
 var ajaxSuccess = function (result, status, xhr) {
     spinner('off');
+    loader('off');
     var message = '<div class="alert alert-success alert-important">' +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>' +
         result.message + '</div>';
@@ -63,12 +65,13 @@ var ajaxSuccess = function (result, status, xhr) {
 
     setTimeout(function () {
         location.reload();
-    }, 5000)
+    }, 3000)
 
 };
 
 var ajaxError = function (xhr, status, error) {
     spinner('off');
+    loader('off');
 
     var errorsHtml = '<div class="alert alert-danger alert-important">' +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>';
@@ -87,7 +90,7 @@ var ajaxError = function (xhr, status, error) {
     }
     errorsHtml += "</div>";
 
-    $('#message').html(errorsHtml);
+    $('#message').html(errorsHtml).fadeIn(500).fadeOut(5000);
 };
 
 $(document).ready(function () {
