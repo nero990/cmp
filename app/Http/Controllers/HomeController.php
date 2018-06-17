@@ -26,6 +26,12 @@ class HomeController extends Controller
     public function index()
     {
         $members_count = Member::living()->count();
+        $deceased_members_count = Member::deceased()->count();
+        $all_members_count = Member::count();
+
+        $living_members_percentage = round(($members_count / $all_members_count) * 100, 0);
+        $deceased_members_percentage = round(($deceased_members_count / $all_members_count) * 100, 0);
+
         $families_count = Family::family()->whereHas('members', function ($query) {
             $query->living();
         })->count();
@@ -38,6 +44,6 @@ class HomeController extends Controller
 
         $bcc_zones = BccZone::active()->withCount('families')->orderBy('families_count', 'desc')->get();
 
-        return view('home', compact('families_count', 'members_count', 'bcc_zones', 'individuals_count', 'children_count'));
+        return view('admin.home', compact('families_count', 'members_count', 'bcc_zones', 'individuals_count', 'children_count', 'living_members_percentage', 'deceased_members_percentage'));
     }
 }

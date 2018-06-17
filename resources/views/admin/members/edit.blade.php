@@ -6,7 +6,7 @@
 @section('content')
     <div class="container-fluid main-content">
         <div class="page-title">
-            <h1>Edit Member</h1>
+            <h1>{{ (isset($disabled) && $disabled) ? $member->full_name . "'s Details" : "Edit Member"}}</h1>
         </div>
         <div class="row">
             <div class="col-md-12">

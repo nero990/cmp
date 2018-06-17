@@ -17,8 +17,13 @@ class CreateSickMembersTable extends Migration
             $table->engine = 'InnoDB';
 
             $table->increments('id');
-            $table->unsignedInteger('member_id');
+            $table->unsignedInteger('member_id')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('middle_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->enum('type', ['1', '2', '3', '4'])->comment('1 => Accident, 2 => Health related, 3 => Aged, 4 => others');
+            $table->date('healed_at')->nullable();
+            $table->text('comment')->nullable();
             $table->timestamps();
 
             $table->foreign('member_id')->references('id')->on('members');

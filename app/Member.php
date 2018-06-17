@@ -75,6 +75,10 @@ class Member extends Model implements AuditableContract
         return $query->whereNull('deceased_at');
     }
 
+    public function scopeDeceased($query) {
+        return $query->whereNotNull('deceased_at');
+    }
+
     public function getHead() {
         return $this->family->head;
     }

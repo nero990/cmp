@@ -15,3 +15,10 @@
     opacity: 0.2;
     background-color: rgba(51, 51, 44, 0.5);
 }
+
+
+#title {
+    margin-top: 12px;
+    font-weight: bold;
+    font-size: 20px;
+}
