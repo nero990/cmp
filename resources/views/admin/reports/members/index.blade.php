@@ -21,6 +21,25 @@
                             <a href="{{route('reports.members.index')}}" class="btn btn-primary">Living Members</a>
                             <a href="?status=deceased" class="btn btn-default">Deceased Members</a>
                         </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="col-sm-4 pull-right">
+                            {!! Form::open(['method' => 'GET', 'id' => 'searchForm', 'class' => 'form-horizontal']) !!}
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Search</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        {!! Form::text('q', null, ['placeholder' => 'Search by first name, middle name or last name', 'class' => "form-control" ]) !!}
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-info">Go!</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {!! Form::close() !!}
+                        </div>
+
                         <table class="table table-striped table-condensed">
                             <thead>
                             <tr>
@@ -41,7 +60,7 @@
                             @foreach($members AS $serial => $member)
                                 <tr>
                                     <td>{{ (++$serial + ($members->currentPage() - 1) * $members->perPage()) }}</td>
-                                    <td>{{$member->full_name}}</td>
+                                    <td>{{$member->full_name}} <small><a href="{{route('families.show', $member->family->id)}}" >{{$member->family->registration_number}}</a></small></td>
                                     <td>{{$member->gender}}</td>
                                     <td>{{$member->marital_status_text}}</td>
                                     <td>{{$member->role->name}}</td>

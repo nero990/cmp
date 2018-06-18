@@ -33,6 +33,6 @@ class Admin extends Model implements AuditableContract
     }
 
     public function getFullNameAttribute() {
-        return $this->attributes['name'];
+        retur
     }
 }

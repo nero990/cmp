@@ -55,6 +55,25 @@
                     </div>
 
 
+                    <div class="clearfix"></div>
+
+                    <div class="col-sm-4 pull-right">
+                        {!! Form::open(['method' => 'GET', 'id' => 'searchForm', 'class' => 'form-horizontal']) !!}
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Search</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    {!! Form::text('q', null, ['placeholder' => 'Search by registration number or family name', 'class' => "form-control" ]) !!}
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-info">Go!</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
+
+
                     <table class="table table-striped">
                         <thead>
                             <th>#</th>

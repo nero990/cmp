@@ -26,7 +26,9 @@ class FamilyController extends Controller
      */
     public function index()
     {
-        return view('admin.families.index', ['families' => Family::with('head')->orderBy('name')->paginate(getPaginateSize())]);
+        $families = Family::globalSearch(['name', 'registration_number'])->with('head')->orderBy('name')->paginate(getPaginateSize());
+
+        return view('admin.families.index', compact('families'));
     }
 
     /**
@@ -37,7 +39,7 @@ class FamilyController extends Controller
     public function create()
     {
         $state_list = State::pluck('name', 'id');
-        $bcc_zone_list = BccZone::pluck('name', 'id');
+        $bcc_zone_list = BccZone::active()->pluck('name', 'id');
         $church_engagement_list = ChurchEngagement::pluck('name', 'id');
         $sacrament_question_list = SacramentQuestion::active()->pluck('question', 'id');
         $age_group_list = Member::AGE_GROUP_LIST;
@@ -89,8 +91,11 @@ class FamilyController extends Controller
 
             throw new \Exception($exception->getMessage());
         }
+        $message = "Success! Family Created (Family RegNo.: {$family->registration_number})";
 
-        flash()->success("Success! Family Created (Family RegNo.: {$family->registration_number})");
+        if($request->wantsJson()) return response()->json(['message' => $message]);
+
+        flash()->success($message);
         return redirect()->route('families.show', ['family' => $family->id]);
     }
 
@@ -146,7 +151,9 @@ class FamilyController extends Controller
         $family->update($data);
         $family->setHead($data['family_head']);
 
-        flash()->success("Success! Family record updated.");
+        $message = "Success! Family record updated.";
+        if($request->wantsJson()) return response()->json(['message' => $message]);
+        flash()->success($message);
         return redirect()->route('families.show', $family->id);
     }
 

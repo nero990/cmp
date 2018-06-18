@@ -1,11 +1,11 @@
 baseUrl = $('meta[name="base-url"]').attr('content');
 
-function post(url, data) {
-    return apiCall(settings(url, 'POST', data));
+function post(url, data, dontReload) {
+    return apiCall(settings(url, 'POST', data), dontReload);
 }
 
-function put(url, data) {
-    return apiCall(settings(url, 'PUT', data));
+function put(url, data, dontReload) {
+    return apiCall(settings(url, 'PUT', data), dontReload);
 }
 
 function get(url) {
@@ -28,7 +28,6 @@ function settings(url, method, data) {
         type: method,
         data: data,
         beforeSend: function () {
-            spinner('on');
             loader('on');
         }
     };
@@ -51,12 +50,24 @@ function getUrl(url) {
     return url;
 }
 
-function apiCall(params) {
-    $.ajax(params).then(ajaxSuccess, ajaxError)
+function apiCall(params, dontReload) {
+    var successCallBack = ajaxSuccess;
+    if(dontReload === true)
+        successCallBack = ajaxSuccessWithoutLoader;
+
+    $.ajax(params).then(successCallBack, ajaxError)
 }
 
+var ajaxSuccessWithoutLoader = function (result, status, xhr) {
+    loader('off');
+    var message = '<div class="alert alert-success alert-important">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>' +
+        result.message + '</div>';
+    $('#message').html(message);
+
+};
+
 var ajaxSuccess = function (result, status, xhr) {
-    spinner('off');
     loader('off');
     var message = '<div class="alert alert-success alert-important">' +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>' +
@@ -70,7 +81,6 @@ var ajaxSuccess = function (result, status, xhr) {
 };
 
 var ajaxError = function (xhr, status, error) {
-    spinner('off');
     loader('off');
 
     var errorsHtml = '<div class="alert alert-danger alert-important">' +
@@ -90,7 +100,7 @@ var ajaxError = function (xhr, status, error) {
     }
     errorsHtml += "</div>";
 
-    $('#message').html(errorsHtml).fadeIn(500).fadeOut(5000);
+    $('#message').html(errorsHtml);
 };
 
 $(document).ready(function () {

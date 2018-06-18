@@ -21,6 +21,10 @@ class User extends Authenticatable
         'username', 'password',
     ];
 
+    protected $dates = [
+        'last_logged_in'
+    ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -42,6 +46,8 @@ class User extends Authenticatable
         $user = static::whereUsername($username)->first();
 
         if($user && Hash::check($password, $user->password)) {
+            $user->last_logged_in = now();
+            $user->save();
             return $user;
         }
         throw new CMPResponseException("validation_failure", ["username" => ["Username and password combination not valid."]]);

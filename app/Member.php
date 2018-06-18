@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Custom\Traits\GlobalScopes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -10,7 +11,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class Member extends Model implements AuditableContract
 {
-    use Auditable;
+    use Auditable, GlobalScopes;
 
     protected $fillable = [
         'first_name', 'middle_name', 'last_name', 'email', 'phones', 'gender', 'age_group', 'member_role_id',
@@ -118,6 +119,10 @@ class Member extends Model implements AuditableContract
 
         $modified = auditableValueToText('marital_status', static::class, $attribute, $modified);
         $modified = auditableValueToText('age_group', static::class, $attribute, $modified);
+        $modified = auditableEmptyToNull($modified, $attribute, 'gender');
+        $modified = auditableEmptyToNull($modified, $attribute, 'age_group');
+        $modified = auditableEmptyToNull($modified, $attribute, 'marital_status');
+        $modified = auditableEmptyToNull($modified, $attribute, 'occupation');
         $modified = auditableEmptyToNull($modified, $attribute, 'deceased_at');
         return $modified;
     }

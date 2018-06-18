@@ -27,7 +27,7 @@ $(document).ready(function () {
             }
         },
         submitHandler : function (form) {
-            if($(form).find('input').first().val() === "PUT") put($(form).attr('action'), $(form).serialize());
+            if($(form).find('input').first().val() === "PUT") put($(form).attr('action'), $(form).serialize(), true);
             else post($(form).attr('action'), $(form).serialize());
         }
     });

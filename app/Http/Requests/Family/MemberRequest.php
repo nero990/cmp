@@ -30,8 +30,8 @@ class MemberRequest extends FormRequest
             'email' => 'nullable|email',
             'phones' => 'required',
             'gender' => 'nullable|in:M,F',
-            'marital_status' => 'required|in:1,2,3,4,5,6',
-            'age_group' => 'required|in:1,2,3,4,5,6,7,8',
+            'marital_status' => 'nullable|in:1,2,3,4,5,6',
+            'age_group' => 'nullable|in:1,2,3,4,5,6,7,8',
             'church_engagements' => 'nullable|array|exists:church_engagements,id',
             'deceased' => 'nullable|in:0,1',
             'deceased_at' => 'required_if:deceased,1|nullable|date_format:Y-m-d'

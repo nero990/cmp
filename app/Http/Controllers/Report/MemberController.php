@@ -24,7 +24,7 @@ class MemberController extends Controller
         }
 
         $status = ucfirst($status);
-        $members = $members->orderBy('first_name', 'ASC')->orderBy('middle_name', 'ASC')->orderBy('last_name', 'ASC')->paginate(getPaginateSize());
+        $members = $members->with('family')->globalSearch(['first_name', 'middle_name', 'last_name'])->orderBy('first_name', 'ASC')->orderBy('middle_name', 'ASC')->orderBy('last_name', 'ASC')->paginate(getPaginateSize());
 
         return view('admin.reports.members.index', compact('members', 'status'));
     }

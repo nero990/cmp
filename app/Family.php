@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Custom\Traits\GlobalScopes;
 use App\Events\UserCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -11,7 +12,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class Family extends Model implements AuditableContract
 {
-    use Auditable;
+    use Auditable, GlobalScopes;
 
     private static $required_headings;
 
@@ -37,7 +38,11 @@ class Family extends Model implements AuditableContract
     {
         static::creating(function ($family) {
             if(!static::$batched) {
-                $family->registration_number = rand();
+                do{
+                    $registration_number = "A".date('y'). str_pad(rand(1,999999), "6", "0", 0);
+                } while (static::whereRegistrationNumber($registration_number)->exists());
+
+                $family->registration_number = $registration_number;
             }
 
         });
@@ -158,6 +163,7 @@ class Family extends Model implements AuditableContract
 
         $modified = auditableValueToText('type', static::class, $attribute, $modified);
         $modified = auditableValueToText('card_status', static::class, $attribute, $modified);
+        $modified = auditableEmptyToNull($modified, $attribute, 'bcc_zone');
 
         return $modified;
     }

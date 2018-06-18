@@ -25,9 +25,9 @@
                 <li>
                     <a href="{{route('families.index')}}" @yield('current_families')><span aria-hidden="true" class="se7en-tables"></span>Families</a>
                 </li>
-                <li>
+                {{--<li>
                     <a href="{{route('bcc-zones.index')}}" @yield('current_sick_members')><span aria-hidden="true" class="se7en-tables"></span>Sick Members</a>
-                </li>
+                </li>--}}
                 <li>
                     <a href="{{route('bcc-zones.index')}}" @yield('current_bcc_zones')><span aria-hidden="true" class="se7en-home"></span>Bcc Zones</a>
                 </li>

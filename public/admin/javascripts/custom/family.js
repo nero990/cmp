@@ -48,7 +48,7 @@ $(document).ready(function () {
             }
         },
         submitHandler : function (form) {
-            post($(form).attr('action'), $(form).serialize());
+            post($(form).attr('action'), $(form).serialize(), true);
         }
     });
 
@@ -73,7 +73,7 @@ $(document).ready(function () {
             }
         },
         submitHandler : function (form) {
-            put($(form).attr('action'), $(form).serialize());
+            put($(form).attr('action'), $(form).serialize(), true);
         }
     });
 
