@@ -99,6 +99,8 @@
    @yield('content')
 </div>
 
+<img src="{{asset('admin/images/loader-dark.gif')}}" class="loader-img">
+
 {{--<div id="confirm-dialog" title="Confirm action">
     <p><em>Are you sure you want to perform this operation?</em></p>
 </div>--}}

@@ -45,8 +45,8 @@
                 <li class="dropdown"><a data-toggle="dropdown" href="#">
                         <span aria-hidden="true" class="se7en-pages"></span>Reports<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        {{--<li><a href="#">Audit</a></li>
-                        <li><a href="#">Family</a></li>--}}
+                        <li><a href="{{route('reports.audits.index')}}">Audit</a></li>
+                        {{--<li><a href="#">Family</a></li>--}}
                         <li><a href="{{route('reports.members.index')}}">Members</a></li>
                         <li><a href="#">Sick Members</a></li>
                         {{--<li><a href="#">Bcc Zones</a></li>

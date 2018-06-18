@@ -4,6 +4,7 @@ namespace App;
 
 use App\Events\UserCreated;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -49,6 +50,25 @@ class Family extends Model implements AuditableContract
             event(new UserCreated($family));
         });
 
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function transformAudit(array $data): array
+    {
+
+        if(Arr::has($data, 'new_values.state_id')) {
+            $data['old_values']['state'] = State::find($this->getOriginal('state_id'))->name;
+            $data['new_values']['state'] = State::find($this->getAttribute('state_id'))->name;
+        }
+
+        if(Arr::has($data, 'new_values.bcc_zone_id')) {
+            $data['old_values']['bcc_zone'] = BccZone::find($this->getOriginal('bcc_zone_id'))->name;
+            $data['new_values']['bcc_zone'] = BccZone::find($this->getAttribute('bcc_zone_id'))->name;
+        }
+
+        return $data;
     }
 
     public function bcc_zone() {
@@ -112,6 +132,7 @@ class Family extends Model implements AuditableContract
 
             return $message;
         }
+        return "";
     }
 
     public function getNumberOfChildrenAttribute() {
@@ -125,8 +146,8 @@ class Family extends Model implements AuditableContract
         return $this->attributes['registration_number'];
     }
 
-    public function getTypeTextAttribute() {
-        switch ($this->attributes['type']) {
+    public static function getTypeText($type) {
+        switch ($type) {
             case "1" :
                 return "Family";
             case "2" :
@@ -134,6 +155,10 @@ class Family extends Model implements AuditableContract
             default:
                 return "";
         }
+    }
+
+    public function getTypeTextAttribute() {
+        return static::getTypeText($this->attributes['type']);
     }
 
     public function setHead($familyHeadId) {
@@ -148,8 +173,12 @@ class Family extends Model implements AuditableContract
         }
     }
 
+    public static function getCardStatusText($card_status) {
+        return static::CARD_STATUS[$card_status];
+    }
+
     public function getCardStatusTextAttribute() {
-        return static::CARD_STATUS[$this->attributes['card_status']];
+        return static::getCardStatusText($this->attributes['card_status']);
     }
 
     public function getHouseHoldAttribute() {

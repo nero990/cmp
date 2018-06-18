@@ -38,29 +38,34 @@ Route::middleware('auth')->group(function () {
 
 
     // Family Module
-    Route::prefix('families')->namespace('Family')->name('families.')->group(function () {
+    Route::prefix('families')->name('families.')->group(function () {
 
-        // Family members
-        Route::name('members.')->group(function () {
-            Route::prefix('{family}')->group(function () {
-                Route::get('members/create', 'MemberController@create')->name('create');
-                Route::post('members', 'MemberController@store')->name('store');
-            });
+        Route::post('batch-upload', 'FamilyController@batchUpload')->name('batch-upload');
+        Route::get('{family}/audits', 'FamilyController@audits')->name('audits');
 
-            Route::prefix('members')->group(function () {
-                Route::get('auto-complete', 'MemberController@autoComplete')->name('autoComplete');
+        // namespace: Family
+        Route::namespace('Family')->group(function () {
+            // Family members
+            Route::name('members.')->group(function () {
+                Route::prefix('{family}')->group(function () {
+                    Route::get('members/create', 'MemberController@create')->name('create');
+                    Route::post('members', 'MemberController@store')->name('store');
+                });
 
-                Route::prefix('{member}')->group(function () {
-                    Route::get('', 'MemberController@show')->name('show');
-                    Route::get('edit', 'MemberController@edit')->name('edit');
-                    Route::put('', 'MemberController@update')->name('update');
-                    Route::delete('', 'MemberController@destroy')->name('destroy');
+                Route::prefix('members')->group(function () {
+                    Route::get('auto-complete', 'MemberController@autoComplete')->name('autoComplete');
+
+                    Route::prefix('{member}')->group(function () {
+                        Route::get('', 'MemberController@show')->name('show');
+                        Route::get('edit', 'MemberController@edit')->name('edit');
+                        Route::put('', 'MemberController@update')->name('update');
+                        Route::delete('', 'MemberController@destroy')->name('destroy');
+                    });
                 });
             });
         });
 
     });
-    Route::post('families/batch-upload', 'FamilyController@batchUpload')->name('families.batch-upload');
     Route::resource('families', 'FamilyController');
 
     // Report Module
@@ -68,6 +73,11 @@ Route::middleware('auth')->group(function () {
         // Members Submodule
         Route::prefix('members')->name('members.')->group(function () {
            Route::get('', 'MemberController@index')->name('index');
+        });
+
+        // Audit report
+        Route::prefix('audits')->name('audits.')->group(function () {
+           Route::get('', 'AuditController@index')->name('index');
         });
     });
 

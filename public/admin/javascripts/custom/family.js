@@ -1,34 +1,25 @@
 $(document).ready(function () {
-    $('#family').validate({
+    $('#familyUpdate').validate({
         rules : {
             name : {
                 required: true,
                 minlength: 2
             },
-            address : {
-                required: true,
-                minlength: 5
-            },
-            streets : {
+            type : {
                 required: true
             }
         },
         messages : {
             name : {
-                required: "Please enter BCC zone name",
-                minlength: "Name must contain at least 2 characters"
+                required: "Please provide family name",
+                minlength: "Family name must contain at least 2 characters"
             },
-            address : {
-                required: "Please enter BCC zone address",
-                minlength: "Address must contain at least 5 characters"
-            },
-            streets : {
-                required: 'Add at least one street'
+            type : {
+                required: "Please select a family type"
             }
         },
         submitHandler : function (form) {
-            if($(form).find('input').first().val() === "PUT") put($(form).attr('action'), $(form).serialize());
-            else post($(form).attr('action'), $(form).serialize());
+            put($(form).attr('action'), $(form).serialize());
         }
     });
 

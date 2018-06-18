@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid main-content">
         <div class="page-title">
-            <h1>Family Management</h1>
+            <h1>Family Details for: [{{$family->name}}]</h1>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -77,6 +77,7 @@
 
                             <a href="{{route('families.edit', $family->id)}}" class="btn btn-warning" style="margin-top: 10px"><span class="fa fa-pencil"></span> Edit this Family</a>
                             <a href="{{route('families.members.create', $family->id)}}" class="btn btn-success" style="margin-top: 10px"><span class="fa fa-plus"></span> New Member</a>
+                            <a href="{{route('families.audits', $family->id)}}" class="btn btn-info" style="margin-top: 10px"><span class="fa fa-archive"></span> View Audit Trail</a>
 
                             <table class="table table-striped" id="dataTable1">
                                 <thead>

@@ -19,7 +19,7 @@
                         <div id="message"></div>
                         @include('errors.list')
 
-                        {!! Form::open(['route' => 'families.store', 'id' => 'familyForm']) !!}
+                        {!! Form::open(['route' => 'families.store', 'id' => 'family']) !!}
                         <fieldset>
                             <div class="row">
                                 <div class="col-md-4">

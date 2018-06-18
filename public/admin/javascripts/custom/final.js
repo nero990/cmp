@@ -40,10 +40,9 @@ function remove() {
 function loader(mode) {
     if(mode === 'on'){
         $('.loader-img').show();
-        $("#page-wrapper").addClass('disabled-screen');
-        $(".login2").addClass('disabled-screen');
+        $("#body").addClass('disabled-screen');
     } else {
         $('.loader-img').hide();
-        $(".login2").removeClass('disabled-screen');
+        $("body").removeClass('disabled-screen');
     }
 }

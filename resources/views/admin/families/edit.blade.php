@@ -19,7 +19,7 @@
                         <div id="message"></div>
                         @include('errors.list')
 
-                        {!! Form::model($family, ['route' => ['families.update', $family->id], 'method' => 'PUT', 'id' => 'familyFormUpdate']) !!}
+                        {!! Form::model($family, ['route' => ['families.update', $family->id], 'method' => 'PUT', 'id' => 'familyUpdate']) !!}
 
                         <div class="row">
                             <div class="col-md-4">

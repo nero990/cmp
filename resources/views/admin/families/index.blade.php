@@ -82,9 +82,10 @@
                                 <td class="hidden-xs"><span class="label @if($family->card_status == "0") {{"label-danger"}} @elseif($family->card_status == "1") {{ "label-info" }} @else {{ "label-success" }} @endif">{{$family->card_status_text}}</span></td>
 
                                 <td class="actions">
-                                    <div class="action-buttons">
+                                    <div class="action-buttons" style="width: 120px;">
                                         <a class="table-actions" title="View" href="{{route('families.show', ['id' => $family->id])}}"><i class="fa fa-eye"></i></a>
                                         <a class="table-actions" title="Edit" href="{{route('families.edit', ['id' => $family->id])}}"><i class="fa fa-pencil"></i></a>
+                                        <a class="table-actions" title="View Audit trails" href="{{route('families.audits', ['id' => $family->id])}}"><i class="fa fa-archive"></i></a>
                                         <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                     </div>
                                 </td>

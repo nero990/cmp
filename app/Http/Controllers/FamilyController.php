@@ -185,4 +185,9 @@ class FamilyController extends Controller
         flash()->success("Success! File Uploaded. Processing records in background.");
         return redirect()->route('families.index');
     }
+
+    public function audits(Family $family) {
+        $audits = $family->audits()->latest()->get();
+        return view('admin.families.audits', compact('audits', 'family'));
+    }
 }
