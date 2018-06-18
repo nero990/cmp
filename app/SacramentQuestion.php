@@ -11,24 +11,36 @@ class SacramentQuestion extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = [
-        'question'
+        'question', 'status'
     ];
+
+    const DONT_DISPLAY_AUDIT = ["id"];
 
     public function members() {
         return $this->belongsToMany(Member::class);
     }
 
-    public function scopeEnabled($query) {
-        return $query->whereIsEnabled(1);
+    public function scopeActive($query) {
+        return $query->whereStatus('1');
     }
 
-    public function getStatusAttribute() {
-        switch($this->attributes['is_enabled']) {
+    public static function auditTransformer($attribute, $modified) {
+        $modified = auditableValueToText('status', static::class, $attribute, $modified);
+
+        return $modified;
+    }
+
+    public static function getStatusText($status) {
+        switch($status) {
             case 1 :
-                return "Enabled";
+                return "Active";
             default:
-                return "Disabled";
+                return "Inactive";
         }
+    }
+
+    public function getStatusTextAttribute() {
+        return static::getStatusText($this->attributes['status']);
     }
 
 }

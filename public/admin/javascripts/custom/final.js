@@ -40,7 +40,7 @@ function remove() {
 function loader(mode) {
     if(mode === 'on'){
         $('.loader-img').show();
-        $("#body").addClass('disabled-screen');
+        $("body").addClass('disabled-screen');
     } else {
         $('.loader-img').hide();
         $("body").removeClass('disabled-screen');

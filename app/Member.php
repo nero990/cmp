@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -19,6 +20,8 @@ class Member extends Model implements AuditableContract
     protected $casts = [
         'phones' => 'array',
     ];
+
+    const DONT_DISPLAY_AUDIT = ["id", "family_id", "member_role_id"];
 
     const AGE_GROUP_LIST = [
         '1' => "16-20",
@@ -54,15 +57,25 @@ class Member extends Model implements AuditableContract
      */
     public function transformAudit(array $data): array
     {
+        $member_role_list = Cache::remember('member_role_list', 180, function() {
+            return MemberRole::pluck('name', 'id')->toArray();
+        });
+
 
         if(Arr::has($data, 'new_values.family_id')) {
-            $data['old_values']['family_name'] = Family::find($this->getOriginal('family_id'))->name;
-            $data['new_values']['family_name'] = Family::find($this->getAttribute('family_id'))->name;
+            if(Arr::has($data, 'old_values.family_id') && !empty($this->getOriginal('family_id')))
+                $data['old_values']['family_name'] = optional(Family::find($this->getOriginal('family_id')))->name;
+
+            $data['new_values']['family_name'] = optional(Family::find($this->getAttribute('family_id')))->name;
         }
 
         if(Arr::has($data, 'new_values.member_role_id')) {
-            $data['old_values']['role_name'] = MemberRole::find($this->getOriginal('member_role_id'))->name;
-            $data['new_values']['role_name'] = MemberRole::find($this->getAttribute('member_role_id'))->name;
+
+            if(Arr::has($data, 'old_values.member_role_id') && !empty($this->getOriginal('member_role_id')))
+                $data['old_values']['role_name'] = $member_role_list[$this->getOriginal('member_role_id')];
+
+            if(!empty($this->getAttribute('member_role_id')))
+                $data['new_values']['role_name'] = $member_role_list[$this->getAttribute('member_role_id')];
         }
 
         return $data;
@@ -100,6 +113,23 @@ class Member extends Model implements AuditableContract
         return $query->whereNotNull('deceased_at');
     }
 
+    public static function auditTransformer($attribute, $modified) {
+        $modified = auditableJsonToString("phones", $attribute, $modified);
+
+        $modified = auditableValueToText('marital_status', static::class, $attribute, $modified);
+        $modified = auditableValueToText('age_group', static::class, $attribute, $modified);
+        $modified = auditableEmptyToNull($modified, $attribute, 'deceased_at');
+        return $modified;
+    }
+
+    public static function getMaritalStatusText($marital_status) {
+        return @static::MARITAL_STATUS_LIST[$marital_status];
+    }
+
+    public static function getAgeGroupText($age_group) {
+        return @static::AGE_GROUP_LIST[$age_group];
+    }
+
     public function getHead() {
         return $this->family->head;
     }
@@ -110,10 +140,10 @@ class Member extends Model implements AuditableContract
     }
 
     public function getMaritalStatusTextAttribute() {
-        return static::MARITAL_STATUS_LIST[$this->attributes['marital_status']];
+        return static::getMaritalStatusText($this->attributes['marital_status']);
     }
 
     public function getAgeGroupTextAttribute() {
-        return static::AGE_GROUP_LIST[$this->attributes['age_group']];
+        return static::getAgeGroupText($this->attributes['age_group']);
     }
 }

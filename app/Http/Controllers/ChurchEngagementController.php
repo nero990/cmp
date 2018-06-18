@@ -103,4 +103,13 @@ class ChurchEngagementController extends Controller
     {
         //
     }
+
+    public function audits(ChurchEngagement $church_engagement) {
+        $audits = $church_engagement->audits()->latest()->get();
+        $translation = 'church_engagement';
+        $model = ChurchEngagement::class;
+        $title = "Audit Trail Report for the Church Engagement <strong>{$church_engagement->name}</strong>";
+        $heading = "Church Engagement Audit Trail Report <small>[{$church_engagement->name}]</small>";
+        return view('admin.reports.audits.show', compact('audits', 'translation', 'model', 'title', 'heading'));
+    }
 }

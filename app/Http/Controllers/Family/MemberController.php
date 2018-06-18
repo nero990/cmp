@@ -38,7 +38,7 @@ class MemberController extends Controller
     {
         $age_group_list = Member::AGE_GROUP_LIST;
         $marital_status_list = Member::MARITAL_STATUS_LIST;
-        $sacrament_question_list = SacramentQuestion::pluck('question', 'id');
+        $sacrament_question_list = SacramentQuestion::active()->pluck('question', 'id');
         $church_engagement_list = ChurchEngagement::pluck('name', 'id');
         $member_role_list = MemberRole::notHead()->pluck('name', 'id');
 
@@ -133,7 +133,7 @@ class MemberController extends Controller
         $data['phones'] = array_map('trim', explode(',', $data['phones']));
 
         $sacrament_questions = [];
-        SacramentQuestion::enabled()->pluck('id')->each(function ($id) use ($data, &$sacrament_questions) {
+        SacramentQuestion::active()->pluck('id')->each(function ($id) use ($data, &$sacrament_questions) {
             if (isset($data["sacrament_question_{$id}"])) {
                 $sacrament_questions[$id] = ['response' => $data["sacrament_question_{$id}"]];
             }
@@ -166,5 +166,14 @@ class MemberController extends Controller
 
         flash()->success("Success! {$message}");
         return redirect()->route('families.show', ['family' => $family->id]);
+    }
+
+    public function audits(Member $member) {
+        $audits = $member->audits()->latest()->get();
+        $translation = 'member';
+        $model = Member::class;
+        $title = "Audit Trail Report for Member <strong>{$member->full_name}</strong>";
+        $heading = "Member Audit Trail Report <small>[{$member->full_name}]</small>";
+        return view('admin.reports.audits.show', compact('audits', 'translation', 'model', 'title', 'heading'));
     }
 }

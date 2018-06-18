@@ -14,9 +14,14 @@ class ChurchEngagement extends Model implements AuditableContract
         'name'
     ];
 
+    const DONT_DISPLAY_AUDIT = ["id"];
+
     public function members() {
         return $this->belongsToMany(Member::class);
     }
 
+    public static function auditTransformer($attribute, $modified) {
+        return $modified;
+    }
 
 }

@@ -105,4 +105,13 @@ class BccZoneController extends Controller
     {
         //
     }
+
+    public function audits(BccZone $bcc_zone) {
+        $audits = $bcc_zone->audits()->latest()->get();
+        $translation = 'bcc_zone';
+        $model = BccZone::class;
+        $title = "Audit Trail Report for BCC Zone <strong>{$bcc_zone->name}</strong>";
+        $heading = "BCC Zone Audit Trail Report <small>[{$bcc_zone->name}]</small>";
+        return view('admin.reports.audits.show', compact('audits', 'translation', 'model', 'title', 'heading'));
+    }
 }

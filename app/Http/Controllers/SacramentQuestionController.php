@@ -9,6 +9,7 @@ class SacramentQuestionController extends Controller
 {
     private $rules = [
         'question' => 'required|min:2|unique:sacrament_questions,question',
+        'status' => 'nullable|in:0,1',
     ];
     private $messages = ['name.unique' => 'A Sacrament detail with this question already exist.'];
 
@@ -42,22 +43,14 @@ class SacramentQuestionController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->rules, $this->messages);
-        SacramentQuestion::create($request->all());
+
+        $data = $request->all();
+        $data['status'] = empty($data['status']) ? '0' : $data['status'];
+        SacramentQuestion::create($data);
         if($request->wantsJson()) return response()->json(['message' => 'Sacrament question created successfully']);
 
         flash()->success("Success! Sacrament question created");
         return redirect()->route('sacrament-questions.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -84,7 +77,9 @@ class SacramentQuestionController extends Controller
         $this->rules['question'] .= ",{$sacrament_question->id}";
         $request->validate($this->rules, $this->messages);
 
-        $sacrament_question->update($request->all());
+        $data = $request->all();
+        $data['status'] = empty($data['status']) ? '0' : $data['status'];
+        $sacrament_question->update($data);
         if($request->wantsJson()) return response()->json(['message' => 'Sacrament question updated successfully']);
 
         return redirect()->route('sacrament-questions.index')->with(['message' => 'Sacrament question updated successfully']);
@@ -99,5 +94,14 @@ class SacramentQuestionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function audits(SacramentQuestion $sacrament_question) {
+        $audits = $sacrament_question->audits()->latest()->get();
+        $translation = 'sacrament_question';
+        $model = SacramentQuestion::class;
+        $title = "Audit Trail Report for <strong>{$sacrament_question->question}</strong>";
+        $heading = "Sacrament Question Audit Trail Report <small>[{$sacrament_question->question}]</small>";
+        return view('admin.reports.audits.show', compact('audits', 'translation', 'model', 'title', 'heading'));
     }
 }

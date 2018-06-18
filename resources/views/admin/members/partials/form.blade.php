@@ -131,6 +131,7 @@
 
     @if(isset($disabled) && $disabled)
         <a href="{{route('families.members.edit', ['member' => $member->id])}}" class="btn btn-warning"><span class="fa fa-pencil"></span> Edit</a>
+        <a href="{{route('families.members.audits', ['member' => $member->id])}}" class="btn btn-info"><span class="fa fa-archive"></span> View Audit Trail</a>
     @else
         <input class="btn btn-success" type="submit" value="Save">
     @endif

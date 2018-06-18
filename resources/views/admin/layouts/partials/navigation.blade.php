@@ -42,13 +42,13 @@
                     <a href="{{route('users.index')}}" @yield('current_users')><span aria-hidden="true" class="se7en-gallery"></span>Users</a>
                 </li>
 
-                <li class="dropdown"><a data-toggle="dropdown" href="#">
+                <li class="dropdown"><a data-toggle="dropdown" href="#" @yield('current_reports')>
                         <span aria-hidden="true" class="se7en-pages"></span>Reports<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{route('reports.audits.index')}}">Audit</a></li>
+                        <li><a href="{{route('reports.audits.index')}}" @yield('current_reports_audits')>Audit</a></li>
                         {{--<li><a href="#">Family</a></li>--}}
                         <li><a href="{{route('reports.members.index')}}">Members</a></li>
-                        <li><a href="#">Sick Members</a></li>
+                        {{--<li><a href="#">Sick Members</a></li>--}}
                         {{--<li><a href="#">Bcc Zones</a></li>
                         <li><a href="#">Church Engagements</a></li>
                         <li><a href="#">Sacrament Details</a></li>

@@ -51,6 +51,8 @@
 
                         <div class="clearfix"></div>
 
+                        <a class="btn btn-info" href="{{route('bcc-zones.audits', ['id' => $bcc_zone->id])}}"><i class="fa fa-archive"></i>View Audit trail</a>
+
                         <div class="col-sm-12">
 
                             <table class="table table-striped">

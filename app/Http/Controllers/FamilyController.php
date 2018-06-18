@@ -39,7 +39,7 @@ class FamilyController extends Controller
         $state_list = State::pluck('name', 'id');
         $bcc_zone_list = BccZone::pluck('name', 'id');
         $church_engagement_list = ChurchEngagement::pluck('name', 'id');
-        $sacrament_question_list = SacramentQuestion::enabled()->pluck('question', 'id');
+        $sacrament_question_list = SacramentQuestion::active()->pluck('question', 'id');
         $age_group_list = Member::AGE_GROUP_LIST;
         $marital_status_list = Member::MARITAL_STATUS_LIST;
         $card_status_list = Family::CARD_STATUS;
@@ -66,7 +66,7 @@ class FamilyController extends Controller
         $data['names_of_children'] = $data['children'];
 
         $sacrament_questions = [];
-        SacramentQuestion::enabled()->pluck('id')->each(function ($id) use($data, &$sacrament_questions) {
+        SacramentQuestion::active()->pluck('id')->each(function ($id) use($data, &$sacrament_questions) {
             if(isset($data["sacrament_question_{$id}"])) {
                 $sacrament_questions[$id] = ['response' => $data["sacrament_question_{$id}"]] ;
             }
@@ -188,6 +188,10 @@ class FamilyController extends Controller
 
     public function audits(Family $family) {
         $audits = $family->audits()->latest()->get();
-        return view('admin.families.audits', compact('audits', 'family'));
+        $translation = 'family';
+        $model = Family::class;
+        $title = "Audit Trail Report for the Family of <strong>{$family->name}</strong>";
+        $heading = "Family Audit Trail Report <small>[{$family->name}]</small>";
+        return view('admin.reports.audits.show', compact('audits', 'translation', 'model', 'title', 'heading'));
     }
 }

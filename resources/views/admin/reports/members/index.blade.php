@@ -21,7 +21,7 @@
                             <a href="{{route('reports.members.index')}}" class="btn btn-primary">Living Members</a>
                             <a href="?status=deceased" class="btn btn-default">Deceased Members</a>
                         </div>
-                        <table class="table table-striped" id="dataTable1">
+                        <table class="table table-striped table-condensed">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -38,9 +38,9 @@
 
                             </thead>
                             <tbody>
-                            @foreach($members AS $key => $member)
+                            @foreach($members AS $serial => $member)
                                 <tr>
-                                    <td>{{$key+1}}</td>
+                                    <td>{{ (++$serial + ($members->currentPage() - 1) * $members->perPage()) }}</td>
                                     <td>{{$member->full_name}}</td>
                                     <td>{{$member->gender}}</td>
                                     <td>{{$member->marital_status_text}}</td>
@@ -59,12 +59,14 @@
                                     <td class="actions">
                                         <div class="action-buttons">
                                             <a class="table-actions" title="View" href="{{route('families.members.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
+                                            <a class="table-actions" title="View Audit Trail" href="{{route('families.members.audits', ['id' => $member->id])}}"><i class="fa fa-archive"></i></a>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+                        {{$members->links()}}
                     </div>
                 </div>
             </div>

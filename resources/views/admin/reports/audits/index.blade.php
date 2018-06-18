@@ -1,70 +1,54 @@
 @extends('admin.layouts.main')
 
-@section('title') Members Report @endsection
+@section('title') Audit Trail @endsection
 @section('current_reports') class="current" @endsection
+@section('current_reports_audits') class="current" @endsection
 
 @section('content')
     <div class="container-fluid main-content">
         <div class="page-title">
-            <h1>Members Report <small>({{$status}})</small></h1>
+            <h1>Audit Trail</h1>
         </div>
         <!-- DataTables Example -->
         <div class="row">
             <div class="col-lg-12">
                 <div class="widget-container fluid-height clearfix">
                     <div class="heading">
-                        <i class="fa fa-table"></i>Members Report ({{$status}})
+                        <i class="fa fa-table"></i>Audit Trail
                     </div>
                     <div class="widget-content padded clearfix">
-                        <div class="btn-group">
-                            <a href="?status=all" class="btn btn-success">All Members</a>
-                            <a href="{{route('reports.members.index')}}" class="btn btn-primary">Living Members</a>
-                            <a href="?status=deceased" class="btn btn-default">Deceased Members</a>
-                        </div>
-                        <table class="table table-striped" id="dataTable1">
+
+                        <table class="table table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Gender</th>
-                                <th>Marital Status</th>
-                                <th>Role</th>
-                                <th>Age Group</th>
-                                <th>Occupation</th>
-                                <th>Phones</th>
-                                <th>Status</th>
+                                <th>Date</th>
+                                <th>User</th>
+                                <th>Operation</th>
+                                <th>Entity</th>
+                                <th width="30%">User Agent</th>
                                 <th></th>
                             </tr>
 
                             </thead>
                             <tbody>
-                            @foreach($members AS $key => $member)
+                            @foreach($audits AS $audit)
                                 <tr>
-                                    <td>{{$key+1}}</td>
-                                    <td>{{$member->full_name}}</td>
-                                    <td>{{$member->gender}}</td>
-                                    <td>{{$member->marital_status_text}}</td>
-                                    <td>{{$member->role->name}}</td>
-                                    <td>{{$member->age_group_text}}</td>
-                                    <td>{{$member->occupation}}</td>
-                                    <td>{!! implode("<br>", $member->phones)  !!}</td>
-                                    <td>
-                                        @if($member->deceased_at)
-                                            <span class="label label-danger">Deceased</span>
-                                        @else
-                                            <span class="label label-success">Active</span>
-                                        @endif
-                                    </td>
+                                    <td>{{$audit->created_at}}</td>
+                                    <td>{{!is_null($audit->user) ? $audit->user->username : "Anonymous"}} [{{$audit->ip_address}}]</td>
+                                    <td>{{ucfirst($audit->event)}}</td>
+                                    <td>{{ucwords(getAuditName($audit->auditable_type))}}</td>
+                                    <td>{{$audit->user_agent}}</td>
 
                                     <td class="actions">
                                         <div class="action-buttons">
-                                            <a class="table-actions" title="View" href="{{route('families.members.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
+                                            <a class="table-actions" title="View" href="{{ getAuditRoute($audit)  }}"><i class="fa fa-eye"></i></a>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+                        {{$audits->links()}}
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ namespace App;
 use App\Events\UserCreated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -21,6 +22,8 @@ class Family extends Model implements AuditableContract
     protected $casts = [
         'names_of_children' => 'array'
     ];
+
+    const DONT_DISPLAY_AUDIT = ["id", "state_id", "bcc_zone_id", "number_of_children"];
 
     const CARD_STATUS = [
         "0" => "Not Paid",
@@ -57,15 +60,29 @@ class Family extends Model implements AuditableContract
      */
     public function transformAudit(array $data): array
     {
+        if(!$state_list = Cache::get('state_list')){
+            $state_list = State::pluck('name', 'id')->toArray();
+             Cache::forever('state_list', $state_list);
+        }
+
+        $bcc_zone_list = Cache::remember('bcc_zone_list', 60, function() {
+            return BccZone::pluck('name', 'id')->toArray();
+        });
 
         if(Arr::has($data, 'new_values.state_id')) {
-            $data['old_values']['state'] = State::find($this->getOriginal('state_id'))->name;
-            $data['new_values']['state'] = State::find($this->getAttribute('state_id'))->name;
+            if(Arr::has($data, 'old_values.state_id') && !empty($this->getOriginal('state_id')))
+                $data['old_values']['state'] = $state_list[$this->getOriginal('state_id')];
+
+            if(!empty($this->getAttribute('state_id')))
+                $data['new_values']['state'] = $state_list[$this->getAttribute('state_id')];
         }
 
         if(Arr::has($data, 'new_values.bcc_zone_id')) {
-            $data['old_values']['bcc_zone'] = BccZone::find($this->getOriginal('bcc_zone_id'))->name;
-            $data['new_values']['bcc_zone'] = BccZone::find($this->getAttribute('bcc_zone_id'))->name;
+            if(Arr::has($data, 'old_values.bcc_zone_id') && !empty($this->getOriginal('bcc_zone_id')))
+                $data['old_values']['bcc_zone'] = $bcc_zone_list[$this->getOriginal('bcc_zone_id')];
+
+            if(!empty($this->getAttribute('bcc_zone_id')))
+                $data['new_values']['bcc_zone'] = $bcc_zone_list[$this->getAttribute('bcc_zone_id')];
         }
 
         return $data;
@@ -133,6 +150,16 @@ class Family extends Model implements AuditableContract
             return $message;
         }
         return "";
+    }
+
+    public static function auditTransformer($attribute, $modified) {
+
+        $modified = auditableJsonToString("names_of_children", $attribute, $modified);
+
+        $modified = auditableValueToText('type', static::class, $attribute, $modified);
+        $modified = auditableValueToText('card_status', static::class, $attribute, $modified);
+
+        return $modified;
     }
 
     public function getNumberOfChildrenAttribute() {

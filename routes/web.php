@@ -24,14 +24,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
     // BCC Zone Module
+    Route::get('bcc-zones/{bcc_zone}/audits', 'BccZoneController@audits')->name('bcc-zones.audits');
     Route::resource('bcc-zones', 'BccZoneController');
 
     // Church Engagement Module
-    Route::prefix('church-engagements')->namespace('ChurchEngagement')->name('church-engagements.')->group(function () {
-        // Member submodule
-        Route::prefix('{church_engagement}/members')->name('members.')->group(function () {
-            Route::get('', 'MemberController@index')->name('index');
-            Route::post('', 'MemberController@store')->name('store');
+    Route::prefix('church-engagements')->name('church-engagements.')->group(function () {
+
+        Route::prefix('{church_engagement}')->group(function () {
+            Route::get('audits', 'ChurchEngagementController@audits')->name('audits');
+
+            // Namespace: ChurchEngagement
+            Route::namespace('ChurchEngagement')->group(function() {
+                // Member submodule
+                Route::prefix('members')->name('members.')->group(function () {
+                    Route::get('', 'MemberController@index')->name('index');
+                    Route::post('', 'MemberController@store')->name('store');
+                });
+            });
         });
     });
     Route::resource('church-engagements', 'ChurchEngagementController')->except(['edit', 'create']);
@@ -60,6 +69,7 @@ Route::middleware('auth')->group(function () {
                         Route::get('edit', 'MemberController@edit')->name('edit');
                         Route::put('', 'MemberController@update')->name('update');
                         Route::delete('', 'MemberController@destroy')->name('destroy');
+                        Route::get('audits', 'MemberController@audits')->name('audits');
                     });
                 });
             });
@@ -82,7 +92,8 @@ Route::middleware('auth')->group(function () {
     });
 
     // Sacrament Question Module
-    Route::resource('sacrament-questions', 'SacramentQuestionController');
+    Route::get('sacrament-questions/{sacrament_question}/audits', 'SacramentQuestionController@audits')->name('sacrament-questions.audits');
+    Route::resource('sacrament-questions', 'SacramentQuestionController')->except(['show']);
 
     // User Module
     Route::resource('users', 'UserController')->except(['create', 'show']);

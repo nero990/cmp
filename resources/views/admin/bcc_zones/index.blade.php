@@ -18,24 +18,21 @@
                 <div class="widget-content padded clearfix">
                     <a href="{{route('bcc-zones.create')}}" class="btn btn-warning"><span class="fa fa-plus"></span> New BCC Zone</a>
 
-                    <table class="table table-bordered table-striped" id="dataTable1">
+                    <table class="table table-striped" id="dataTable1">
                         <thead>
-                            <th class="check-header hidden-xs">
-                                <label><input id="checkAll" name="checkAll" type="checkbox"><span></span></label>
-                            </th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th class="hidden-xs">Streets</th>
-                            <th class="hidden-xs">Date Added</th>
-                            <th class="hidden-xs">Status</th>
-                            <th></th>
+                            <tr>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th class="hidden-xs">Streets</th>
+                                <th class="hidden-xs">Date Added</th>
+                                <th class="hidden-xs">Status</th>
+                                <th width="12%"></th>
+                            </tr>
+
                         </thead>
                         <tbody>
                         @foreach($bcc_zones AS $bcc_zone)
                             <tr>
-                                <td class="check hidden-xs">
-                                    <label><input name="optionsRadios1" type="checkbox" value="option1"><span></span></label>
-                                </td>
                                 <td>{{$bcc_zone->name}}</td>
                                 <td>{{$bcc_zone->address}}</td>
                                 <td class="hidden-xs">
@@ -54,9 +51,10 @@
                                     @endif
                                 </td>
                                 <td class="actions">
-                                    <div class="action-buttons">
-                                        <a class="table-actions" title="View Audit trail" href="{{route('bcc-zones.show', ['id' => $bcc_zone->id])}}"><i class="fa fa-eye"></i></a>
+                                    <div class="action-buttons" style="width: 100%">
+                                        <a class="table-actions" title="View" href="{{route('bcc-zones.show', ['id' => $bcc_zone->id])}}"><i class="fa fa-eye"></i></a>
                                         <a class="table-actions" title="Edit" href="{{route('bcc-zones.edit', ['id' => $bcc_zone->id])}}"><i class="fa fa-pencil"></i></a>
+                                        <a class="table-actions" title="View Audit trail" href="{{route('bcc-zones.audits', ['id' => $bcc_zone->id])}}"><i class="fa fa-archive"></i></a>
                                         <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                     </div>
                                 </td>

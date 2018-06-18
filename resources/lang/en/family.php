@@ -13,7 +13,6 @@ return [
             'names_of_children' => 'Names of Children: <strong>:new</strong>',
             'type' => 'Type: <strong>:new</strong>',
             'state' => 'State: <strong>:new</strong>',
-            'state_id' => 'State ID: <strong>:new</strong>',
             'address' => 'Address: <strong>:new</strong>',
             'card_status' => 'Card Status: <strong>:new</strong>',
             'bcc_zone' => 'BCC Zone <strong>:new</strong>',

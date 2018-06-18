@@ -18,7 +18,7 @@ class CreateSacramentQuestionsTable extends Migration
 
             $table->increments('id');
             $table->string('question')->unique();
-            $table->boolean('is_enabled')->default(1);
+            $table->enum('status', ['0', '1'])->default('1');
             $table->timestamps();
 
         });

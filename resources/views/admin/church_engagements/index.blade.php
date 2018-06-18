@@ -56,29 +56,25 @@
                         </div>
                     </div>
 
-                    <table class="table table-bordered table-striped" id="dataTable1">
+                    <table class="table table-striped" id="dataTable1">
                         <thead>
-                            <th class="check-header hidden-xs">
-                                <label><input id="checkAll" name="checkAll" type="checkbox"><span></span></label>
-                            </th>
-                            <th>Name</th>
-                            <th>Members Count</th>
-                            <th>Date Added</th>
-                            <th width="12%"></th>
+                            <tr>
+                                <th>Name</th>
+                                <th class="text-center">Members Count</th>
+                                <th>Date Added</th>
+                                <th width="12%"></th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach($church_engagements AS $church_engagement)
                             <tr>
-                                <td class="check hidden-xs">
-                                    <label><input name="optionsRadios1" type="checkbox" value="option1"><span></span></label>
-                                </td>
                                 <td>{{$church_engagement->name}}</td>
-                                <td>{{$church_engagement->members_count}}</td>
+                                <td class="text-center">{{$church_engagement->members_count}}</td>
                                 <td>{{$church_engagement->created_at->toFormattedDateString()}}</td>
                                 <td class="actions">
                                     <div class="action-buttons" style="width: 100%">
                                         <a class="table-actions" title="View Members" href="{{route('church-engagements.members.index', ['id' => $church_engagement->id])}}"><i class="fa fa-users"></i></a>
-                                        <a class="table-actions" title="View Audit trail" href="#"><i class="fa fa-eye"></i></a>
+                                        <a class="table-actions" title="View Audit trail" href="{{route('church-engagements.audits', ['id' => $church_engagement->id])}}"><i class="fa fa-archive"></i></a>
                                         <a href="#" class="table-actions edit-engagement" data-target="#myModal" data-toggle="modal" data-value='{!! $church_engagement !!}' title="Edit"><i class="fa fa-pencil"></i></a>
                                         <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
                                     </div>

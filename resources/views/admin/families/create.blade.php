@@ -19,7 +19,7 @@
                         <div id="message"></div>
                         @include('errors.list')
 
-                        {!! Form::open(['route' => 'families.store', 'id' => 'family']) !!}
+                        {!! Form::open(['route' => 'families.store', 'id' => 'familyCreate']) !!}
                         <fieldset>
                             <div class="row">
                                 <div class="col-md-4">
@@ -60,7 +60,7 @@
 
                                         <div class="form-group">
                                             {!! Form::label('card_status', 'Card Status') !!}
-                                            {!! Form::select('card_status', $card_status_list, null, ['placeholder' => 'Select', 'class' => 'form-control']) !!}
+                                            {!! Form::select('card_status', $card_status_list, null, [ 'class' => 'form-control']) !!}
                                         </div>
 
                                     </fieldset>
