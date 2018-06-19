@@ -46,3 +46,10 @@ function loader(mode) {
         $("body").removeClass('disabled-screen');
     }
 }
+
+function outputMessage(message) {
+    message = '<div class="alert alert-success alert-important">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>' +
+        message + '</div>';
+    $('#message').html(message);
+}

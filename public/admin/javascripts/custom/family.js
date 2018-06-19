@@ -48,7 +48,7 @@ $(document).ready(function () {
             }
         },
         submitHandler : function (form) {
-            post($(form).attr('action'), $(form).serialize(), true);
+            post($(form).attr('action'), $(form).serialize(), ajaxSuccess);
         }
     });
 
@@ -73,7 +73,7 @@ $(document).ready(function () {
             }
         },
         submitHandler : function (form) {
-            put($(form).attr('action'), $(form).serialize(), true);
+            put($(form).attr('action'), $(form).serialize(), ajaxSuccess);
         }
     });
 
@@ -86,4 +86,11 @@ $(document).ready(function () {
             $('#childrenBlock').hide();
         }
     });
+
+    var ajaxSuccess = function (result, status, xhr) {
+        loader('off');
+
+        outputMessage(result.message);
+        console.log(result);
+    };
 });

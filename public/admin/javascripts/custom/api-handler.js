@@ -1,19 +1,19 @@
 baseUrl = $('meta[name="base-url"]').attr('content');
 
-function post(url, data, dontReload) {
-    return apiCall(settings(url, 'POST', data), dontReload);
+function post(url, data, success, error) {
+    return apiCall(settings(url, 'POST', data), success, error);
 }
 
-function put(url, data, dontReload) {
-    return apiCall(settings(url, 'PUT', data), dontReload);
+function put(url, data, success, error) {
+    return apiCall(settings(url, 'PUT', data), success, error);
 }
 
 function get(url) {
     return apiCall(settings(url, 'GET'));
 }
 
-function destroy(url) {
-    return apiCall(settings(url, 'DELETE'));
+function destroy(url, success, error) {
+    return apiCall(settings(url, 'DELETE'), success, error);
 }
 
 function settings(url, method, data) {
@@ -50,22 +50,19 @@ function getUrl(url) {
     return url;
 }
 
-function apiCall(params, dontReload) {
+function apiCall(params, success, error) {
     var successCallBack = ajaxSuccess;
-    if(dontReload === true)
-        successCallBack = ajaxSuccessWithoutLoader;
+    var errorCallBack = ajaxError;
 
-    $.ajax(params).then(successCallBack, ajaxError)
+    console.log(success);
+    if(typeof success !== 'undefined')
+        successCallBack = success;
+
+    if(typeof error !== 'undefined')
+        errorCallBack = error;
+
+    $.ajax(params).then(successCallBack, errorCallBack)
 }
-
-var ajaxSuccessWithoutLoader = function (result, status, xhr) {
-    loader('off');
-    var message = '<div class="alert alert-success alert-important">' +
-        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>' +
-        result.message + '</div>';
-    $('#message').html(message);
-
-};
 
 var ajaxSuccess = function (result, status, xhr) {
     loader('off');
