@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+
     ];
 
     /**
@@ -24,8 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+         $schedule->command('queue:work', ['tries' => 3, 'queue' => 'default,email,process', 'daemon' => true])
+                  ->hourly()->withoutOverlapping()->sendOutputTo('queue_cron.txt');
+
+         $schedule->command('queue:restart')->hourlyAt(60)->withoutOverlapping()->sendOutputTo('queue_restart_cron.txt');
     }
 
     /**

@@ -27,8 +27,12 @@ $(document).ready(function () {
             }
         },
         submitHandler : function (form) {
-            if($(form).find('input').first().val() === "PUT") put($(form).attr('action'), $(form).serialize(), true);
+            if($(form).find('input').first().val() === "PUT") put($(form).attr('action'), $(form).serialize(), ajaxSuccess);
             else post($(form).attr('action'), $(form).serialize());
         }
     });
+
+    var ajaxSuccess = function (result, status, xhr) {
+        outputMessage(result.message);
+    };
 });
