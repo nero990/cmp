@@ -25,8 +25,13 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        auth()->login(User::authenticate(request()->get('username'), request()->get('password')));
-        return response()->json(["message" => "Successfully logged in. Redirecting..."]);
+        try{
+            auth()->login(User::authenticate(request()->get('username'), request()->get('password')));
+            return response()->json(["message" => "Successfully logged in. Redirecting..."]);
+        } catch (\Exception $exception) {
+            throw new CMPResponseException("validation_failure", ["username" => ["A system error occurred. ({$exception->getMessage()})"]]);
+        }
+
     }
 
     public function logout() {
