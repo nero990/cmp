@@ -91,7 +91,9 @@ class FamilyController extends Controller
 
             throw new \Exception($exception->getMessage());
         }
-        $message = "Success! Family Created (Family RegNo.: {$family->registration_number})";
+
+        $url = route('families.show', $family->id);
+        $message = "Success! Family Created (Family RegNo.: <a href=\"{$url}\">{$family->registration_number})</a>";
 
         if($request->wantsJson()) return response()->json(['message' => $message]);
 

@@ -88,9 +88,14 @@ $(document).ready(function () {
     });
 
     var ajaxSuccess = function (result, status, xhr) {
-        loader('off');
-
         outputMessage(result.message);
-        console.log(result);
+        
+        $('form input').each(function () {
+            $(this).val();
+        });
     };
+
+    $('form input').each(function () {
+        $(this).val();
+    });
 });

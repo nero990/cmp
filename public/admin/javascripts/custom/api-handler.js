@@ -54,7 +54,6 @@ function apiCall(params, success, error) {
     var successCallBack = ajaxSuccess;
     var errorCallBack = ajaxError;
 
-    console.log(success);
     if(typeof success !== 'undefined')
         successCallBack = success;
 
@@ -65,11 +64,7 @@ function apiCall(params, success, error) {
 }
 
 var ajaxSuccess = function (result, status, xhr) {
-    loader('off');
-    var message = '<div class="alert alert-success alert-important">' +
-        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>' +
-        result.message + '</div>';
-    $('#message').html(message);
+    outputMessage(result.message);
 
     setTimeout(function () {
         location.reload();

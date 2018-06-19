@@ -23,7 +23,6 @@ $(document).ready(function () {
 
 });
 
-
 function duplicate() {
     var origin = document.getElementById('origin');
     var clone = origin.cloneNode(true); // "deep" clone
@@ -48,6 +47,8 @@ function loader(mode) {
 }
 
 function outputMessage(message) {
+    loader('off');
+
     message = '<div class="alert alert-success alert-important">' +
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>' +
         message + '</div>';

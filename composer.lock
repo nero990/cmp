@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "774e8a686f9e1f77f10e39796e0f702d",
+    "content-hash": "adf7e20139b767c58fd4f55284c85e16",
     "packages": [
+        {
+            "name": "crystoline/larashell",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/crystoline/larashell.git",
+                "reference": "552b644cdd7b7a6a573a8713f192656a7d58a4e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/crystoline/larashell/zipball/552b644cdd7b7a6a573a8713f192656a7d58a4e3",
+                "reference": "552b644cdd7b7a6a573a8713f192656a7d58a4e3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.5",
+                "php": ">=5.6"
+            },
+            "type": "project",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "\\Crystoline\\LaraShell\\LaraShellProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Crystoline\\LaraShell\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adekunle Adekoya",
+                    "email": "crystoline@gmail.com"
+                }
+            ],
+            "description": "Laravel: Run shell command without shell access over http",
+            "keywords": [
+                "console",
+                "laravel",
+                "shell"
+            ],
+            "time": "2018-06-06T09:32:23+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",

@@ -1,5 +1,5 @@
 <fieldset>
-    <legend>Sacrament Details</legend>
+    <legend>Sacrament Questions</legend>
 
     @foreach($sacrament_question_list AS $key => $sacrament_question)
         <div class="form-group">
