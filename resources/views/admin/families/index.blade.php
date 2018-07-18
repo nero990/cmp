@@ -73,9 +73,9 @@
                         {!! Form::close() !!}
                     </div>
 
-
-                    <table class="table table-striped">
-                        <thead>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
                             <th>#</th>
                             <th>Name</th>
                             <th>Type</th>
@@ -86,33 +86,35 @@
                             <th class="hidden-xs">Address</th>
                             <th class="hidden-xs">Card Status</th>
                             <th></th>
-                        </thead>
-                        <tbody>
-                        @foreach($families AS $key => $family)
-                            <tr>
-                                <td>{{$key+1}}</td>
-                                <td>{{$family->name}}</td>
-                                <td>{{$family->type_text}}</td>
-                                <td>{{$family->registration_number}}</td>
-                                <td>{{$family->head->full_name}}</td>
-                                <td>{!! implode("<br>", $family->head->phones)  !!}</td>
-                                <td class="hidden-xs text-center">{{($family->type == "1") ? $family->number_of_children : "-"}}</td>
-                                <td class="hidden-xs">{{$family->address}}</td>
-                                <td class="hidden-xs"><span class="label @if($family->card_status == "0") {{"label-danger"}} @elseif($family->card_status == "1") {{ "label-info" }} @else {{ "label-success" }} @endif">{{$family->card_status_text}}</span></td>
+                            </thead>
+                            <tbody>
+                            @foreach($families AS $key => $family)
+                                <tr>
+                                    <td>{{$key+1}}</td>
+                                    <td>{{$family->name}}</td>
+                                    <td>{{$family->type_text}}</td>
+                                    <td>{{$family->registration_number}}</td>
+                                    <td>{{$family->head->full_name}}</td>
+                                    <td>{!! implode("<br>", $family->head->phones)  !!}</td>
+                                    <td class="hidden-xs text-center">{{($family->type == "1") ? $family->number_of_children : "-"}}</td>
+                                    <td class="hidden-xs">{{$family->address}}</td>
+                                    <td class="hidden-xs"><span class="label @if($family->card_status == "0") {{"label-danger"}} @elseif($family->card_status == "1") {{ "label-info" }} @else {{ "label-success" }} @endif">{{$family->card_status_text}}</span></td>
 
-                                <td class="actions">
-                                    <div class="action-buttons" style="width: 120px;">
-                                        <a class="table-actions" title="View" href="{{route('families.show', ['id' => $family->id])}}"><i class="fa fa-eye"></i></a>
-                                        <a class="table-actions" title="Edit" href="{{route('families.edit', ['id' => $family->id])}}"><i class="fa fa-pencil"></i></a>
-                                        <a class="table-actions" title="View Audit trails" href="{{route('families.audits', ['id' => $family->id])}}"><i class="fa fa-archive"></i></a>
-                                        <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                    {{$families->links()}}
+                                    <td class="actions">
+                                        <div class="action-buttons" style="width: 120px;">
+                                            <a class="table-actions" title="View" href="{{route('families.show', ['id' => $family->id])}}"><i class="fa fa-eye"></i></a>
+                                            <a class="table-actions" title="Edit" href="{{route('families.edit', ['id' => $family->id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="table-actions" title="View Audit trails" href="{{route('families.audits', ['id' => $family->id])}}"><i class="fa fa-archive"></i></a>
+                                            <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                        {{$families->links()}}
+                    </div>
+
                 </div>
             </div>
         </div>

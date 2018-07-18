@@ -63,32 +63,34 @@
                         </div>
                     </div>
 
-                    <table class="table table-striped" id="dataTable1">
-                        <thead>
-                            <tr>
-                                <th>Question</th>
-                                <th>Status</th>
-                                <th class="hidden-xs">Date Added</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($sacrament_questions AS $sacrament_question)
-                            <tr>
-                                <td>{{$sacrament_question->question}}</td>
-                                <td><span class="label label-{{($sacrament_question->status == '1') ? "success" : "danger"}}">{{$sacrament_question->status_text}}</span></td>
-                                <td class="hidden-xs">{{$sacrament_question->created_at->toFormattedDateString()}}</td>
-                                <td class="actions">
-                                    <div class="action-buttons">
-                                        <a class="table-actions" title="Edit" href="{{route('sacrament-questions.edit', ['id' => $sacrament_question->id])}}"><i class="fa fa-pencil"></i></a>
-                                        <a class="table-actions" title="View Audit trail" href="{{route('sacrament-questions.audits', ['id' => $sacrament_question->id])}}"><i class="fa fa-archive"></i></a>
-                                        <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="dataTable1">
+                            <thead>
+                                <tr>
+                                    <th>Question</th>
+                                    <th>Status</th>
+                                    <th class="hidden-xs">Date Added</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($sacrament_questions AS $sacrament_question)
+                                <tr>
+                                    <td>{{$sacrament_question->question}}</td>
+                                    <td><span class="label label-{{($sacrament_question->status == '1') ? "success" : "danger"}}">{{$sacrament_question->status_text}}</span></td>
+                                    <td class="hidden-xs">{{$sacrament_question->created_at->toFormattedDateString()}}</td>
+                                    <td class="actions">
+                                        <div class="action-buttons">
+                                            <a class="table-actions" title="Edit" href="{{route('sacrament-questions.edit', ['id' => $sacrament_question->id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="table-actions" title="View Audit trail" href="{{route('sacrament-questions.audits', ['id' => $sacrament_question->id])}}"><i class="fa fa-archive"></i></a>
+                                            <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

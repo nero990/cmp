@@ -19,7 +19,8 @@
                         @include('errors.list')
 
                         <div class="col-sm-6">
-                            <table class="table table-striped">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
                                 <tr>
                                     <th>Name</th>
                                     <td>{{$family->name}}</td>
@@ -45,11 +46,12 @@
                                     <td><span class="label @if($family->card_status == "0") {{"label-danger"}} @elseif($family->card_status == "1") {{"label-success"}} @else {{"label-info"}}  @endif"> {{$family->card_status_text}}</span></td>
                                 </tr>
                             </table>
-
+                            </div>
                         </div>
 
                         <div class="col-sm-6">
-                            <table class="table table-striped">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
                                 <tr>
                                     <th>Family Head</th>
                                     <td><a href="{{route('families.members.show', ['family' => $family->head->id])}}">{{$family->head->full_name}}</a></td>
@@ -69,6 +71,7 @@
                                     </tr>
                                 @endif
                             </table>
+                            </div>
                         </div>
 
                         <div class="clearfix"></div>
@@ -79,8 +82,9 @@
                             <a href="{{route('families.members.create', $family->id)}}" class="btn btn-success" style="margin-top: 10px"><span class="fa fa-plus"></span> New Member</a>
                             <a href="{{route('families.audits', $family->id)}}" class="btn btn-info" style="margin-top: 10px"><span class="fa fa-archive"></span> View Audit Trail</a>
 
-                            <table class="table table-striped" id="dataTable1">
-                                <thead>
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="dataTable1">
+                                    <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
@@ -94,37 +98,39 @@
                                         <th></th>
                                     </tr>
 
-                                </thead>
-                                <tbody>
-                                @foreach($family->members AS $key => $member)
-                                    <tr>
-                                        <td>{{$key+1}}</td>
-                                        <td>{{$member->full_name}}</td>
-                                        <td>{{$member->gender}}</td>
-                                        <td>{{$member->marital_status_text}}</td>
-                                        <td>{{$member->role->name}}</td>
-                                        <td>{{$member->age_group_text}}</td>
-                                        <td>{{$member->occupation}}</td>
-                                        <td>{!! implode("<br>", $member->phones)  !!}</td>
-                                        <td>
-                                            @if($member->deceased_at)
-                                                <span class="label label-danger">Deceased</span>
-                                            @else
-                                                <span class="label label-success">Active</span>
-                                            @endif
-                                        </td>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($family->members AS $key => $member)
+                                        <tr>
+                                            <td>{{$key+1}}</td>
+                                            <td>{{$member->full_name}}</td>
+                                            <td>{{$member->gender}}</td>
+                                            <td>{{$member->marital_status_text}}</td>
+                                            <td>{{$member->role->name}}</td>
+                                            <td>{{$member->age_group_text}}</td>
+                                            <td>{{$member->occupation}}</td>
+                                            <td>{!! implode("<br>", $member->phones)  !!}</td>
+                                            <td>
+                                                @if($member->deceased_at)
+                                                    <span class="label label-danger">Deceased</span>
+                                                @else
+                                                    <span class="label label-success">Active</span>
+                                                @endif
+                                            </td>
 
-                                        <td class="actions">
-                                            <div class="action-buttons" style="width: 120px;">
-                                                <a class="table-actions" title="View" href="{{route('families.members.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
-                                                <a class="table-actions" title="Edit" href="{{route('families.members.edit', ['id' => $member->id])}}"><i class="fa fa-pencil"></i></a>
-                                                <a class="table-actions" title="View Audit Trail" href="{{route('families.members.audits', ['id' => $member->id])}}"><i class="fa fa-archive"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                            <td class="actions">
+                                                <div class="action-buttons" style="width: 120px;">
+                                                    <a class="table-actions" title="View" href="{{route('families.members.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
+                                                    <a class="table-actions" title="Edit" href="{{route('families.members.edit', ['id' => $member->id])}}"><i class="fa fa-pencil"></i></a>
+                                                    <a class="table-actions" title="View Audit Trail" href="{{route('families.members.audits', ['id' => $member->id])}}"><i class="fa fa-archive"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
 
                         </div>
 

@@ -81,36 +81,38 @@
                         </div>
 
 
-                        <table class="table table-striped" id="dataTable1">
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Name</th>
-                                    <th>Last logged in</th>
-                                    <th>Created At</th>
-                                    <th>Updated At</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($users AS $user)
-                                <tr>
-                                    <td>{{$user->username}}</td>
-                                    <td>{{$user->person->name}}</td>
-                                    <td>{{$user->last_logged_in}}</td>
-                                    <td>{{$user->created_at->format('d-M-Y')}}</td>
-                                    <td>{{$user->updated_at->format('d-M-Y')}}</td>
-                                    <td class="actions">
-                                        <div class="action-buttons">
-                                            <a class="table-actions" title="View Audit trail" href=""><i class="fa fa-eye"></i></a>
-                                            <a class="table-actions" title="Edit" href="#"><i class="fa fa-pencil"></i></a>
-                                            <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="dataTable1">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Name</th>
+                                        <th>Last logged in</th>
+                                        <th>Created At</th>
+                                        <th>Updated At</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($users AS $user)
+                                    <tr>
+                                        <td>{{$user->username}}</td>
+                                        <td>{{$user->person->name}}</td>
+                                        <td>{{$user->last_logged_in}}</td>
+                                        <td>{{$user->created_at->format('d-M-Y')}}</td>
+                                        <td>{{$user->updated_at->format('d-M-Y')}}</td>
+                                        <td class="actions">
+                                            <div class="action-buttons">
+                                                <a class="table-actions" title="View Audit trail" href=""><i class="fa fa-eye"></i></a>
+                                                <a class="table-actions" title="Edit" href="#"><i class="fa fa-pencil"></i></a>
+                                                <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

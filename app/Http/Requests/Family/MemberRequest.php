@@ -29,7 +29,7 @@ class MemberRequest extends FormRequest
             'last_name' => 'required',
             'email' => 'nullable|email',
             'phones' => 'required',
-            'gender' => 'nullable|in:M,F',
+            'gender' => 'required|in:M,F',
             'marital_status' => 'nullable|in:1,2,3,4,5,6',
             'age_group' => 'nullable|in:1,2,3,4,5,6,7,8',
             'church_engagements' => 'nullable|array|exists:church_engagements,id',

@@ -40,52 +40,54 @@
                             {!! Form::close() !!}
                         </div>
 
-                        <table class="table table-striped table-condensed">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Gender</th>
-                                <th>Marital Status</th>
-                                <th>Role</th>
-                                <th>Age Group</th>
-                                <th>Occupation</th>
-                                <th>Phones</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-
-                            </thead>
-                            <tbody>
-                            @foreach($members AS $serial => $member)
+                        <div class="table-responsive">
+                            <table class="table table-striped table-condensed">
+                                <thead>
                                 <tr>
-                                    <td>{{ (++$serial + ($members->currentPage() - 1) * $members->perPage()) }}</td>
-                                    <td>{{$member->full_name}} <small><a href="{{route('families.show', $member->family->id)}}" >{{$member->family->registration_number}}</a></small></td>
-                                    <td>{{$member->gender}}</td>
-                                    <td>{{$member->marital_status_text}}</td>
-                                    <td>{{$member->role->name}}</td>
-                                    <td>{{$member->age_group_text}}</td>
-                                    <td>{{$member->occupation}}</td>
-                                    <td>{!! implode("<br>", $member->phones)  !!}</td>
-                                    <td>
-                                        @if($member->deceased_at)
-                                            <span class="label label-danger">Deceased</span>
-                                        @else
-                                            <span class="label label-success">Active</span>
-                                        @endif
-                                    </td>
-
-                                    <td class="actions">
-                                        <div class="action-buttons">
-                                            <a class="table-actions" title="View" href="{{route('families.members.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
-                                            <a class="table-actions" title="View Audit Trail" href="{{route('families.members.audits', ['id' => $member->id])}}"><i class="fa fa-archive"></i></a>
-                                        </div>
-                                    </td>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>Marital Status</th>
+                                    <th>Role</th>
+                                    <th>Age Group</th>
+                                    <th>Occupation</th>
+                                    <th>Phones</th>
+                                    <th>Status</th>
+                                    <th></th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                        {{$members->links()}}
+
+                                </thead>
+                                <tbody>
+                                @foreach($members AS $serial => $member)
+                                    <tr>
+                                        <td>{{ (++$serial + ($members->currentPage() - 1) * $members->perPage()) }}</td>
+                                        <td>{{$member->full_name}} <small><a href="{{route('families.show', $member->family->id)}}" >{{$member->family->registration_number}}</a></small></td>
+                                        <td>{{$member->gender}}</td>
+                                        <td>{{$member->marital_status_text}}</td>
+                                        <td>{{$member->role->name}}</td>
+                                        <td>{{$member->age_group_text}}</td>
+                                        <td>{{$member->occupation}}</td>
+                                        <td>{!! implode("<br>", $member->phones)  !!}</td>
+                                        <td>
+                                            @if($member->deceased_at)
+                                                <span class="label label-danger">Deceased</span>
+                                            @else
+                                                <span class="label label-success">Active</span>
+                                            @endif
+                                        </td>
+
+                                        <td class="actions">
+                                            <div class="action-buttons">
+                                                <a class="table-actions" title="View" href="{{route('families.members.show', ['id' => $member->id])}}"><i class="fa fa-eye"></i></a>
+                                                <a class="table-actions" title="View Audit Trail" href="{{route('families.members.audits', ['id' => $member->id])}}"><i class="fa fa-archive"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            {{$members->links()}}
+                        </div>
                     </div>
                 </div>
             </div>

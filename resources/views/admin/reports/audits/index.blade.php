@@ -17,8 +17,8 @@
                         <i class="fa fa-table"></i>Audit Trail
                     </div>
                     <div class="widget-content padded clearfix">
-
-                        <table class="table table-striped table-condensed">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-condensed">
                             <thead>
                             <tr>
                                 <th>Date</th>
@@ -48,7 +48,8 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {{$audits->links()}}
+                            {{$audits->links()}}
+                        </div>
                     </div>
                 </div>
             </div>

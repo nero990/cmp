@@ -48,7 +48,7 @@ class FamilyUpload implements ShouldQueue
             try{
                 $first_name = trim(ucfirst(strtolower($fam->first_name)));
                 $last_name = trim(ucfirst(strtolower($fam->surname)));
-                $gender = null;
+                $gender = "M";
 
                 if(isset($fam->gender)) {
                     if(strtoupper(trim($fam->gender)) == "M" || strtoupper(trim($fam->gender)) == "MALE") {
