@@ -30,7 +30,7 @@
 
                             <!-- Modal content-->
                             <div class="modal-content">
-                                {!! Form::open(['route' => 'families.batch-upload', 'files' => true, 'class' => 'form-horizontal']) !!}
+                                {!! Form::open(['route' => 'families.bulk-upload', 'files' => true, 'class' => 'form-horizontal']) !!}
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title" id="modalTitle">Batch Upload</h4>

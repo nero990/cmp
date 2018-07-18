@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\BccZone;
+use App\Jobs\BccZoneBulkUpload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BccZoneController extends Controller
 {
@@ -104,6 +107,31 @@ class BccZoneController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function bulkUpload(Request $request) {
+
+        $this->validate($request, [
+            'excel_file' => 'required|file|mimes:csv,txt,xls,xlsx'
+        ], [
+            'required' => 'No file selected'
+        ]);
+
+        $path = $request->file('excel_file')->store('files');
+
+        $bcc_zones = Excel::load(Storage::path($path), function ($reader) {
+            $reader->all();
+        })->get();
+        Storage::delete($path);
+
+        if($error = BccZone::validateHeadings($bcc_zones->getheading())) {
+            return back()->withErrors($error);
+        }
+
+        BccZoneBulkUpload::dispatch($bcc_zones)->delay(now()->addSecond(3))->onQueue('high');
+
+        flash()->success("Success! File Uploaded.");
+        return redirect()->route('bcc-zones.index');
     }
 
     public function audits(BccZone $bcc_zone) {

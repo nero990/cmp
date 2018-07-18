@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Custom\Traits\FileUpload;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use OwenIt\Auditing\Auditable;
@@ -9,9 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class BccZone extends Model implements AuditableContract
 {
-    use Auditable;
-
-    private static $size = 20;
+    use Auditable, FileUpload;
 
     protected $fillable = [
         'name', 'address', 'status', 'streets'
@@ -19,6 +18,12 @@ class BccZone extends Model implements AuditableContract
 
     protected $casts = [
         'streets' => 'array'
+    ];
+
+    private static $size = 20;
+
+    public static $required_headings = [
+        'name', 'address', 'streets'
     ];
 
     const DONT_DISPLAY_AUDIT = ["id"];

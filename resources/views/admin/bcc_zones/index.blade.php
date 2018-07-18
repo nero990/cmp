@@ -16,7 +16,43 @@
                     <i class="fa fa-table"></i>BCC Zones List
                 </div>
                 <div class="widget-content padded clearfix">
-                    <a href="{{route('bcc-zones.create')}}" class="btn btn-warning"><span class="fa fa-plus"></span> New BCC Zone</a>
+
+                    @include('errors.list')
+
+                    <a href="{{route('bcc-zones.create')}}" class="btn btn-success"><span class="fa fa-plus"></span> New BCC Zone</a>
+
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal">
+                        <i class="fa fa-plus"></i> Bulk Upload
+                    </button>
+
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                {!! Form::open(['route' => 'bcc-zones.bulk-upload', 'files' => true, 'class' => 'form-horizontal']) !!}
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" id="modalTitle">Bulk Upload</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <small><strong>File Header:</strong> name, adress, streets</small>
+                                    </div>
+                                    <div class="form-group">
+                                        {{Form::file('excel_file')}}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    {!! Form::submit('Upload', ['class' => 'btn btn-info']) !!}
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+
+                        </div>
+                    </div>
 
                     <div class="table-responsive">
                         <table class="table table-striped" id="dataTable1">

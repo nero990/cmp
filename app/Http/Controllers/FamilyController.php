@@ -170,7 +170,7 @@ class FamilyController extends Controller
         //
     }
 
-    public function batchUpload(Request $request) {
+    public function bulkUpload(Request $request) {
 
         $this->validate($request, [
             'excel_file' => 'required|file|mimes:csv,txt,xls,xlsx'
@@ -189,7 +189,7 @@ class FamilyController extends Controller
             return back()->withErrors($error);
         }
 
-        FamilyUpload::dispatch($families)->delay(now()->addSecond(3))->onQueue('process');
+        FamilyUpload::dispatch($families)->delay(now()->addSecond(3))->onQueue('high');
 
         flash()->success("Success! File Uploaded. Processing records in background.");
         return redirect()->route('families.index');
