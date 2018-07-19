@@ -195,6 +195,10 @@ class FamilyController extends Controller
         return redirect()->route('families.index');
     }
 
+    public function export() {
+
+    }
+
     public function audits(Family $family) {
         $audits = $family->audits()->latest()->get();
         $translation = 'family';

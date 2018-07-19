@@ -24,6 +24,19 @@
                         <i class="fa fa-plus"></i> Batch Upload
                     </button>
 
+                    <div class="">
+                        <div class="btn-group hidden-xs">
+                            <a href='#' class="btn btn-default dropdown-toggle" data-toggle='dropdown'><i class="fa fa-cloud-download"></i><span class="hidden-sm">&nbsp;Export&nbsp;as&nbsp; </span><span class="caret"></span></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('families.export', ['type' => 'csv']) }}">CSV File (*.csv)</a></li>
+                                <li><a href="{{ route('families.export', ['type' => 'xls']) }}">Excel 2003 File (*.xls)</a></li>
+                                <li><a href="{{ route('families.export', ['type' => 'xlsx']) }}">Excel 2007 File (*.xlsx)</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+
                     <!-- Modal -->
                     <div id="myModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">

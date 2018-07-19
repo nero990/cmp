@@ -43,7 +43,7 @@ class Family extends Model implements AuditableContract
         static::creating(function ($family) {
             if(!static::$batched) {
                 do{
-                    $registration_number = "A".date('y'). str_pad(rand(1,999999), "6", "0", 0);
+                    $registration_number = Setting::get('fam_reg_num_prf') .date('y'). str_pad(rand(1,999999), "6", "0", 0);
                 } while (static::whereRegistrationNumber($registration_number)->exists());
 
                 $family->registration_number = $registration_number;

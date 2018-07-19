@@ -29,7 +29,7 @@
                     <a href="{{route('bcc-zones.index')}}" @yield('current_sick_members')><span aria-hidden="true" class="se7en-tables"></span>Sick Members</a>
                 </li>--}}
                 <li>
-                    <a href="{{route('bcc-zones.index')}}" @yield('current_bcc_zones')><span aria-hidden="true" class="se7en-home"></span>Bcc Zones</a>
+                    <a href="{{route('bcc-zones.index')}}" @yield('current_bcc_zones')><span aria-hidden="true" class="se7en-charts"></span>Bcc Zones</a>
                 </li>
                 <li>
                     <a href="{{route('church-engagements.index')}}" @yield('current_church_engagements')><span aria-hidden="true" class="se7en-tables"></span>Church Engagements</a>
@@ -54,6 +54,11 @@
                         <li><a href="#">Sacrament Details</a></li>
                         <li><a href="#">User</a></li>--}}
                     </ul>
+                </li>
+
+
+                <li>
+                    <a href="{{route('settings.index')}}" @yield('current_settings')><span aria-hidden="true" class="se7en-gear"></span>Settings</a>
                 </li>
             </ul>
         </div>

@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     // Family Module
     Route::prefix('families')->name('families.')->group(function () {
 
+        Route::get('export', 'FamilyController@export')->name('export');
         Route::post('bulk-upload', 'FamilyController@bulkUpload')->name('bulk-upload');
         Route::get('{family}/audits', 'FamilyController@audits')->name('audits');
 
@@ -99,6 +100,8 @@ Route::middleware('auth')->group(function () {
     // User Module
     Route::resource('users', 'UserController')->except(['create', 'show']);
 
+    // Setting Module
+    Route::resource('settings', 'SettingController')->only(['index', 'edit', 'update']);
 
     // System Tools
     Route::group(['prefix' => 'tool-kits', 'as' => 'toolKit'], function () {
