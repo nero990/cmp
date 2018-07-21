@@ -17,7 +17,7 @@ class Family extends Model implements AuditableContract
 
     protected static $required_headings = [
         'surname', 'first_name', 'no_of_children', 'names_of_children', 'address',
-        'contact', 'alt', 'state', 'family', 'single', 'family_reg_number'
+        'contact', 'alt', 'state', 'family', 'single', 'family_reg_number', 'file_id'
     ];
 
     protected $fillable = [
@@ -36,12 +36,12 @@ class Family extends Model implements AuditableContract
         "2" => "Collected"
     ];
 
-    public static $batched = false;
+    public static $willGenerateRegNumber = true;
 
     protected static function boot()
     {
         static::creating(function ($family) {
-            if(!static::$batched) {
+            if(static::$willGenerateRegNumber) {
                 do{
                     $registration_number = Setting::get('fam_reg_num_prf') .date('y'). str_pad(rand(1,999999), "6", "0", 0);
                 } while (static::whereRegistrationNumber($registration_number)->exists());
@@ -99,6 +99,10 @@ class Family extends Model implements AuditableContract
 
     public function bcc_zone() {
         return $this->belongsTo(BccZone::class);
+    }
+
+    public function files() {
+        return $this->belongsTo(File::class);
     }
 
     public function members() {

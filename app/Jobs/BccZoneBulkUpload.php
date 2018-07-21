@@ -14,14 +14,17 @@ class BccZoneBulkUpload implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $bcc_zones;
+    private $file;
 
     /**
      * Create a new job instance.
      *
      * @param $bcc_zones
+     * @param $file
      */
-    public function __construct($bcc_zones)
+    public function __construct($bcc_zones, $file)
     {
+        $this->file = $file;
         $this->bcc_zones = $bcc_zones;
     }
 

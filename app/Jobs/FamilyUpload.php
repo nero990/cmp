@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Events\FileUploaded;
 use App\Family;
 use App\MemberRole;
+use App\Setting;
 use App\State;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -18,15 +19,18 @@ class FamilyUpload implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $families;
+    private $families;
+    private $file;
 
     /**
      * Create a new job instance.
-     *
+
+     * @param $file
      * @param $families
      */
-    public function __construct($families)
+    public function __construct($file, $families)
     {
+        $this->file = $file;
         $this->families = $families;
     }
 
@@ -63,7 +67,7 @@ class FamilyUpload implements ShouldQueue
 
                     $names_of_children = ucwords(strtolower(trim($fam->names_of_children)));
 
-                    Family::$batched = true;
+                    Family::$willGenerateRegNumber = (Setting::get('gen_reg_no_for_bul_upl') == "1");
                     $family = Family::firstOrcreate([
                         'registration_number' => $fam->family_reg_number
                     ], [
@@ -72,6 +76,7 @@ class FamilyUpload implements ShouldQueue
                         'names_of_children' => empty($names_of_children) ?  null : explode(',', $names_of_children),
                         'state_id' => isset($states[$state]) ? $states[$state] : null,
                         'address' => trim(ucwords(strtolower($fam->address))),
+                        'file_id' => $this->file->id
                     ]);
 
                     $phones = trim($fam->contact);

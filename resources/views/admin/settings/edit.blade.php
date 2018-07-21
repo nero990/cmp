@@ -24,8 +24,11 @@
                             <div class="form-group">
                                 {!! Form::label($setting['description'], $setting['description'], ['class' => 'control-label']) !!}
 
-
-                                {!! Form::text('value', $setting['value'], ['placeholder' => 'John Smith', 'class' => "form-control", "id" => 'name' ]) !!}
+                                @if(is_null($setting['options']))
+                                    {!! Form::text('value', $setting['value'], ['placeholder' => 'Value', 'class' => "form-control", "id" => 'name' ]) !!}
+                                @else
+                                    {!! Form::select('value', $setting['options'], $setting['value'], ['placeholder' => 'Select', 'class' => "form-control", "id" => 'name' ]) !!}
+                                @endif
                             </div>
 
                             <div class="form-group">

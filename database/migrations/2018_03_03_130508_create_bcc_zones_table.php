@@ -22,7 +22,10 @@ class CreateBccZonesTable extends Migration
             $table->text('address');
             $table->text('streets');
             $table->enum('status', ['0', '1'])->default('0')->comment('0 => Inactive, 1 => Active');
+            $table->unsignedInteger('file_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('file_id')->references('id')->on('files');
         });
     }
 

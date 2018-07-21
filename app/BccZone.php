@@ -45,6 +45,10 @@ class BccZone extends Model implements AuditableContract
         return $this->hasMany(Family::class);
     }
 
+    public function files() {
+        return $this->belongsTo(File::class);
+    }
+
     public function scopeActive($query) {
         return $query->whereStatus('1');
     }

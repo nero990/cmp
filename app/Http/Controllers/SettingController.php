@@ -15,10 +15,12 @@ class SettingController extends Controller
         $settings = [];
         foreach ($config_settings AS $key => $config_setting) {
             try {
+                $setting = Setting::get($config_setting['key']);
+
                 $settings[] = [
                     'id' => $key,
                     'description' => $config_setting['description'],
-                    'value' => Setting::get($config_setting['key']),
+                    'value' => isset($config_setting['options']) ? $config_setting['options'][$setting]: $setting,
                 ];
             } catch (\Exception $e) {
             }
@@ -29,14 +31,22 @@ class SettingController extends Controller
     public function edit($id)
     {
         $config_settings = config('settings.core');
+
         if(isset($config_settings[$id])){
             try {
+                $config_setting = $config_settings[$id];
+
+                $db_setting = Setting::get($config_setting['key']);
+
                 $setting = [
                     'id' => $id,
                     'description' => $config_settings[$id]['description'],
-                    'value' => Setting::get($config_settings[$id]['key']),
+                    'value' => $db_setting,
+                    'options' => isset($config_setting['options']) ? $config_setting['options'] : null,
                 ];
+
             } catch (\Exception $e) {
+                dd($e->getMessage());
             }
             return view('admin.settings.edit', compact('setting'));
         }

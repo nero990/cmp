@@ -15,13 +15,12 @@ class Setting extends Model
      * @throws \Exception
      */
     public static function get($key) {
-        if(!$setting = Setting::where('key', $key)->first()) {
-            if(!$setting = collect(config('settings.core'))->where('key', $key)->first())
-                throw new \Exception('Invalid Setting');
+        if(!$config_setting = collect(config('settings.core'))->where('key', $key)->first())
+            throw new \Exception('Invalid Setting');
 
-            return $setting['default_val'];
-        }
-        return $setting->value;
+        if($setting = Setting::where('key', $key)->first()) return $setting->value;
+
+        return $config_setting['default_val'];
     }
 
     public static function put($key, $value) {

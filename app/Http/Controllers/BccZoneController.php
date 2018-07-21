@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BccZone;
+use App\File;
 use App\Jobs\BccZoneBulkUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -122,13 +123,19 @@ class BccZoneController extends Controller
         $bcc_zones = Excel::load(Storage::path($path), function ($reader) {
             $reader->all();
         })->get();
-        Storage::delete($path);
+
 
         if($error = BccZone::validateHeadings($bcc_zones->getheading())) {
+            Storage::delete($path);
             return back()->withErrors($error);
         }
 
-        BccZoneBulkUpload::dispatch($bcc_zones)->delay(now()->addSecond(3))->onQueue('high');
+        $file = File::create([
+            'name' => pathinfo($request->file('excel_file')->getClientOriginalName(), PATHINFO_FILENAME),
+            "path" => $path
+        ]);
+
+        BccZoneBulkUpload::dispatch($bcc_zones, $file)->delay(now()->addSecond(3))->onQueue('high');
 
         flash()->success("Success! File Uploaded.");
         return redirect()->route('bcc-zones.index');

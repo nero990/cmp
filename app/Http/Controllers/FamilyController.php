@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BccZone;
 use App\ChurchEngagement;
 use App\Family;
+use App\File;
 use App\Http\Requests\Family\CreateFamilyRequest;
 use App\Http\Requests\Family\UpdateFamilyRequest;
 use App\Jobs\FamilyUpload;
@@ -173,7 +174,7 @@ class FamilyController extends Controller
     public function bulkUpload(Request $request) {
 
         $this->validate($request, [
-            'excel_file' => 'required|file|mimes:csv,txt,xls,xlsx'
+            'excel_file' => 'required|file|mimes:csv,txt,xls,xlsx|max:5120'
         ], [
             'required' => 'No file selected'
         ]);
@@ -183,13 +184,19 @@ class FamilyController extends Controller
         $families = Excel::load(Storage::path($path), function ($reader) {
             $reader->all();
         })->get();
-        Storage::delete($path);
+
 
         if($error = Family::validateHeadings($families->getheading())) {
+            Storage::delete($path);
             return back()->withErrors($error);
         }
 
-        FamilyUpload::dispatch($families)->delay(now()->addSecond(3))->onQueue('high');
+        $file = File::create([
+            'name' => pathinfo($request->file('excel_file')->getClientOriginalName(), PATHINFO_FILENAME),
+            "path" => $path
+        ]);
+
+        FamilyUpload::dispatch($file, $families)->delay(now()->addSecond(3))->onQueue('high');
 
         flash()->success("Success! File Uploaded. Processing records in background.");
         return redirect()->route('families.index');
