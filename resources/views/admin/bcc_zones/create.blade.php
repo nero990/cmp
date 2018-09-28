@@ -1,7 +1,8 @@
 @extends('admin.layouts.main')
 
 @section('title') New BCC Zones @endsection
-@section('current_bcc_zones_create') class="current" @endsection
+@section('current_bcc_zones') class="current" @endsection
+
 
 @section('content')
     <div class="container-fluid main-content">

@@ -37,7 +37,7 @@ class UserController extends Controller
         User::$password = $request->get('password');
         Admin::create($request->all());
 
-        flash()->success("Success! Admin user created.");
+        alert()->success("Admin user created.", "Great Job!");
         return back();
     }
 

@@ -164,7 +164,8 @@ class MemberController extends Controller
             throw new \Exception($exception->getMessage());
         }
 
-        flash()->success("Success! {$message}");
+        alert()->success($message, "Successful!")->autoclose(5000);
+
         return redirect()->route('families.show', ['family' => $family->id]);
     }
 

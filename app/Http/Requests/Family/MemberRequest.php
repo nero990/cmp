@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Family;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class MemberRequest extends FormRequest
 {
@@ -61,4 +63,21 @@ class MemberRequest extends FormRequest
             'deceased_at.date_format' => 'The deceased date does not match the format yyyy-mm-dd.',
         ];
     }
+
+
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw (new ValidationException($validator))
+            ->errorBag($this->errorBag)
+            ->redirectTo($this->getRedirectUrl());
+    }
+
 }

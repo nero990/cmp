@@ -75,24 +75,20 @@ var ajaxSuccess = function (result, status, xhr) {
 var ajaxError = function (xhr, status, error) {
     loader('off');
 
-    var errorsHtml = '<div class="alert alert-danger alert-important">' +
-        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>';
+    var errorMessage = "";
 
     if(xhr.status === 422) {
-        var errorObject = xhr.responseJSON;
-
-        $.each(errorObject.errors, function (key, value) {
-            errorsHtml += "<p>" + value[0] + "</p>";
+        $.each(xhr.responseJSON.errors, function (key, value) {
+            errorMessage += value[0] + "\n";
         });
 
     } else if(xhr.status === 400) {
-        errorsHtml += "<p>" + xhr  + "</p>"
+        errorMessage = xhr;
     } else {
-        errorsHtml += "<p>" + xhr.statusText  + "</p>"
+        errorMessage = xhr.statusText;
     }
-    errorsHtml += "</div>";
 
-    $('#message').html(errorsHtml);
+    sweetAlert("Error!", errorMessage, "error");
 };
 
 $(document).ready(function () {

@@ -84,6 +84,8 @@
     <script src="{{asset('admin/javascripts/dropzone.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/main.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/respond.js')}}" type="text/javascript"></script>
+
+    <script src="{{asset('admin/javascripts/sweetalert.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('admin/javascripts/custom/final.js')}}" type="text/javascript"></script>
 
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
@@ -96,7 +98,9 @@
     @include('admin.layouts.partials.navigation')
     <!-- End Navigation -->
 
-   @yield('content')
+    @include('sweet::alert')
+
+    @yield('content')
 </div>
 
 <img src="{{asset('admin/images/loader-dark.gif')}}" class="loader-img">

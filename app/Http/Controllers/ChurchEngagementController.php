@@ -45,10 +45,13 @@ class ChurchEngagementController extends Controller
         $request->validate($this->rules, $this->messages);
 
         ChurchEngagement::create($request->all());
-        $message = 'Church engagement created successfully';
-        flash()->success($message);
 
-        if($request->wantsJson()) { return response()->json(['message' => $message]); }
+        $title = "Great Job!";
+        $message = 'Church engagement created';
+
+        if($request->wantsJson()) { return response()->json(['message' => $message, "title" => $title]); }
+
+        alert()->success($message, $title);
 
         return redirect()->route('church-engagements.index');
     }
@@ -88,9 +91,14 @@ class ChurchEngagementController extends Controller
         $request->validate($this->rules, $this->messages);
 
         $church_engagement->update($request->all());
-        if($request->wantsJson()) return response()->json(['message' => 'Church engagement updated successfully']);
+        $title = "Success!";
+        $message = 'Church engagement updated.';
 
-        return redirect()->route('bcc-zones.index')->with(['message' => 'Church engagement updated successfully']);
+        if($request->wantsJson()) return response()->json(['message' => $message, "title" => $title]);
+
+        alert()->success($message, $title);
+
+        return redirect()->route('bcc-zones.index');
     }
 
     /**

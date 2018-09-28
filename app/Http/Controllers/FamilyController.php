@@ -93,12 +93,18 @@ class FamilyController extends Controller
             throw new \Exception($exception->getMessage());
         }
 
+
+        $title = "Great Job!";
         $url = route('families.show', $family->id);
-        $message = "Success! Family Created (Family RegNo.: <a href=\"{$url}\">{$family->registration_number})</a>";
+        $message = "Family created! " .
+            "\nRegistration Number: {$family->registration_number}. " .
+            "\nBy clicking 'OK' you will be redirected to the family page.";
 
-        if($request->wantsJson()) return response()->json(['message' => $message]);
 
-        flash()->success($message);
+        if($request->wantsJson()) return response()->json(['message' => $message, "title" => $title, "button_text" => "Ok", "url" => $url]);
+
+        alert()->success($message, $title)->addButton("Ok", "Ok");
+
         return redirect()->route('families.show', ['family' => $family->id]);
     }
 
@@ -154,9 +160,13 @@ class FamilyController extends Controller
         $family->update($data);
         $family->setHead($data['family_head']);
 
-        $message = "Success! Family record updated.";
-        if($request->wantsJson()) return response()->json(['message' => $message]);
-        flash()->success($message);
+        $title = "Success!";
+        $message = "Family record updated.";
+
+        if($request->wantsJson()) return response()->json(['message' => $message, "title" => $title]);
+
+        alert()->success($message, $title);
+
         return redirect()->route('families.show', $family->id);
     }
 

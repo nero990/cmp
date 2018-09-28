@@ -49,10 +49,22 @@ class BccZoneController extends Controller
     {
         $request->validate($this->rules, $this->messages);
 
-        BccZone::create($request->all());
-        if($request->wantsJson()) return response()->json(['message' => 'Bcc zone created successfully']);
+        $bcc_zone = BccZone::create($request->all());
 
-        return redirect()->route('bcc-zones.index')->with(['message' => 'Bcc zone created successfully']);
+        $title = "Great Job!";
+        $message = 'Bcc zone created';
+
+        if($request->wantsJson())
+            return response()->json([
+                'message' => $message,
+                "title" => $title,
+                "button_text" => "Ok",
+                "url" => route("bcc-zones.show", ["id" => $bcc_zone->id])
+            ]);
+
+        alert()->success($message, $title);
+
+        return redirect()->route('bcc-zones.index');
     }
 
     /**
@@ -94,9 +106,14 @@ class BccZoneController extends Controller
         $data = $request->all();
         $data['status'] = isset($data['status']) ? '1' : '0';
         $bcc_zone->update($data);
-        if($request->wantsJson()) return response()->json(['message' => 'Bcc zone updated successfully']);
 
-        return redirect()->route('bcc-zones.index')->with(['message' => 'Bcc zone updated successfully']);
+        $message = 'Bcc zone updated';
+        $title = "Success!";
+
+        if($request->wantsJson()) return response()->json(['message' => $message, "title" => $title]);
+
+        alert()->success($message, $title);
+        return redirect()->route('bcc-zones.index');
     }
 
     /**
@@ -137,7 +154,8 @@ class BccZoneController extends Controller
 
         BccZoneBulkUpload::dispatch($bcc_zones, $file)->delay(now()->addSecond(3))->onQueue('high');
 
-        flash()->success("Success! File Uploaded.");
+        alert()->success("File Uploaded", "Great Job!");
+
         return redirect()->route('bcc-zones.index');
     }
 

@@ -1,6 +1,7 @@
 @extends('admin.layouts.main')
 
 @section('title') {{$bcc_zone->name}} Zone @endsection
+@section('current_bcc_zones') class="current" @endsection
 
 @section('content')
     <div class="container-fluid main-content">

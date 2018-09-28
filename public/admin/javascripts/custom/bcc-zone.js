@@ -28,11 +28,13 @@ $(document).ready(function () {
         },
         submitHandler : function (form) {
             if($(form).find('input').first().val() === "PUT") put($(form).attr('action'), $(form).serialize(), ajaxSuccess);
-            else post($(form).attr('action'), $(form).serialize());
+            else post($(form).attr('action'), $(form).serialize(), ajaxSuccess, ajaxError);
         }
     });
 
     var ajaxSuccess = function (result, status, xhr) {
-        outputMessage(result.message);
+        sweetAlert(result.title, result.message, "success", false, result.button_text, result.url);
     };
+
+
 });

@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     $.fn.serializeObject = function()
     {
@@ -53,4 +54,21 @@ function outputMessage(message) {
         '<button type="button" class="close" data-dismiss="alert" aria-hidden="true"> &times; </button>' +
         message + '</div>';
     $('#message').html(message);
+}
+
+function sweetAlert(title, text, icon, timer = false, buttonText, url) {
+    loader('off');
+
+    if(icon === "success") $("#message").hide();
+
+    swal({
+        title: title,
+        text: text,
+        icon: icon,
+        timer: timer,
+        showCancelButton: (typeof buttonText !== 'undefined')
+    }).then(
+    function(){
+        if (typeof url !== 'undefined') window.location.href = url;
+    });
 }
