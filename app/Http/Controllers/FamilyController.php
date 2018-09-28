@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\BccZone;
 use App\ChurchEngagement;
 use App\Family;
-use App\File;
+use App\UploadedFile;
 use App\Http\Requests\Family\CreateFamilyRequest;
 use App\Http\Requests\Family\UpdateFamilyRequest;
 use App\Jobs\FamilyUpload;
@@ -201,7 +201,7 @@ class FamilyController extends Controller
             return back()->withErrors($error);
         }
 
-        $file = File::create([
+        $file = UploadedFile::create([
             'name' => pathinfo($request->file('excel_file')->getClientOriginalName(), PATHINFO_FILENAME),
             "path" => $path
         ]);
@@ -212,9 +212,80 @@ class FamilyController extends Controller
         return redirect()->route('families.index');
     }
 
-    public function export() {
-
+    public function exportAll($type) {
+        $this->export(NULL, $type);
     }
+
+
+    public function export($id, $type) {
+        if(!in_array($type, ['csv', 'xls', 'xlsx'])) return back()->withErrors('File type not allowed');
+
+
+        if(is_null($id)){
+            $clients = Family::setEagerLoads([]);
+            $file_name = date('Y_m_d_') . time();
+        } else {
+            $uploaded_file = UploadedFile::findOrFail($id);
+            $file_name = $uploaded_file->name;
+            $clients = $uploaded_file->clients();
+        }
+
+        switch(\request()->get('filter')) {
+            case "passed" :
+                $clients = $clients->passed();
+                break;
+            case "failed" :
+                $clients = $clients->failed();
+                break;
+            case "pending" :
+                $clients = $clients->pending();
+                break;
+        }
+
+        $clients = $clients->get()->toArray();
+
+        $ignore_headers = ['id', 'uploaded_file_id', 'user_id', 'created_at', 'updated_at'];
+
+        Excel::create($file_name, function ($excel) use ($clients, $ignore_headers) {
+            $excel->sheet('Client Details', function ($sheet) use ($clients, $ignore_headers) {
+                $result = [];
+                foreach ($clients AS $k => $client) {
+                    foreach ($client AS $key => $value) {
+                        if(in_array($key, $ignore_headers)) continue;
+
+                        $result[$k]['S/N'] = $k + 1;
+
+                        if($key === "name") {
+                            $result[$k]['Name (Cardinal)'] = $value;
+                            continue;
+                        }
+
+                        if($key === "nibss_response") {
+                            $result[$k]['Name (NIBSS)'] = (!empty($value) && $value->status === "00") ? $value->accountName : "";
+                            continue;
+                        }
+
+                        if($key === 'is_valid') {
+                            $result[$k]['Status'] = ($value) ? 'Passed' : 'Failed';
+                            continue;
+                        }
+
+                        $result[$k][normal_case($key)] = $value;
+
+                    }
+                }
+                $sheet->fromArray($result);
+                $sheet->row(1, function ($row) {
+                    $row->setBackground('#000000');
+                    $row->setFontColor('#00FF00');
+                    $row->setFontWeight('bold');
+                });
+            });
+        })->download($type);
+
+        return false;
+    }
+
 
     public function audits(Family $family) {
         $audits = $family->audits()->latest()->get();

@@ -68,6 +68,7 @@ class FamilyUpload implements ShouldQueue
                     $names_of_children = ucwords(strtolower(trim($fam->names_of_children)));
 
                     Family::$willGenerateRegNumber = (Setting::get('gen_reg_no_for_bul_upl') == "1");
+
                     $family = Family::firstOrcreate([
                         'registration_number' => $fam->family_reg_number
                     ], [
@@ -76,7 +77,7 @@ class FamilyUpload implements ShouldQueue
                         'names_of_children' => empty($names_of_children) ?  null : explode(',', $names_of_children),
                         'state_id' => isset($states[$state]) ? $states[$state] : null,
                         'address' => trim(ucwords(strtolower($fam->address))),
-                        'file_id' => $this->file->id
+                        'uploaded_file_id' => $this->file->id
                     ]);
 
                     $phones = trim($fam->contact);

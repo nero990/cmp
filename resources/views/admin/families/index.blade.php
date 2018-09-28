@@ -24,17 +24,17 @@
                         <i class="fa fa-plus"></i> Batch Upload
                     </button>
 
-                    <div class="">
-                        <div class="btn-group hidden-xs">
-                            <a href='#' class="btn btn-default dropdown-toggle" data-toggle='dropdown'><i class="fa fa-cloud-download"></i><span class="hidden-sm">&nbsp;Export&nbsp;as&nbsp; </span><span class="caret"></span></a>
 
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ route('families.export', ['type' => 'csv']) }}">CSV File (*.csv)</a></li>
-                                <li><a href="{{ route('families.export', ['type' => 'xls']) }}">Excel 2003 File (*.xls)</a></li>
-                                <li><a href="{{ route('families.export', ['type' => 'xlsx']) }}">Excel 2007 File (*.xlsx)</a></li>
-                            </ul>
-
-                        </div>
+                    <div class="dropdown pull-right">
+                        <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <i class="fa fa-cloud-download"></i>&nbsp;Export&nbsp;as&nbsp;
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="{{ route('families.export', ['type' => 'csv']) }}">CSV File (*.csv)</a></li>
+                            <li><a href="{{ route('families.export', ['type' => 'xls']) }}">Excel 2003 File (*.xls)</a></li>
+                            <li><a href="{{ route('families.export', ['type' => 'xlsx']) }}">Excel 2007 File (*.xlsx)</a></li>
+                        </ul>
                     </div>
 
                     <!-- Modal -->
@@ -70,7 +70,7 @@
 
                     <div class="clearfix"></div>
 
-                    <div class="col-sm-4 pull-right">
+                    <div class="col-sm-9 pull-right">
                         {!! Form::open(['method' => 'GET', 'id' => 'searchForm', 'class' => 'form-horizontal']) !!}
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Search</label>

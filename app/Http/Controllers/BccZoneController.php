@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BccZone;
-use App\File;
+use App\UploadedFile;
 use App\Jobs\BccZoneBulkUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -147,7 +147,7 @@ class BccZoneController extends Controller
             return back()->withErrors($error);
         }
 
-        $file = File::create([
+        $file = UploadedFile::create([
             'name' => pathinfo($request->file('excel_file')->getClientOriginalName(), PATHINFO_FILENAME),
             "path" => $path
         ]);

@@ -46,7 +46,7 @@ class BccZone extends Model implements AuditableContract
     }
 
     public function files() {
-        return $this->belongsTo(File::class);
+        return $this->belongsTo(UploadedFile::class);
     }
 
     public function scopeActive($query) {

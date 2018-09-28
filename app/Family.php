@@ -101,8 +101,8 @@ class Family extends Model implements AuditableContract
         return $this->belongsTo(BccZone::class);
     }
 
-    public function files() {
-        return $this->belongsTo(File::class);
+    public function uploadedFiles() {
+        return $this->belongsTo(UploadedFile::class);
     }
 
     public function members() {

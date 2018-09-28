@@ -25,12 +25,12 @@ class CreateFamiliesTable extends Migration
             $table->text('address')->nullable();
             $table->enum('card_status', ['0', '1', '2'])->default('0')->comment('0 => Not Paid, 1 => Paid, 2 => Collected');
             $table->unsignedInteger('bcc_zone_id')->nullable();
-            $table->unsignedInteger('file_id')->nullable();
+            $table->unsignedInteger('uploaded_file_id')->nullable();
             $table->timestamps();
 
             $table->foreign('state_id')->references('id')->on('states');
             $table->foreign('bcc_zone_id')->references('id')->on('bcc_zones');
-            $table->foreign('file_id')->references('id')->on('files');
+            $table->foreign('uploaded_file_id')->references('id')->on('uploaded_files');
         });
     }
 
