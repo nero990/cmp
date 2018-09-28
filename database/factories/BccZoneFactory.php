@@ -12,6 +12,7 @@ $factory->define(App\BccZone::class, function (Faker $faker) {
     return [
         'name' => $faker->unique()->streetName,
         'address' => $faker->streetAddress,
-        'streets' => $streets
+        'streets' => $streets,
+        'status'  => '1'
     ];
 });
