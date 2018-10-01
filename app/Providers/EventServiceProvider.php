@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\FileUploaded' => [
             'App\Listeners\FileUploadListener',
         ],
+        'App\Events\UpdateUploadedFileStatus' => [
+            'App\Listeners\UpdateUploadedFileStatusListener',
+        ],
     ];
 
     /**

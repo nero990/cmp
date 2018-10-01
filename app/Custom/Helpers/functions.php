@@ -2,7 +2,11 @@
 
 
 function getPaginateSize() {
-    return config('app.paginate_size');
+    try {
+        return \App\Setting::get('paginate_size');
+    } catch (Exception $e) {
+        return 50;
+    }
 }
 
 
@@ -69,4 +73,8 @@ function getAuditRoute ($audit) {
     }
     $route .= getAuditName($audit->auditable_type, "-", true) . "/{$audit->auditable_id}/audits";
     return url($route);
+}
+
+function nameFile($type) {
+    return date('Y_m_d_') . time() . "_" . rand(1111, 9999) . "_{$type}" ;
 }

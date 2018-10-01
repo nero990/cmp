@@ -25,7 +25,7 @@ class BccZoneController extends Controller
      */
     public function index()
     {
-        $bcc_zones = BccZone::all();
+        $bcc_zones = BccZone::paginate(getPaginateSize());
         return view('admin.bcc_zones.index', compact('bcc_zones'));
     }
 
@@ -147,16 +147,21 @@ class BccZoneController extends Controller
             return back()->withErrors($error);
         }
 
+        // pathinfo($request->file('excel_file')->getClientOriginalName(), PATHINFO_FILENAME
+
+        $type = 'BCC_ZONE';
         $file = UploadedFile::create([
-            'name' => pathinfo($request->file('excel_file')->getClientOriginalName(), PATHINFO_FILENAME),
-            "path" => $path
+            'name' => nameFile($type),
+            "path" => $path,
+            'type' => $type,
+            'status' => 'PROCESSING'
         ]);
 
         BccZoneBulkUpload::dispatch($bcc_zones, $file)->delay(now()->addSecond(3))->onQueue('high');
 
         alert()->success("File Uploaded", "Great Job!");
 
-        return redirect()->route('bcc-zones.index');
+        return redirect()->route('uploaded-files.index');
     }
 
     public function audits(BccZone $bcc_zone) {

@@ -23,6 +23,9 @@
                     <a href="{{route('home')}}" @yield('dashboard')><span aria-hidden="true" class="se7en-home"></span>Dashboard</a>
                 </li>
                 <li>
+                    <a href="{{route('uploaded-files.index')}}" @yield('current_uploaded_files')><span aria-hidden="true" class="se7en-tables"></span>Uploaded Files</a>
+                </li>
+                <li>
                     <a href="{{route('families.index')}}" @yield('current_families')><span aria-hidden="true" class="se7en-tables"></span>Families</a>
                 </li>
                 {{--<li>

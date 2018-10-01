@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Events\FileUploaded;
+use App\Events\UpdateUploadedFileStatus;
 use App\Family;
 use App\MemberRole;
 use App\Setting;
@@ -20,17 +21,16 @@ class FamilyUpload implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $families;
-    private $file;
+    private $uploaded_file;
 
     /**
      * Create a new job instance.
-
-     * @param $file
+     * @param $uploaded_file
      * @param $families
      */
-    public function __construct($file, $families)
+    public function __construct($uploaded_file, $families)
     {
-        $this->file = $file;
+        $this->uploaded_file = $uploaded_file;
         $this->families = $families;
     }
 
@@ -77,7 +77,7 @@ class FamilyUpload implements ShouldQueue
                         'names_of_children' => empty($names_of_children) ?  null : explode(',', $names_of_children),
                         'state_id' => isset($states[$state]) ? $states[$state] : null,
                         'address' => trim(ucwords(strtolower($fam->address))),
-                        'uploaded_file_id' => $this->file->id
+                        'uploaded_file_id' => $this->uploaded_file->id
                     ]);
 
                     $phones = trim($fam->contact);
@@ -110,12 +110,13 @@ class FamilyUpload implements ShouldQueue
                 DB::rollback();
 
                 $result['errors'][] = [
-                    'family_registration_number' => $fam->family_reg_number,
+                    'entity' => $fam->family_reg_number,
                     'error_message' => $exception->getMessage()
                 ];
             }
         });
 
+        event(new UpdateUploadedFileStatus($this->uploaded_file, $result));
         event(new FileUploaded($result));
     }
 }

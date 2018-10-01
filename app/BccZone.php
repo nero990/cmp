@@ -13,7 +13,7 @@ class BccZone extends Model implements AuditableContract
     use Auditable, FileUpload;
 
     protected $fillable = [
-        'name', 'address', 'status', 'streets'
+        'name', 'address', 'status', 'streets', 'uploaded_file_id'
     ];
 
     protected $casts = [

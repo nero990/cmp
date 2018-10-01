@@ -48,11 +48,12 @@ class SacramentQuestionController extends Controller
         $data['status'] = empty($data['status']) ? '0' : $data['status'];
         SacramentQuestion::create($data);
 
+        $title = "Great Job!";
         $message = "Sacrament question created";
 
-        if($request->wantsJson()) return response()->json(['message' => 'Sacrament question created successfully']);
+        if($request->wantsJson()) return response()->json(['message' => $message, 'title' => $title]);
 
-        alert()->success($message, "Great Job!");
+        alert()->success($message, $title);
         return redirect()->route('sacrament-questions.index');
     }
 
@@ -84,11 +85,12 @@ class SacramentQuestionController extends Controller
         $data['status'] = empty($data['status']) ? '0' : $data['status'];
         $sacrament_question->update($data);
 
+        $title = "Success!";
         $message = 'Sacrament question updated';
 
-        if($request->wantsJson()) return response()->json(['message' => $message]);
+        if($request->wantsJson()) return response()->json(['message' => $message, 'title' => $title]);
 
-        alert()->success($message, "Success!");
+        alert()->success($message, $title);
 
         return redirect()->route('sacrament-questions.index');
     }

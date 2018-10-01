@@ -18,6 +18,8 @@ class CreateUploadedFilesTable extends Migration
             $table->string('name', 150);
             $table->string('path', 150);
             $table->enum('type', ['FAMILY', 'BCC_ZONE']);
+            $table->enum('status', ['PROCESSING', 'COMPLETED'])->default('PROCESSING');
+            $table->json('details')->nullable();
             $table->timestamps();
         });
     }

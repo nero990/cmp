@@ -46,6 +46,12 @@ Route::middleware('auth')->group(function () {
     });
     Route::resource('church-engagements', 'ChurchEngagementController')->except(['edit', 'create']);
 
+    // Uploaded File Module
+    Route::prefix('uploaded-files')->name('uploaded-files.')->group(function () {
+        Route::get('', 'UploadedFileController@index')->name('index');
+        Route::get('{uploaded_file}', 'UploadedFileController@show')->name('show');
+        Route::get('{uploaded_file}/report', 'UploadedFileController@report')->name('report');
+    });
 
     // Family Module
     Route::prefix('families')->name('families.')->group(function () {

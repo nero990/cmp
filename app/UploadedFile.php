@@ -7,14 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class UploadedFile extends Model
 {
     protected $fillable = [
-        'name', 'path', 'type'
+        'name', 'path', 'type', 'status', 'details'
+    ];
+
+    protected $casts = [
+        'details' => 'object'
     ];
 
     public function families() {
-        return $this->hasMany(Family::class)->where('type', 'FAMILY');
+        return $this->hasMany(Family::class);
     }
 
     public function bcc_zones() {
-        return $this->hasMany(BccZone::class)->where('type', 'BCC_ZONE');
+        return $this->hasMany(BccZone::class);
     }
 }

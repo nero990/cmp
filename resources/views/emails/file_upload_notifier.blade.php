@@ -14,7 +14,7 @@ Error Count:{{$error_count}}
         | Family Reg. Number              | Error Message  |
         | ------------- |:-------------:| --------:|
         @foreach($result['errors'] AS $error)
-        | {{ $error['family_registration_number']}}             | {{$error['error_message']}} |
+        | {{ $error['entity']}}             | {{$error['error_message']}} |
         @endforeach
     @endcomponent
 @endif

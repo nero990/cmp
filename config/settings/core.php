@@ -17,4 +17,10 @@ return [
             '0' => 'No'
         ]
     ],
+    '3' => [
+        'key' => 'paginate_size',
+        'description' => 'Pagination Size',
+        'default_val' => '50',
+        'validation' => 'required|numeric',
+    ],
 ];

@@ -201,15 +201,18 @@ class FamilyController extends Controller
             return back()->withErrors($error);
         }
 
+        $type = 'FAMILY';
         $file = UploadedFile::create([
-            'name' => pathinfo($request->file('excel_file')->getClientOriginalName(), PATHINFO_FILENAME),
-            "path" => $path
+            'name' => nameFile($type),
+            "path" => $path,
+            "type" => $type,
+            'status' => 'PROCESSING'
         ]);
 
         FamilyUpload::dispatch($file, $families)->delay(now()->addSecond(3))->onQueue('high');
 
         flash()->success("Success! File Uploaded. Processing records in background.");
-        return redirect()->route('families.index');
+        return redirect()->route('uploaded-files.index');
     }
 
     public function exportAll($type) {

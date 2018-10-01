@@ -58,6 +58,7 @@
                         <table class="table table-striped" id="dataTable1">
                             <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Name</th>
                                 <th>Address</th>
                                 <th class="hidden-xs">Streets</th>
@@ -68,8 +69,9 @@
 
                             </thead>
                             <tbody>
-                            @foreach($bcc_zones AS $bcc_zone)
+                            @foreach($bcc_zones AS $serial => $bcc_zone)
                                 <tr>
+                                    <td>{{ (++$serial + ($bcc_zones->currentPage() - 1) * $bcc_zones->perPage()) }}</td>
                                     <td>{{$bcc_zone->name}}</td>
                                     <td>{{$bcc_zone->address}}</td>
                                     <td class="hidden-xs">
@@ -99,6 +101,7 @@
                             @endforeach
                             </tbody>
                         </table>
+                        {{$bcc_zones->links()}}
                     </div>
 
                 </div>

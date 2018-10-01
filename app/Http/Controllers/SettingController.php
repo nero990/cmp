@@ -64,7 +64,7 @@ class SettingController extends Controller
 
             Setting::put($config_settings[$id]['key'], $request->get('value'));
 
-            flash()->success('Successful! Setting updated');
+            alert()->success('Setting updated', "Great Job!");
             return back();
 
         }

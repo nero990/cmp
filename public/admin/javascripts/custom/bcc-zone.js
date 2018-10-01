@@ -33,7 +33,7 @@ $(document).ready(function () {
     });
 
     var ajaxSuccess = function (result, status, xhr) {
-        sweetAlert(result.title, result.message, "success", false, result.button_text, result.url);
+        sweetAlert(result.title, result.message, "success", false, result.button_text, result.urlc);
     };
 
 

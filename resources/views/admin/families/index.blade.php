@@ -101,9 +101,9 @@
                             <th></th>
                             </thead>
                             <tbody>
-                            @foreach($families AS $key => $family)
+                            @foreach($families AS $serial => $family)
                                 <tr>
-                                    <td>{{$key+1}}</td>
+                                    <td>{{ ++$serial + ($families->currentPage() - 1) * $families->perPage() }}</td>
                                     <td>{{$family->name}}</td>
                                     <td>{{$family->type_text}}</td>
                                     <td>{{$family->registration_number}}</td>

@@ -17,7 +17,7 @@ class Family extends Model implements AuditableContract
 
     protected static $required_headings = [
         'surname', 'first_name', 'no_of_children', 'names_of_children', 'address',
-        'contact', 'alt', 'state', 'family', 'single', 'family_reg_number', 'file_id'
+        'contact', 'alt', 'state', 'family', 'single', 'family_reg_number', 'uploaded_file_id'
     ];
 
     protected $fillable = [
