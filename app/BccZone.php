@@ -20,9 +20,13 @@ class BccZone extends Model implements AuditableContract
         'streets' => 'array'
     ];
 
+    protected $appends = [
+        'status_text'
+    ];
+
     private static $size = 20;
 
-    public static $required_headings = [
+    private static $required_headings = [
         'name', 'address', 'streets'
     ];
 
@@ -86,5 +90,13 @@ class BccZone extends Model implements AuditableContract
             'colour' => $colour,
             'font-awesome' => $font_awesome
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getRequiredHeadings(): string
+    {
+        return implode(",", self::$required_headings);
     }
 }

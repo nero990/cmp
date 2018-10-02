@@ -26,7 +26,8 @@ class BccZoneController extends Controller
     public function index()
     {
         $bcc_zones = BccZone::paginate(getPaginateSize());
-        return view('admin.bcc_zones.index', compact('bcc_zones'));
+        $required_fields = BccZone::getRequiredHeadings();
+        return view('admin.bcc_zones.index', compact('bcc_zones', 'required_fields'));
     }
 
     /**
@@ -171,5 +172,61 @@ class BccZoneController extends Controller
         $title = "Audit Trail Report for BCC Zone <strong>{$bcc_zone->name}</strong>";
         $heading = "BCC Zone Audit Trail Report <small>[{$bcc_zone->name}]</small>";
         return view('admin.reports.audits.show', compact('audits', 'translation', 'model', 'title', 'heading'));
+    }
+
+    public function exportAll($type) {
+        $this->export(NULL, $type);
+    }
+
+
+    public function export($id, $type) {
+        if(!in_array($type, ['csv', 'xls', 'xlsx'])) return back()->withErrors('File type not allowed');
+
+
+        if(is_null($id)){
+            $bcc_zones = BccZone::setEagerLoads([]);
+            $file_name = date('Y_m_d_') . time();
+        } else {
+            $uploaded_file = UploadedFile::findOrFail($id);
+            $file_name = $uploaded_file->name;
+            $bcc_zones = $uploaded_file->bcc_zones();
+        }
+
+        $bcc_zones = $bcc_zones->get()->toArray();
+
+        $ignore_headers = ['id', 'uploaded_file_id', 'status'];
+
+        Excel::create($file_name, function ($excel) use ($bcc_zones, $ignore_headers) {
+            $excel->sheet('Bcc Zones', function ($sheet) use ($bcc_zones, $ignore_headers) {
+                $result = [];
+                foreach ($bcc_zones AS $k => $bcc_zone) {
+                    foreach ($bcc_zone AS $key => $value) {
+                        if(in_array($key, $ignore_headers)) continue;
+
+                        $result[$k]['S/N'] = $k + 1;
+
+                        if($key === "streets") {
+                            $result[$k]['Streets'] = implode(", ", $value);
+                            continue;
+                        }
+
+                        if($key === "status_text") {
+                            $result[$k]['Status'] = $value;
+                            continue;
+                        }
+
+                        $result[$k][normal_case($key)] = $value;
+                    }
+                }
+                $sheet->fromArray($result);
+                $sheet->row(1, function ($row) {
+                    $row->setBackground('#000000');
+                    $row->setFontColor('#00FF00');
+                    $row->setFontWeight('bold');
+                });
+            });
+        })->download($type);
+
+        return false;
     }
 }

@@ -43,6 +43,13 @@
                                     </tr>
                                 </table>
                             </div>
+
+                            @if($uploaded_file->details->success_count > 0)
+                            <a href="{{route('uploaded-files.show', ['id' => $uploaded_file->id])}}" class="btn btn-success-outline">
+                                <i class="fa fa-eye"></i> View Records
+                            </a>
+                            @endif
+
                         </div>
 
                         @if($uploaded_file->details->errors)

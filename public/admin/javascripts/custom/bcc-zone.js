@@ -36,5 +36,4 @@ $(document).ready(function () {
         sweetAlert(result.title, result.message, "success", false, result.button_text, result.urlc);
     };
 
-
 });

@@ -31,9 +31,9 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="{{ route('families.export', ['type' => 'csv']) }}">CSV File (*.csv)</a></li>
-                            <li><a href="{{ route('families.export', ['type' => 'xls']) }}">Excel 2003 File (*.xls)</a></li>
-                            <li><a href="{{ route('families.export', ['type' => 'xlsx']) }}">Excel 2007 File (*.xlsx)</a></li>
+                            <li><a href="{{ route('families.exportAll', ['type' => 'csv']) }}">CSV File (*.csv)</a></li>
+                            <li><a href="{{ route('families.exportAll', ['type' => 'xls']) }}">Excel 2003 File (*.xls)</a></li>
+                            <li><a href="{{ route('families.exportAll', ['type' => 'xlsx']) }}">Excel 2007 File (*.xlsx)</a></li>
                         </ul>
                     </div>
 
@@ -50,8 +50,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                    <small><strong>File Header:</strong> Surname, First Name, Names of Children, Address, Contact, Alt, State, Family, Single, Family Reg Number</small>
-
+                                        <small><strong>File Header: </strong>{{$required_fields}}</small>
+                                        <a href="#" id="downloadCsv" data-content="{{$required_fields}}">Download sample file</a>
                                     </div>
                                     <div class="form-group">
                                         {{Form::file('excel_file')}}

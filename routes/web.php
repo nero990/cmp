@@ -24,8 +24,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
     // BCC Zone Module
-    Route::post('bcc-zones/bulk_upload', 'BccZoneController@bulkUpload')->name('bcc-zones.bulk-upload');
-    Route::get('bcc-zones/{bcc_zone}/audits', 'BccZoneController@audits')->name('bcc-zones.audits');
+    Route::prefix('bcc-zones')->name('bcc-zones.')->group(function () {
+        Route::post('bulk_upload', 'BccZoneController@bulkUpload')->name('bulk-upload');
+        Route::get('{bcc_zone}/audits', 'BccZoneController@audits')->name('audits');
+        Route::get('export/{type}', 'BccZoneController@exportAll')->name('exportAll');
+    });
     Route::resource('bcc-zones', 'BccZoneController');
 
     // Church Engagement Module
@@ -56,7 +59,7 @@ Route::middleware('auth')->group(function () {
     // Family Module
     Route::prefix('families')->name('families.')->group(function () {
 
-        Route::get('export', 'FamilyController@export')->name('export');
+        Route::get('export/{type}', 'FamilyController@exportAll')->name('exportAll');
         Route::post('bulk-upload', 'FamilyController@bulkUpload')->name('bulk-upload');
         Route::get('{family}/audits', 'FamilyController@audits')->name('audits');
 

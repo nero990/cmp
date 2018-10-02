@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\BccZone;
+use App\Family;
 use App\UploadedFile;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -30,10 +32,12 @@ class UploadedFileController extends Controller
         switch ($uploaded_file->type) {
             case "FAMILY" :
                 $families = $uploaded_file->families()->with('name', 'registration_number', 'head')->orderBy('name')->paginate(getPaginateSize());
-                return view('admin.families.index', compact('families'));
+                $required_fields = Family::getRequiredHeadings();
+                return view('admin.families.index', compact('families', 'required_fields'));
             case "BCC_ZONE" :
                 $bcc_zones = $uploaded_file->bcc_zones()->paginate(getPaginateSize());
-                return view('admin.bcc_zones.index', compact('bcc_zones'));
+                $required_fields = BccZone::getRequiredHeadings();
+                return view('admin.bcc_zones.index', compact('bcc_zones', 'required_fields'));
             default:
                 throw new NotFoundHttpException();
         }

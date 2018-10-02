@@ -44,7 +44,7 @@
                                         <td class="actions">
                                             <div class="action-buttons">
                                                 <a class="table-actions" title="View Records" href="{{route('uploaded-files.show', ['id' => $uploaded_file->id])}}"><i class="fa fa-eye"></i></a>
-                                                <a class="table-actions" title="View Uploade Report" href="{{route('uploaded-files.report', ['id' => $uploaded_file->id])}}"><i class="fa fa-archive"></i></a>
+                                                <a class="table-actions" title="View Uploaded Report" href="{{route('uploaded-files.report', ['id' => $uploaded_file->id])}}"><i class="fa fa-archive"></i></a>
                                             </div>
                                         </td>
                                     </tr>

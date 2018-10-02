@@ -15,17 +15,21 @@ class Family extends Model implements AuditableContract
 {
     use Auditable, GlobalScopes, FileUpload;
 
-    protected static $required_headings = [
+    private static $required_headings = [
         'surname', 'first_name', 'no_of_children', 'names_of_children', 'address',
-        'contact', 'alt', 'state', 'family', 'single', 'family_reg_number', 'uploaded_file_id'
+        'contact', 'alt', 'state', 'family', 'single', 'family_reg_number',
     ];
 
     protected $fillable = [
-        'registration_number', 'name', 'type', 'names_of_children', 'state_id', 'address', 'card_status', 'bcc_zone_id'
+        'registration_number', 'name', 'type', 'names_of_children', 'state_id', 'address', 'card_status', 'bcc_zone_id', 'uploaded_file_id'
     ];
 
     protected $casts = [
         'names_of_children' => 'array'
+    ];
+
+    protected $appends = [
+        'type_text', 'card_status_text'
     ];
 
     const DONT_DISPLAY_AUDIT = ["id", "state_id", "bcc_zone_id", "number_of_children"];
@@ -190,5 +194,13 @@ class Family extends Model implements AuditableContract
 
     public function getHouseHoldAttribute() {
         return $this->members()->count() + count($this->names_of_children);
+    }
+
+    /**
+     * @return string
+     */
+    public static function getRequiredHeadings(): string
+    {
+        return implode(", ", self::$required_headings);
     }
 }

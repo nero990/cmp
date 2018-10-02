@@ -28,8 +28,8 @@ class FamilyController extends Controller
     public function index()
     {
         $families = Family::globalSearch(['name', 'registration_number'])->with('head')->orderBy('name')->paginate(getPaginateSize());
-
-        return view('admin.families.index', compact('families'));
+        $required_fields = Family::getRequiredHeadings();
+        return view('admin.families.index', compact('families', 'required_fields'));
     }
 
     /**
@@ -225,51 +225,59 @@ class FamilyController extends Controller
 
 
         if(is_null($id)){
-            $clients = Family::setEagerLoads([]);
+            $families = Family::setEagerLoads([]);
             $file_name = date('Y_m_d_') . time();
         } else {
             $uploaded_file = UploadedFile::findOrFail($id);
             $file_name = $uploaded_file->name;
-            $clients = $uploaded_file->clients();
+            $families = $uploaded_file->families();
         }
 
-        switch(\request()->get('filter')) {
-            case "passed" :
-                $clients = $clients->passed();
-                break;
-            case "failed" :
-                $clients = $clients->failed();
-                break;
-            case "pending" :
-                $clients = $clients->pending();
-                break;
-        }
+        $families = $families->with('state', 'bcc_zone', 'head')->orderBy('name')->get()->toArray();
 
-        $clients = $clients->get()->toArray();
+        $ignore_headers = ['id', 'uploaded_file_id', 'state_id', 'bcc_zone_id', 'type', 'card_status'];
 
-        $ignore_headers = ['id', 'uploaded_file_id', 'user_id', 'created_at', 'updated_at'];
-
-        Excel::create($file_name, function ($excel) use ($clients, $ignore_headers) {
-            $excel->sheet('Client Details', function ($sheet) use ($clients, $ignore_headers) {
+        Excel::create($file_name, function ($excel) use ($families, $ignore_headers) {
+            $excel->sheet('Families', function ($sheet) use ($families, $ignore_headers) {
                 $result = [];
-                foreach ($clients AS $k => $client) {
-                    foreach ($client AS $key => $value) {
+                foreach ($families AS $k => $family) {
+                    foreach ($family AS $key => $value) {
                         if(in_array($key, $ignore_headers)) continue;
 
                         $result[$k]['S/N'] = $k + 1;
 
-                        if($key === "name") {
-                            $result[$k]['Name (Cardinal)'] = $value;
+                        if($key === 'type_text') {
+                            $result[$k]['Type'] = $value;
                             continue;
                         }
 
-                        if($key === "nibss_response") {
-                            $result[$k]['Name (NIBSS)'] = (!empty($value) && $value->status === "00") ? $value->accountName : "";
+                        if($key === 'state') {
+                            $result[$k]['State'] = $value['name'];
                             continue;
                         }
 
-                        if($key === 'is_valid') {
-                            $result[$k]['Status'] = ($value) ? 'Passed' : 'Failed';
+                        if($key === 'bcc_zone') {
+                            $result[$k]['Bcc Zone'] = $value['name'];
+                            continue;
+                        }
+
+                        if($key === 'card_status_text') {
+                            $result[$k]['Card Status'] = $value;
+                            continue;
+                        }
+
+                        if($key === 'names_of_children') {
+                            $result[$k]['Names of Children'] = implode(", ", $value);
+                            continue;
+                        }
+
+                        if($key === 'head') {
+                            $result[$k]['Head Name'] = $value['first_name'] . " " . $value['middle_name'] . " " . $value['last_name'];
+                            $result[$k]['Head Email'] = $value['email'];
+                            $result[$k]['Phones'] = implode(", ", $value['phones']);
+                            $result[$k]['Marital Status'] = $value['marital_status_text'];
+                            $result[$k]['Age Group'] = $value['age_group_text'];
+                            $result[$k]['Occupation'] = $value['occupation'];
                             continue;
                         }
 

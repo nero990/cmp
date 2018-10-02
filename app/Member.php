@@ -22,6 +22,10 @@ class Member extends Model implements AuditableContract
         'phones' => 'array',
     ];
 
+    protected $appends = [
+        'marital_status_text', 'age_group_text'
+    ];
+
     const DONT_DISPLAY_AUDIT = ["id", "family_id", "member_role_id"];
 
     const AGE_GROUP_LIST = [

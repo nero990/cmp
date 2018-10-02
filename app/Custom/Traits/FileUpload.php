@@ -14,7 +14,7 @@ trait FileUpload
     {
         $missing_headings = [];
 
-        foreach (static::$required_headings AS $heading) {
+        foreach (static::getRequiredHeadings() AS $heading) {
             if(!in_array($heading, $headings)) {
                 $missing_headings[] = normal_case($heading);
             }

@@ -20,7 +20,14 @@ $(document).ready(function () {
     };
     // console.log($().serializeObject());php
 
-    $('.disabledForm :input').prop('disabled', true);
+    $('.disabledForm :input').prop('disabled', true)
+
+
+    $('#downloadCsv').click(function () {
+        let encodedUri = encodeURI("data:text/csv;charset=utf-8," + $(this).attr("data-content"));
+        window.open(encodedUri);
+        return false;
+    });
 
 });
 
@@ -72,3 +79,5 @@ function sweetAlert(title, text, icon, timer = false, buttonText, url) {
         if (typeof url !== 'undefined') window.location.href = url;
     });
 }
+
+

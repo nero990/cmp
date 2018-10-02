@@ -25,6 +25,19 @@
                         <i class="fa fa-plus"></i> Bulk Upload
                     </button>
 
+
+                    <div class="dropdown pull-right">
+                        <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <i class="fa fa-cloud-download"></i>&nbsp;Export&nbsp;as&nbsp;
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="{{ route('bcc-zones.exportAll', ['type' => 'csv']) }}">CSV File (*.csv)</a></li>
+                            <li><a href="{{ route('bcc-zones.exportAll', ['type' => 'xls']) }}">Excel 2003 File (*.xls)</a></li>
+                            <li><a href="{{ route('bcc-zones.exportAll', ['type' => 'xlsx']) }}">Excel 2007 File (*.xlsx)</a></li>
+                        </ul>
+                    </div>
+
                     <!-- Modal -->
                     <div id="myModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
@@ -38,7 +51,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <small><strong>File Header:</strong> name, adress, streets</small>
+                                        <small><strong>File Header: </strong>{{$required_fields}}</small>
+                                        <a href="#" id="downloadCsv" data-content="{{$required_fields}}">Download sample file</a>
                                     </div>
                                     <div class="form-group">
                                         {{Form::file('excel_file')}}
