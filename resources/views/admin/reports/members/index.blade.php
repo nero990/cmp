@@ -22,6 +22,18 @@
                             <a href="?status=deceased" class="btn btn-default">Deceased Members</a>
                         </div>
 
+                        <div class="dropdown pull-right">
+                            <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa fa-cloud-download"></i>&nbsp;Export&nbsp;as&nbsp;
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="{{ route('reports.members.export', ['type' => 'csv']) }}">CSV File (*.csv)</a></li>
+                                <li><a href="{{ route('reports.members.export', ['type' => 'xls']) }}">Excel 2003 File (*.xls)</a></li>
+                                <li><a href="{{ route('reports.members.export', ['type' => 'xlsx']) }}">Excel 2007 File (*.xlsx)</a></li>
+                            </ul>
+                        </div>
+
                         <div class="clearfix"></div>
 
                         <div class="col-sm-4 pull-right">

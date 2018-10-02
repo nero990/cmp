@@ -94,6 +94,7 @@ Route::middleware('auth')->group(function () {
         // Members Submodule
         Route::prefix('members')->name('members.')->group(function () {
            Route::get('', 'MemberController@index')->name('index');
+            Route::get('export/{type}', 'MemberController@export')->name('export');
         });
 
         // Audit report

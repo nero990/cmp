@@ -23,7 +23,7 @@ class Member extends Model implements AuditableContract
     ];
 
     protected $appends = [
-        'marital_status_text', 'age_group_text'
+        'marital_status_text', 'age_group_text',
     ];
 
     const DONT_DISPLAY_AUDIT = ["id", "family_id", "member_role_id"];
