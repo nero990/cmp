@@ -11,6 +11,57 @@
 |
 */
 
+use App\TariffProviderTariffMatch;
+
+Route::get("test", function () {
+    $allTptp = TariffProviderTariffMatch::groupBy("user_id")
+        ->join("users", "users.id", "tariff_provider_tariff_matches.user_id")
+        ->selectRaw("CONCAT(username, ' ', last_logged_in) as name, SUM(CASE WHEN active_status='ACTIVE' THEN 1 ELSE 0 END) AS valid, " .
+        "SUM(CASE WHEN active_status='PENDING' THEN 1 ELSE 0 END) AS pending, " .
+        "SUM(CASE WHEN active_status='DELETED' THEN 1 ELSE 0 END) AS invalid, " .
+            "COUNT(active_status) AS total")->get();
+
+    $cash = 40;
+//    $cash = floatval(GlobalVariable::getById(GlobalVariable::STANDARDIZATION_UNIT_PRICE)->value);
+    $allTptp->each(function ($tptp) use ($cash){
+        $tptp->cash = number_format($tptp->valid * $cash, 2);
+    });
+
+
+
+
+    return (["users" => $allTptp->toArray()]);
+//    return ($allTptp);
+    foreach ($allTptp->groupBy('user_id') as $each) {
+        $one = [];
+        $one['name'] = $each[0]->user->username;
+        $one['valid'] = 0;
+        $one['pending'] = 0;
+        $one['invalid'] = 0;
+        $one['total'] = 0;
+        $one['cash'] = 0;
+        foreach ($each as $single) {
+            switch ($single->active_status) {
+                case "ACTIVE": // 1
+                    $one['valid']++;
+//                    $one['cash'] += floatval(GlobalVariable::getById(GlobalVariable::STANDARDIZATION_UNIT_PRICE)->value);
+                    break;
+                case "PENDING": // 2
+                    $one['pending']++;
+                    break;
+                case "DELETED": // 3
+                    $one['invalid']++;
+                    break;
+            }
+            $one['total']++;
+        }
+        $one['cash'] = number_format($one['cash'],2);
+        array_push($data['users'], $one);
+    }
+    return $data;
+});
+
+
 Route::redirect('/', 'home');
 
 Route::group([], function () {

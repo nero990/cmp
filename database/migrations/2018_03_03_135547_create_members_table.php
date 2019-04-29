@@ -20,6 +20,7 @@ class CreateMembersTable extends Migration
             $table->string('first_name', 100);
             $table->string('middle_name', 100)->nullable();
             $table->string('last_name', 100);
+            $table->string('membership_number', 50)->unique();
             $table->string('email', 150)->nullable();
             $table->text('phones')->nullable();
             $table->unsignedInteger('family_id');

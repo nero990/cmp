@@ -6,7 +6,7 @@ return [
     'unavailable_audits' => 'No Family Audits available',
 
     'created' => [
-        'metadata' => 'On :audit_created_at, <strong>:user_username</strong> [:audit_ip_address] created this record via :audit_url',
+        'metadata' => "On :audit_created_at, <strong>:user_username</strong> [:audit_ip_address] created this record via :audit_url",
         'modified' => [
             'name'   => 'Name: <strong>:new</strong>',
             'registration_number' => 'Registration Number: <strong>:new</strong>',
