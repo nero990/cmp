@@ -36,13 +36,13 @@
 
                         <div class="clearfix"></div>
 
-                        <div class="col-sm-4 pull-right">
+                        <div class="col-sm-6 pull-right">
                             {!! Form::open(['method' => 'GET', 'id' => 'searchForm', 'class' => 'form-horizontal']) !!}
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Search</label>
                                 <div class="col-sm-10">
                                     <div class="input-group">
-                                        {!! Form::text('q', null, ['placeholder' => 'Search by first name, middle name or last name', 'class' => "form-control" ]) !!}
+                                        {!! Form::text('q', null, ['placeholder' => 'Search by membership number, first name, middle name or last name', 'class' => "form-control" ]) !!}
                                         <div class="input-group-btn">
                                             <button class="btn btn-info">Go!</button>
                                         </div>
@@ -58,6 +58,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Membership No.</th>
                                     <th>Gender</th>
                                     <th>Marital Status</th>
                                     <th>Role</th>
@@ -74,6 +75,7 @@
                                     <tr>
                                         <td>{{ (++$serial + ($members->currentPage() - 1) * $members->perPage()) }}</td>
                                         <td>{{$member->full_name}} <small><a href="{{route('families.show', $member->family->id)}}" >{{$member->family->registration_number}}</a></small></td>
+                                        <td>{{$member->membership_number}}</td>
                                         <td>{{$member->gender}}</td>
                                         <td>{{$member->marital_status_text}}</td>
                                         <td>{{$member->role->name}}</td>

@@ -88,6 +88,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
+                                        <th>Membership No.</th>
                                         <th>Gender</th>
                                         <th>Marital Status</th>
                                         <th>Role</th>
@@ -104,6 +105,7 @@
                                         <tr>
                                             <td>{{$key+1}}</td>
                                             <td>{{$member->full_name}}</td>
+                                            <td>{{$member->membership_number}}</td>
                                             <td>{{$member->gender}}</td>
                                             <td>{{$member->marital_status_text}}</td>
                                             <td>{{$member->role->name}}</td>

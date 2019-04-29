@@ -50,6 +50,12 @@ class Member extends Model implements AuditableContract
 
     protected static function boot()
     {
+        static::creating(function(Member $member) {
+            do{
+                $member->membership_number = str_pad(rand(1,999999), "6", "0", 0);
+            }while (static::whereMembershipNumber($member->membership_number)->exists());
+        });
+
         static::saving(function ($member) {
             if(is_null($member->phones) || !is_array($member->phones)) $member->phones = [];
         });
