@@ -32,7 +32,7 @@
                                     <div class="panel-title">
                                         <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#collapse{{$count}}">
                                             <div class="caret pull-right"></div>
-                                            @lang("{$translation}.{$audit->event}.metadata", $audit_metadata)
+                                            {!! trans("{$translation}.{$audit->event}.metadata", $audit_metadata) !!}
                                         </a>
                                     </div>
                                 </div>
@@ -46,7 +46,9 @@
                                                     if(!$modified){ echo "</ul>"; continue; }
                                                 @endphp
                                                 @if(!in_array($attribute, $model::DONT_DISPLAY_AUDIT))
-                                                    <li>@lang("{$translation}.{$audit->event}.modified.{$attribute}", $modified)</li>
+                                                    <li>
+                                                        {!! trans("{$translation}.{$audit->event}.modified.{$attribute}", $modified) !!}
+                                                    </li>
                                                 @endif
                                             </ul>
                                         @endforeach
@@ -54,7 +56,9 @@
                                 </div>
                             </div>
                         @empty
-                            <p>@lang("{$translation}.unavailable_audits")</p>
+                            <p>{!! trans(("{$translation}.unavailable_audits")) !!}
+{{--                                @lang("{$translation}.unavailable_audits")--}}
+                            </p>
                         @endforelse
 
                     </div>
