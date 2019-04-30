@@ -17,6 +17,8 @@
     <script src="{{asset('admin/javascripts/custom/api-handler.js')}}" type="text/javascript"></script>
     <script src="{{asset("admin/javascripts/modernizr.custom.js")}}" type="text/javascript"></script>
     {{--<script src="{{asset("admin/javascripts/main.js")}}" type="text/javascript"></script>--}}
+
+    <script src="{{asset('admin/javascripts/sweetalert.min.js')}}" type="text/javascript"></script>
     <script src="{{asset("admin/javascripts/custom/final.js")}}" type="text/javascript"></script>
     <script src="{{asset("admin/javascripts/custom/login.js")}}" type="text/javascript"></script>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
@@ -25,6 +27,8 @@
 <!-- Login Screen -->
 <div class="login-wrapper">
     <img src="{{asset('admin/images/loader-dark.gif')}}" class="loader-img">
+
+    @include('sweet::alert')
 
     <a href="./"><img width="100" src="{{asset("admin/images/church-logo-22002303.jpg")}}" /></a>
     {!! Form::open(['id' => 'loginForm']) !!}

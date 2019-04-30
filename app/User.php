@@ -42,6 +42,12 @@ class User extends Authenticatable
         return $query->wherePersonType("App\Admin");
     }
 
+    /**
+     * @param $username
+     * @param $password
+     * @return mixed
+     * @throws CMPResponseException
+     */
     public static function authenticate($username, $password){
         $user = static::whereUsername($username)->first();
 

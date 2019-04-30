@@ -19,19 +19,19 @@ class LoginController extends Controller
         return view('admin.login');
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws CMPResponseException
+     */
     public function login(Request $request) {
         $this->validate($request, [
             'username' => 'required',
             'password' => 'required'
         ]);
 
-        try{
-            auth()->login(User::authenticate(request()->get('username'), request()->get('password')));
-            return response()->json(["message" => "Successfully logged in. Redirecting..."]);
-        } catch (\Exception $exception) {
-            throw new CMPResponseException("validation_failure", ["username" => ["A system error occurred. ({$exception->getMessage()})"]]);
-        }
-
+        auth()->login(User::authenticate(request()->get('username'), request()->get('password')));
+        return response()->json(["message" => "Successfully logged in. Redirecting..."]);
     }
 
     public function logout() {
