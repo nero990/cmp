@@ -14,6 +14,7 @@ use App\MemberRole;
 use App\SacramentQuestion;
 use App\State;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,19 +24,19 @@ class FamilyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
         $families = Family::globalSearch(['name', 'registration_number'])->with('head')->orderBy('name')->paginate(getPaginateSize());
-        $required_fields = Family::getRequiredHeadings();
+        $required_fields = implode(", ", Family::getRequiredHeadings());
         return view('admin.families.index', compact('families', 'required_fields'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -56,7 +57,7 @@ class FamilyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param CreateFamilyRequest $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      * @throws \Exception
      */
     public function store(CreateFamilyRequest $request)
@@ -111,8 +112,8 @@ class FamilyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Family  $family
-     * @return \Illuminate\Http\Response
+     * @param Family $family
+     * @return Response
      */
     public function show(Family $family)
     {
@@ -123,8 +124,8 @@ class FamilyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Family  $family
-     * @return \Illuminate\Http\Response
+     * @param Family $family
+     * @return Response
      */
     public function edit(Family $family)
     {
@@ -146,8 +147,8 @@ class FamilyController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateFamilyRequest $request
-     * @param  \App\Family $family
-     * @return \Illuminate\Http\Response
+     * @param Family $family
+     * @return Response
      */
     public function update(UpdateFamilyRequest $request, Family $family)
     {
@@ -173,8 +174,8 @@ class FamilyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Family  $family
-     * @return \Illuminate\Http\Response
+     * @param Family $family
+     * @return Response
      */
     public function destroy(Family $family)
     {

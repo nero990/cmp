@@ -57,7 +57,6 @@
                             </div>
                         @empty
                             <p>{!! trans(("{$translation}.unavailable_audits")) !!}
-{{--                                @lang("{$translation}.unavailable_audits")--}}
                             </p>
                         @endforelse
 

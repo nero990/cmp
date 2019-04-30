@@ -93,10 +93,10 @@ class BccZone extends Model implements AuditableContract
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public static function getRequiredHeadings(): string
+    public static function getRequiredHeadings(): array
     {
-        return implode(",", self::$required_headings);
+        return self::$required_headings;
     }
 }

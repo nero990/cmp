@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\BccZone;
 use App\Family;
 use App\UploadedFile;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UploadedFileController extends Controller
@@ -25,18 +27,18 @@ class UploadedFileController extends Controller
      * Display the specified resource.
      *
      * @param UploadedFile $uploaded_file
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function show(UploadedFile $uploaded_file)
     {
         switch ($uploaded_file->type) {
             case "FAMILY" :
-                $families = $uploaded_file->families()->with('name', 'registration_number', 'head')->orderBy('name')->paginate(getPaginateSize());
-                $required_fields = Family::getRequiredHeadings();
+                $families = $uploaded_file->families()->with('head')->orderBy('name')->paginate(getPaginateSize());
+                $required_fields = implode(", ", Family::getRequiredHeadings());
                 return view('admin.families.index', compact('families', 'required_fields'));
             case "BCC_ZONE" :
                 $bcc_zones = $uploaded_file->bcc_zones()->paginate(getPaginateSize());
-                $required_fields = BccZone::getRequiredHeadings();
+                $required_fields =  implode(", ", BccZone::getRequiredHeadings());
                 return view('admin.bcc_zones.index', compact('bcc_zones', 'required_fields'));
             default:
                 throw new NotFoundHttpException();
