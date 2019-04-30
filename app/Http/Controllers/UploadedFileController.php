@@ -34,11 +34,11 @@ class UploadedFileController extends Controller
         switch ($uploaded_file->type) {
             case "FAMILY" :
                 $families = $uploaded_file->families()->with('head')->orderBy('name')->paginate(getPaginateSize());
-                $required_fields = implode(", ", Family::getRequiredHeadings());
+                $required_fields = Family::getRequiredHeadingsAsString();
                 return view('admin.families.index', compact('families', 'required_fields'));
             case "BCC_ZONE" :
                 $bcc_zones = $uploaded_file->bcc_zones()->paginate(getPaginateSize());
-                $required_fields =  implode(", ", BccZone::getRequiredHeadings());
+                $required_fields =  BccZone::getRequiredHeadingsAsString();
                 return view('admin.bcc_zones.index', compact('bcc_zones', 'required_fields'));
             default:
                 throw new NotFoundHttpException();

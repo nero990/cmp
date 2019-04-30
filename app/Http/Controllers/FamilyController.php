@@ -13,6 +13,7 @@ use App\Member;
 use App\MemberRole;
 use App\SacramentQuestion;
 use App\State;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +30,7 @@ class FamilyController extends Controller
     public function index()
     {
         $families = Family::globalSearch(['name', 'registration_number'])->with('head')->orderBy('name')->paginate(getPaginateSize());
-        $required_fields = implode(", ", Family::getRequiredHeadings());
+        $required_fields = Family::getRequiredHeadingsAsString();
         return view('admin.families.index', compact('families', 'required_fields'));
     }
 
@@ -58,7 +59,7 @@ class FamilyController extends Controller
      *
      * @param CreateFamilyRequest $request
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(CreateFamilyRequest $request)
     {
@@ -88,10 +89,10 @@ class FamilyController extends Controller
                 $member->sacrament_questions()->sync($sacrament_questions);
 
             DB::commit();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollback();
 
-            throw new \Exception($exception->getMessage());
+            throw new Exception($exception->getMessage());
         }
 
 
@@ -175,11 +176,19 @@ class FamilyController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Family $family
-     * @return Response
+     * @return bool|null
+     * @throws Exception
      */
     public function destroy(Family $family)
     {
-        //
+        $family->members->each(function ($member) {
+            $member->delete();
+        });
+
+        if($family->delete())
+            return response()->json(["title" => "Awesome!", "message" => "Family record deleted successfully!"]);
+
+        return response()->json(["title" => "Whoops!", "message" => "Operation failed"], 500);
     }
 
     public function bulkUpload(Request $request) {
@@ -299,12 +308,15 @@ class FamilyController extends Controller
     }
 
 
-    public function audits(Family $family) {
+    public function audits($id) {
+        $family = Family::withTrashed()->findOrFail($id);
+
         $audits = $family->audits()->latest()->get();
         $translation = 'family';
         $model = Family::class;
         $title = "Audit Trail Report for the Family of <strong>{$family->name}</strong>";
         $heading = "Family Audit Trail Report <small>[{$family->name}]</small>";
+
         return view('admin.reports.audits.show', compact('audits', 'translation', 'model', 'title', 'heading'));
     }
 }

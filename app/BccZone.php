@@ -4,13 +4,14 @@ namespace App;
 
 use App\Custom\Traits\FileUpload;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class BccZone extends Model implements AuditableContract
 {
-    use Auditable, FileUpload;
+    use Auditable, FileUpload, SoftDeletes;
 
     protected $fillable = [
         'name', 'address', 'status', 'streets', 'uploaded_file_id'
@@ -90,13 +91,5 @@ class BccZone extends Model implements AuditableContract
             'colour' => $colour,
             'font-awesome' => $font_awesome
         ];
-    }
-
-    /**
-     * @return array
-     */
-    public static function getRequiredHeadings(): array
-    {
-        return self::$required_headings;
     }
 }

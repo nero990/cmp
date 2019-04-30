@@ -33,7 +33,12 @@ function json_failure () {
 
 function auditableJsonToString($key, $attribute, $modified) {
     if($attribute == $key){
+        if(isset($modified['old']) && is_string($modified['old'])) $modified['old'] = json_decode($modified["old"], true);
+        if(isset($modified['new']) && is_string($modified['new'])) $modified['new'] = json_decode($modified["new"], true);
+
         $modified['new'] = isset($modified['new']) ? implode(", ", $modified['new']) : NULL;
+
+
         $modified['old'] = isset($modified['old']) ? implode(", ", $modified['old']) : "NULL";
 
         $modified = auditableEmptyToNull($modified);

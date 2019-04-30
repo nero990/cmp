@@ -24,7 +24,6 @@
                         <i class="fa fa-plus"></i> Batch Upload
                     </button>
 
-
                     <div class="dropdown pull-right">
                         <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-cloud-download"></i>&nbsp;Export&nbsp;as&nbsp;
@@ -70,7 +69,7 @@
 
                     <div class="clearfix"></div>
 
-                    <div class="col-sm-9 pull-right">
+                    <div class="col-sm-5 pull-right">
                         {!! Form::open(['method' => 'GET', 'id' => 'searchForm', 'class' => 'form-horizontal']) !!}
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Search</label>
@@ -118,7 +117,7 @@
                                             <a class="table-actions" title="View" href="{{route('families.show', ['id' => $family->id])}}"><i class="fa fa-eye"></i></a>
                                             <a class="table-actions" title="Edit" href="{{route('families.edit', ['id' => $family->id])}}"><i class="fa fa-pencil"></i></a>
                                             <a class="table-actions" title="View Audit trails" href="{{route('families.audits', ['id' => $family->id])}}"><i class="fa fa-archive"></i></a>
-                                            <a class="table-actions" href=""><i class="fa fa-trash-o"></i></a>
+                                            <a class="table-actions deleteFamily" title="Delete family" href="{{route('families.destroy', ['id' => $family->id])}}"><i class="fa fa-trash-o"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -136,4 +135,8 @@
 
 </div>
 
+@endsection
+
+@section('scripts')
+    <script src="{{asset('admin/javascripts/custom/family.js')}}" type="text/javascript"></script>
 @endsection

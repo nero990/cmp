@@ -77,6 +77,14 @@ $(document).ready(function () {
         }
     });
 
+    let table = "";
+    $('.deleteFamily').click(function (evt) {
+        evt.preventDefault();
+
+        table = $(this).parent().parent().parent();
+
+        destroy($(this).attr("href"), ajaxSuccess);
+    });
 
     $('.family-type').click(function () {
 
@@ -93,6 +101,8 @@ $(document).ready(function () {
         $('form input').each(function () {
             $(this).val();
         });
+
+        if(table !== "") table.remove();
     };
 
     $('form input').each(function () {

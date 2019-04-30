@@ -33,5 +33,19 @@ return [
         ],
     ],
 
+    'deleted' => [
+        'metadata' => 'On :audit_created_at, <strong>:user_username</strong> [:audit_ip_address] deleted this record via :audit_url',
+        'modified' => [
+            'name'   => 'Name: <strong>:old</strong>',
+            'registration_number' => 'Registration Number: <strong>:old</strong>',
+            'names_of_children' => 'Names of Children: <strong>:old</strong>',
+            'type' => 'Type: <strong>:old</strong>',
+            'state' => 'State: <strong>:old</strong>',
+            'address' => 'Address: <strong>:old</strong>',
+            'card_status' => 'Card Status: <strong>:old</strong>',
+            'bcc_zone' => 'BCC Zone <strong>:old</strong>',
+        ],
+    ],
+
     // ...
 ];

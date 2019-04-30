@@ -3,12 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class SacramentQuestion extends Model implements AuditableContract
 {
-    use Auditable;
+    use Auditable, SoftDeletes;
 
     protected $fillable = [
         'question', 'status'

@@ -25,6 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+//        dd(\request()->headers->all()["referer"][0]);
         $members_count = Member::living()->count();
         $deceased_members_count = Member::deceased()->count();
         $all_members_count = Member::count();

@@ -6,6 +6,7 @@ use App\Custom\Traits\FileUpload;
 use App\Custom\Traits\GlobalScopes;
 use App\Events\UserCreated;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use OwenIt\Auditing\Auditable;
@@ -13,7 +14,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class Family extends Model implements AuditableContract
 {
-    use Auditable, GlobalScopes, FileUpload;
+    use Auditable, GlobalScopes, FileUpload, SoftDeletes;
 
     private static $required_headings = [
         'surname', 'first_name', 'no_of_children', 'names_of_children', 'address',
@@ -32,7 +33,7 @@ class Family extends Model implements AuditableContract
         'type_text', 'card_status_text'
     ];
 
-    const DONT_DISPLAY_AUDIT = ["id", "state_id", "bcc_zone_id", "number_of_children"];
+    const DONT_DISPLAY_AUDIT = ["id", "state_id", "bcc_zone_id", "number_of_children", "uploaded_file_id"];
 
     const CARD_STATUS = [
         "0" => "Not Paid",
@@ -194,13 +195,5 @@ class Family extends Model implements AuditableContract
 
     public function getHouseHoldAttribute() {
         return $this->members()->count() + count($this->names_of_children);
-    }
-
-    /**
-     * @return array
-     */
-    public static function getRequiredHeadings(): array
-    {
-        return self::$required_headings;
     }
 }

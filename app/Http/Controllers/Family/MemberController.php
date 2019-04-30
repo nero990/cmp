@@ -169,7 +169,9 @@ class MemberController extends Controller
         return redirect()->route('families.show', ['family' => $family->id]);
     }
 
-    public function audits(Member $member) {
+    public function audits($id) {
+
+        $member = Member::withTrashed()->findOrFail($id);
         $audits = $member->audits()->latest()->get();
         $translation = 'member';
         $model = Member::class;

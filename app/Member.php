@@ -4,6 +4,7 @@ namespace App;
 
 use App\Custom\Traits\GlobalScopes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use OwenIt\Auditing\Auditable;
@@ -11,7 +12,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class Member extends Model implements AuditableContract
 {
-    use Auditable, GlobalScopes;
+    use Auditable, GlobalScopes, SoftDeletes;
 
     protected $fillable = [
         'first_name', 'middle_name', 'last_name', 'email', 'phones', 'gender', 'age_group', 'member_role_id',

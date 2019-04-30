@@ -24,6 +24,7 @@ class CreateBccZonesTable extends Migration
             $table->enum('status', ['0', '1'])->default('0')->comment('0 => Inactive, 1 => Active');
             $table->unsignedInteger('uploaded_file_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('uploaded_file_id')->references('id')->on('uploaded_files');
         });

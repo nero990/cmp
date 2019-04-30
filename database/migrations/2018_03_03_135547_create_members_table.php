@@ -31,6 +31,7 @@ class CreateMembersTable extends Migration
             $table->string('occupation', 200)->nullable();
             $table->date('deceased_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('member_role_id')->references('id')->on('member_roles');
             $table->foreign('family_id')->references('id')->on('families');

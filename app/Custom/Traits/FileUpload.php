@@ -28,4 +28,20 @@ trait FileUpload
         }
         return "";
     }
+
+    /**
+     * @return array
+     */
+    public static function getRequiredHeadings(): array
+    {
+        return self::$required_headings;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getRequiredHeadingsAsString(): string
+    {
+        return implode(",", static::getRequiredHeadings());
+    }
 }

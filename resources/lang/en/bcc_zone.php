@@ -25,5 +25,15 @@ return [
         ],
     ],
 
+    'deleted' => [
+        'metadata' => 'On :audit_created_at, <strong>:user_username</strong> [:audit_ip_address] deleted this record via :audit_url',
+        'modified' => [
+            'name'   => 'Name: <strong>:old</strong>',
+            'address'   => 'Address: <strong>:old</strong>',
+            'streets'   => 'Streets: <strong>:old</strong>',
+            'status'   => 'Status: <strong>:old</strong>',
+        ],
+    ],
+
     // ...
 ];

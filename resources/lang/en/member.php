@@ -11,6 +11,7 @@ return [
             'first_name'   => 'First Name: <strong>:new</strong>',
             'middle_name'   => 'Middle Name: <strong>:new</strong>',
             'last_name'   => 'Last Name: <strong>:new</strong>',
+            'membership_number'   => 'Membership number: <strong>:new</strong>',
             'email' => 'Email: <strong>:new</strong>',
             'phones' => 'Phones: <strong>:new</strong>',
             'family_name' => 'Family Name: <strong>:new</strong>',
@@ -41,5 +42,22 @@ return [
         ],
     ],
 
-    // ...
+    'deleted' => [
+        'metadata' => 'On :audit_created_at, <strong>:user_username</strong> [:audit_ip_address] deleted this record via :audit_url',
+        'modified' => [
+            'first_name'   => 'First Name: <strong>:old</strong>',
+            'middle_name'   => 'Middle Name: <strong>:old</strong>',
+            'last_name'   => 'Last Name: <strong>:old</strong>',
+            'membership_number'   => 'Membership number: <strong>:old</strong>',
+            'email' => 'Email: <strong>:old</strong>',
+            'phones' => 'Phones: <strong>:old</strong>',
+            'family_name' => 'Family Name: <strong>:old</strong>',
+            'gender' => 'Gender: <strong>:old</strong>',
+            'age_group' => 'Age Group: <strong>:old</strong>',
+            'role_name' => 'Role: <strong>:old</strong>',
+            'marital_status' => 'Marital Status: <strong>:old</strong>',
+            'occupation' => 'Occupation: <strong>:old</strong>',
+            'deceased_at' => 'Deceased Date: <strong>:old</strong>',
+        ],
+    ],
 ];

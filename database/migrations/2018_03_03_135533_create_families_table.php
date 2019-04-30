@@ -27,6 +27,7 @@ class CreateFamiliesTable extends Migration
             $table->unsignedInteger('bcc_zone_id')->nullable();
             $table->unsignedInteger('uploaded_file_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('state_id')->references('id')->on('states');
             $table->foreign('bcc_zone_id')->references('id')->on('bcc_zones');
